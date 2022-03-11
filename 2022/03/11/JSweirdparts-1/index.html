@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>【克服JS的奇怪部分】Execution Contexts &amp; Lexical Environments | 寫字練習</title>
+
+
+    <meta name="keywords" content="JavaScript">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="此篇是記錄 Udemy 上面的課程 JavaScript: Understanding the Weird Parts 的筆記。 🐳 Concept Asides 名詞解釋🦀 Syntax Parser 語意分析  A program that reads your code and determines what it does and if its grammar is valid.  當">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【克服JS的奇怪部分】Execution Contexts &amp; Lexical Environments">
+<meta property="og:url" content="https://simonecheng.github.io/2022/03/11/JSweirdparts-1/index.html">
+<meta property="og:site_name" content="寫字練習">
+<meta property="og:description" content="此篇是記錄 Udemy 上面的課程 JavaScript: Understanding the Weird Parts 的筆記。 🐳 Concept Asides 名詞解釋🦀 Syntax Parser 語意分析  A program that reads your code and determines what it does and if its grammar is valid.  當">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://simonecheng.github.io/assets/complie-flowchart.png">
+<meta property="article:published_time" content="2022-03-11T10:11:05.000Z">
+<meta property="article:modified_time" content="2022-03-11T10:42:14.113Z">
+<meta property="article:author" content="Simone Cheng">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://simonecheng.github.io/assets/complie-flowchart.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="this.media='all'">
+        
+    
+
+    
+    
+
+    
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">寫字練習</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">Home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">Tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">Archives</a>
+                
+                    <a href="/about/" class="navbar-menu button">About</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">Home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">Tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">Archives</a>
+                
+                    <a href="/about/" class="dropdown-menu button">About</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        【克服JS的奇怪部分】Execution Contexts &amp; Lexical Environments
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2022/03/" class="post-meta__date button">2022-03-11</a>
+        
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Concept-Asides-%E5%90%8D%E8%A9%9E%E8%A7%A3%E9%87%8B"><span class="toc-text">🐳 Concept Asides 名詞解釋</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Syntax-Parser-%E8%AA%9E%E6%84%8F%E5%88%86%E6%9E%90"><span class="toc-text">🦀 Syntax Parser 語意分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Lexical-Environment-%E8%A9%9E%E5%BD%99%E7%92%B0%E5%A2%83"><span class="toc-text">🦀 Lexical Environment 詞彙環境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Execution-Context-%E5%9F%B7%E8%A1%8C%E7%92%B0%E5%A2%83"><span class="toc-text">🦀 Execution Context 執行環境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Name-x2F-Value-Pair"><span class="toc-text">🦀 Name&#x2F;Value Pair</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Object"><span class="toc-text">🦀 Object</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-JavaScript-and-%E2%80%98undefined%E2%80%99"><span class="toc-text">🦀 JavaScript and ‘undefined’</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Single-Threaded-%E5%96%AE%E5%9F%B7%E8%A1%8C%E7%B7%92"><span class="toc-text">🦀 Single Threaded 單執行緒</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Synchrnous-Execution-%E5%90%8C%E6%AD%A5%E5%9F%B7%E8%A1%8C"><span class="toc-text">🦀 Synchrnous Execution 同步執行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-The-Global-Environment-and-The-Global-Object"><span class="toc-text">🐳 The Global Environment and The Global Object</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-The-Execution-Context"><span class="toc-text">🐳 The Execution Context</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Creation-and-Hoisting"><span class="toc-text">🦀 Creation and Hoisting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Code-Execution"><span class="toc-text">🦀 Code Execution</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Function-Invocation-and-the-Execution-Stack-Call-Stack"><span class="toc-text">🐳 Function Invocation and the Execution Stack(Call Stack)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Functions-Context-and-Variables-Environments"><span class="toc-text">🐳 Functions, Context, and Variables Environments</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-The-Scope-Chain"><span class="toc-text">🐳 The Scope Chain</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Scope-ES6-and-let"><span class="toc-text">🐳 Scope, ES6, and let</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-What-about-Asynchronous-Callbacks"><span class="toc-text">🐳 What about Asynchronous Callbacks?</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Concept-Asides-%E5%90%8D%E8%A9%9E%E8%A7%A3%E9%87%8B"><span class="toc-text">🐳 Concept Asides 名詞解釋</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Syntax-Parser-%E8%AA%9E%E6%84%8F%E5%88%86%E6%9E%90"><span class="toc-text">🦀 Syntax Parser 語意分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Lexical-Environment-%E8%A9%9E%E5%BD%99%E7%92%B0%E5%A2%83"><span class="toc-text">🦀 Lexical Environment 詞彙環境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Execution-Context-%E5%9F%B7%E8%A1%8C%E7%92%B0%E5%A2%83"><span class="toc-text">🦀 Execution Context 執行環境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Name-x2F-Value-Pair"><span class="toc-text">🦀 Name&#x2F;Value Pair</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Object"><span class="toc-text">🦀 Object</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-JavaScript-and-%E2%80%98undefined%E2%80%99"><span class="toc-text">🦀 JavaScript and ‘undefined’</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Single-Threaded-%E5%96%AE%E5%9F%B7%E8%A1%8C%E7%B7%92"><span class="toc-text">🦀 Single Threaded 單執行緒</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Synchrnous-Execution-%E5%90%8C%E6%AD%A5%E5%9F%B7%E8%A1%8C"><span class="toc-text">🦀 Synchrnous Execution 同步執行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-The-Global-Environment-and-The-Global-Object"><span class="toc-text">🐳 The Global Environment and The Global Object</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-The-Execution-Context"><span class="toc-text">🐳 The Execution Context</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Creation-and-Hoisting"><span class="toc-text">🦀 Creation and Hoisting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-Code-Execution"><span class="toc-text">🦀 Code Execution</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Function-Invocation-and-the-Execution-Stack-Call-Stack"><span class="toc-text">🐳 Function Invocation and the Execution Stack(Call Stack)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Functions-Context-and-Variables-Environments"><span class="toc-text">🐳 Functions, Context, and Variables Environments</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-The-Scope-Chain"><span class="toc-text">🐳 The Scope Chain</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Scope-ES6-and-let"><span class="toc-text">🐳 Scope, ES6, and let</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-What-about-Asynchronous-Callbacks"><span class="toc-text">🐳 What about Asynchronous Callbacks?</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <p>此篇是記錄 Udemy 上面的課程 JavaScript: Understanding the Weird Parts 的筆記。</p>
+<h2 id="🐳-Concept-Asides-名詞解釋"><a href="#🐳-Concept-Asides-名詞解釋" class="headerlink" title="🐳 Concept Asides 名詞解釋"></a>🐳 Concept Asides 名詞解釋</h2><h3 id="🦀-Syntax-Parser-語意分析"><a href="#🦀-Syntax-Parser-語意分析" class="headerlink" title="🦀 Syntax Parser 語意分析"></a>🦀 Syntax Parser 語意分析</h3><blockquote>
+<p> A program that reads your code and determines what it does and if its grammar is valid.</p>
+</blockquote>
+<p>當我們在寫 JavaScript 的時候，寫完之後其實電腦是看不懂的，而是需要透過編譯器(complier) 來翻譯成電腦看得懂的語言，才能夠幫我們執行我們想要實現的功能。</p>
+<p><img src="/../assets/complie-flowchart.png"></p>
+<h3 id="🦀-Lexical-Environment-詞彙環境"><a href="#🦀-Lexical-Environment-詞彙環境" class="headerlink" title="🦀 Lexical Environment 詞彙環境"></a>🦀 Lexical Environment 詞彙環境</h3><blockquote>
+<p> Where something sits physically in the code you write.</p>
+</blockquote>
+<p>當我們在寫 JavaScript 的時候，Lexical Environment 關注的是這個 function 被寫在這個程式中的哪個部分，以及它周遭的環境是什麼，有了 Lexical Environment，可以讓 Syntax Parser 更容易解析整個程式碼，比如說以下的程式碼：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Greeting</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> a  = <span class="string">&quot;Hello World!&quot;</span>;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// a 這個變數是存在於 Greeting 這個函數的環境中</span></span><br></pre></td></tr></table></figure>
+
+<p>並不是所有的程式語言都有 Lexical Environment，但 JavaScript 有。</p>
+<h3 id="🦀-Execution-Context-執行環境"><a href="#🦀-Execution-Context-執行環境" class="headerlink" title="🦀 Execution Context 執行環境"></a>🦀 Execution Context 執行環境</h3><blockquote>
+<p>A wrapper to help manage the code that is running.<br>There are lots of lexical environments. Which one is currently running is managed via execution contexts. It can contain things beyond what you’ve written in your code.</p>
+</blockquote>
+<p>當我們寫好程式碼之後，我們該如何知道它是按照什麼樣的順序被電腦執行的？整個程式碼的執行流程是如何安排的？這就是 Execution Context 需要做的工作。</p>
+<h3 id="🦀-Name-x2F-Value-Pair"><a href="#🦀-Name-x2F-Value-Pair" class="headerlink" title="🦀 Name&#x2F;Value Pair"></a>🦀 Name&#x2F;Value Pair</h3><blockquote>
+<p>A name which maps to a unique value.<br>The name may be defined more than once, but only can have one value in any given <strong>context</strong>.<br>That value may be more name&#x2F;value pairs.</p>
+</blockquote>
+<h3 id="🦀-Object"><a href="#🦀-Object" class="headerlink" title="🦀 Object"></a>🦀 Object</h3><blockquote>
+<p>A collection of name&#x2F;value pairs.<br>The simplest definition when talking about <strong>JavaScript</strong>.</p>
+</blockquote>
+<h3 id="🦀-JavaScript-and-‘undefined’"><a href="#🦀-JavaScript-and-‘undefined’" class="headerlink" title="🦀 JavaScript and ‘undefined’"></a>🦀 JavaScript and ‘undefined’</h3><p>直接來看看兩個不同的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 範例一</span></span><br><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 印出 undefined</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 範例二</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 報錯：印出 Uncaught ReferenceError: a is not defined</span></span><br></pre></td></tr></table></figure>
+
+<p>我們可以知道範例一和範例二都印出了東西，但 undefined 和 is not defined 從英文字面上來看不是一樣的意思嗎？其實這兩者對 JavaScript 來說是兩個不一樣的東西。</p>
+<p><strong>undefined</strong> 在這裡的意思是：JavaScript 已經為這個變數預留了一個記憶體的位置，但因為這個變數還沒有被賦值，所以 JavaScript 就先暫時設了一個初始值給你，然後這個初始值叫做「undefined」。所以我們可以把 undefined 理解為「尚未設定的值」。</p>
+<p><strong>is not defined</strong> 的意思則是：JaveScript 在記憶體位置當中並沒有尋找到該變數，所以它就會報錯，告訴我們 <code>Uncaught ReferenceError: a is not defined</code>。</p>
+<h3 id="🦀-Single-Threaded-單執行緒"><a href="#🦀-Single-Threaded-單執行緒" class="headerlink" title="🦀 Single Threaded 單執行緒"></a>🦀 Single Threaded 單執行緒</h3><blockquote>
+<p>One command at a time.<br>Under the hood of the browser, maybe not.</p>
+</blockquote>
+<p>JavaScript 是一個單執行緒的語言，也就是說 JavaScript 在執行的時候，一次只能做一件事情。但是如果我們是在 browser 這個環境之下執行 JavaScript，browser 本身可以幫我做到多執行緒的事情，但是就像開頭提到的 JavaScript 本身是一個單執行緒的語言。</p>
+<h3 id="🦀-Synchrnous-Execution-同步執行"><a href="#🦀-Synchrnous-Execution-同步執行" class="headerlink" title="🦀 Synchrnous Execution 同步執行"></a>🦀 Synchrnous Execution 同步執行</h3><blockquote>
+<p>One at a time and in order.</p>
+</blockquote>
+<p>JavaScript 是同步執行的，也就是說做完一件事情，才會做下一件事情，而且會按照事情排好的順序依序做下去。</p>
+<h2 id="🐳-The-Global-Environment-and-The-Global-Object"><a href="#🐳-The-Global-Environment-and-The-Global-Object" class="headerlink" title="🐳 The Global Environment and The Global Object"></a>🐳 The Global Environment and The Global Object</h2><p>當 JavaScript 在執行的時候，它一定會在一個全域執行環境 (Global Environment) 當中執行，在這個環境當中會有一個全域物件 (Global Object)，以及一個很特殊的 variable 「this」。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">┌───────────────────────────────────────────────────────────┐</span><br><span class="line">│ Execution Context(Global)                                 │</span><br><span class="line">│      ┌──────────────────┐     ┌───────────────────┐       │</span><br><span class="line">│      │                  │     │                   │       │</span><br><span class="line">│      │   Global Object  │     │        this       │       │</span><br><span class="line">│      │                  │     │                   │       │</span><br><span class="line">│      └──────────────────┘     └───────────────────┘       │</span><br><span class="line">└───────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p>當我們在瀏覽器中執行 JavaScript 時，瀏覽器是一個 runtime，所以此時 JavaScript 所在的 Global Execution Context，就是瀏覽器的全域環境，在這個環境裡有一個 Global Object 叫做「window」。當我們在這個全域環境當中直接打 <code>console.log(this);</code> 的時候，<code>this</code> 指的就是 <code>window</code>。至於當我們在 node.js 當中執行 JavaScript 時，此時的 Global Object 和 this 就會是 node.js 設定好的。</p>
+<p>假設目前在瀏覽器中使用 <code>var</code> 宣告一個變數 a ，而且這個變數 a 等於 1 時，其實就是在瀏覽器當中的 Global Object 中建立一個 Name&#x2F;Value Pair，所以可以透過 <code>window.a</code> 這個指令來找到剛才宣告的變數 a。如以下程式碼所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">a <span class="comment">// 1</span></span><br><span class="line"><span class="variable language_">window</span>.<span class="property">a</span> <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+<blockquote class="blockquote-note blockquote-note__caution"><div class="blockquote-note__header"><div class="blockquote-note__icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></div>特別注意</div><div class="blockquote-note__content"><p>es6 新增了兩個新的宣告方式 <code>const</code> 以及 <code>let</code>，這兩個的用法與 <code>var</code> 不同，如果在全域環境使用 <code>const</code> 或 <code>let</code>，並不會在 Global Object 中建立一個 Name&#x2F;Value Pair，避免了一些使用 <code>var</code> 會產生的問題。這三者的比較可能會之後再寫一篇筆記做更深入探討．</p>
+</div></blockquote>
+
+<h2 id="🐳-The-Execution-Context"><a href="#🐳-The-Execution-Context" class="headerlink" title="🐳 The Execution Context"></a>🐳 The Execution Context</h2><h3 id="🦀-Creation-and-Hoisting"><a href="#🦀-Creation-and-Hoisting" class="headerlink" title="🦀 Creation and Hoisting"></a>🦀 Creation and Hoisting</h3><p>在開始說明 JavaScript Engine 如何創建執行環境時，我們先來看看 JavaScript 的特殊現象「Hoisting」。首先來看看以下範例一的程式碼：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 範例一</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="string">&#x27;Hello World!&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">b</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Called b!&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">b</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br></pre></td></tr></table></figure>
+
+<p>將上述的程式碼執行之後，我們可以很輕鬆也如常的預期會先印出 <code>Called b!</code>，再印出　<code>Hello World!</code>，但如果我們把程式碼改成下面這樣呢？</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 範例二</span></span><br><span class="line"><span class="title function_">b</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="string">&#x27;Hello World!&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">b</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Called b!&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果程式碼是從上到下，一行一行依序執行的話，照理來說在跑第一行的時候就會報錯，因為我們在尚未宣告變數和函數時，就對該變數或函數進行呼叫。但在 JavaScript 裡面卻不是這樣，將以上程式碼執行之後，JavaScript會幫我們印出：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Called</span> b!</span><br><span class="line"><span class="literal">undefined</span></span><br></pre></td></tr></table></figure>
+
+<p>JavaScript 並沒有幫我們報錯，反而印出東西來，這是因為在這當中存在著「Hoisting」的現象。很多網路上對「Hoisting」的解釋大部分都是：想像 JavaScript Engine 將所寫的宣告的程式碼（但如果是宣告變數的話，只會提升宣告的變數，不會連同賦值的部分一起提升）提升到最上面的地方，比如想像範例二的程式碼變成如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">funciton <span class="title function_">b</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Called b!&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"></span><br><span class="line"><span class="title function_">b</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line"></span><br><span class="line">a = <span class="string">&#x27;Hello World!&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>所以我們才會得到印出 <code>Called b!</code> 和 <code>undefined</code> 的結果。但其實 JavaScript Engine 並不會真的去調動你所寫的程式碼的位置，所以「<strong>想像 JavaScript Engine 將所寫的宣告的程式碼（但如果是宣告變數的話，只會提升宣告的變數，不會連同賦值的部分一起提升）提升到最上面的地方</strong>」這樣的描述雖然能夠解釋 Hoisting 這個現象，但它並沒有精確地去描述 JavaScript Engine 在 Hoisting 的時候實際上到底做了什麼。</p>
+<p>所以 JavaScript Engine 到底做了什麼？在 Execution Context 被創建之後，除了同時創建了 Global Obeject、this 之外，還會同時先預留記憶體位置給變數與函式。</p>
+<p>這個「<strong>先預留記憶體位置給變數與函式</strong>」的動作就是 Hoisting。但要特別注意的地方是：當宣告的 function 被 hoisted 的時候，除了 funciton 的名稱會被 hoisted，整個 funciton 裡面的 code 也會被 hoisted。但如果是使用 <code>var</code> 來宣告變數的時候，只有變數的名稱會被 hoisted，賦值這個動作並不會被 hoisted，然後 JavaScript Engine 會將所有被 hoisted variable 的初始值設為 undefined。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">┌────────────────────────────────────────────────────────────────────────────────────┐</span><br><span class="line">│                                                                                    │</span><br><span class="line">│  Execution Context is Created (Creation Phase)                                     │</span><br><span class="line">│                                                                                    │</span><br><span class="line">│      ┌────────────────────┐    ┌───────────────────┐      ┌──────────────────┐     │</span><br><span class="line">│      │      Global        │    │                   │      │      Outer       │     │</span><br><span class="line">│      │                    │    │      &#x27;this&#x27;       │      │                  │     │</span><br><span class="line">│      │      Object        │    │                   │      │   Environment    │     │</span><br><span class="line">│      └────────────────────┘    └───────────────────┘      └──────────────────┘     │</span><br><span class="line">│                                                                                    │</span><br><span class="line">│      ┌───────────────────────────────────────────────────────────────────────┐     │</span><br><span class="line">│      │      Set up Memory Space for Variables and Functions                  │     │</span><br><span class="line">│      │                                                                       │     │</span><br><span class="line">│      │            &quot;Hoisting&quot;                                                 │     │</span><br><span class="line">│      └───────────────────────────────────────────────────────────────────────┘     │</span><br><span class="line">│                                                                                    │</span><br><span class="line">└────────────────────────────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<blockquote class="blockquote-note blockquote-note__caution"><div class="blockquote-note__header"><div class="blockquote-note__icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></div>特別注意</div><div class="blockquote-note__content"><p>盡量在執行函數或使用變數之前先宣告他們，不要過度依賴於 Hoisting 的現象。因為你不知道你宣告的變數有沒有可能會變成 undefined。</p>
+</div></blockquote>
+
+<h3 id="🦀-Code-Execution"><a href="#🦀-Code-Execution" class="headerlink" title="🦀 Code Execution"></a>🦀 Code Execution</h3><p>JavaScript 在執行程式碼的時候就比較好理解了，不會有什麼 Hoisting 啦之類的奇怪的事情發生，就是我們寫好的程式碼會被 JavaScript Engine 在它該在的環境當中被一行一行的執行。但要特別注意的是，JavaScript 是單執行緒的語言喔。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">┌────────────────────────────────────────────────────────────────────────────────────┐</span><br><span class="line">│                                                                                    │</span><br><span class="line">│  Execution Context is Created (Execution Phase)                                    │</span><br><span class="line">│                                                                                    │</span><br><span class="line">│      ┌────────────────────┐    ┌───────────────────┐      ┌──────────────────┐     │</span><br><span class="line">│      │      Global        │    │                   │      │      Outer       │     │</span><br><span class="line">│      │                    │    │      &#x27;this&#x27;       │      │                  │     │</span><br><span class="line">│      │      Object        │    │                   │      │   Environment    │     │</span><br><span class="line">│      └────────────────────┘    └───────────────────┘      └──────────────────┘     │</span><br><span class="line">│                                                                                    │</span><br><span class="line">│      ┌───────────────────────────────────────────────────────────────────────┐     │</span><br><span class="line">│      │                                                                       │     │</span><br><span class="line">│      │                            Runs Your Code                             │     │  </span><br><span class="line">│      │                                                                       │     │</span><br><span class="line">│      └───────────────────────────────────────────────────────────────────────┘     │</span><br><span class="line">│                                                                                    │</span><br><span class="line">└────────────────────────────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="🐳-Function-Invocation-and-the-Execution-Stack-Call-Stack"><a href="#🐳-Function-Invocation-and-the-Execution-Stack-Call-Stack" class="headerlink" title="🐳 Function Invocation and the Execution Stack(Call Stack)"></a>🐳 Function Invocation and the Execution Stack(Call Stack)</h2><blockquote>
+<p><strong>nvocation</strong>: running a function<br>In JavaScript, we can use parenthesis() to invocate function.</p>
+</blockquote>
+<p>當使用 JavaScript 呼叫函式的時候，底層做了什麼樣的事情？換句話說，函式被我們呼叫以後，JavaScript 是怎麼執行這些函式的？我們可以試著用以下的程式碼來舉例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">b</span>(<span class="params"></span>) &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">a</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">b</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">a</span>();</span><br></pre></td></tr></table></figure>
+
+<p>當我們開始執行以上的程式碼的時候，首先會先在 Execution Stack 裡面建立一個 Global Execution Context，接著當程式碼一行一行跑下來跑到 <code>a()</code> 然後執行 <code>a</code> 這個函式的時候，JavaScript 會為這個函數創建它的 Execution Context，並將它放到 Execution Stack（執行堆疊）當中，疊在 Global Execution Context 上面。</p>
+<p>然後因為 <code>a()</code> 函式被執行了，連帶 <code>a()</code> 當中的 <code>b()</code> 也被執行，所以 JavaScript 也為 <code>b()</code> 函式創建了一個 Execution Context，而 <code>b()</code> 的 Execution Context 會疊在 <code>a()</code> 上面。</p>
+<p>在 Execution Stack 當中函式的執行順序是由上往下執行的，也就是說，以此範例為例，會先執行 <code>b()</code>、在執行 <code>a()</code>，當 <code>b()</code> 執行完之後，<code>b()</code>就會離開執行堆疊（英文稱作 pop off），以此類推。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">                   .</span><br><span class="line">                   .</span><br><span class="line">│                  .                  │</span><br><span class="line">│                  .                  │</span><br><span class="line">│                  .                  │</span><br><span class="line">│                  .                  │</span><br><span class="line">│                                     │</span><br><span class="line">│ ┌─────────────────────────────────┐ │ ────► Execution Stack</span><br><span class="line">│ │             b()                 │ │</span><br><span class="line">│ │      Execution Context          │ │</span><br><span class="line">│ │     (create and execute)        │ │</span><br><span class="line">│ └─────────────────────────────────┘ │</span><br><span class="line">│                                     │</span><br><span class="line">│ ┌─────────────────────────────────┐ │</span><br><span class="line">│ │            a()                  │ │</span><br><span class="line">│ │      Execution Context          │ │</span><br><span class="line">│ │     (create and execute)        │ │</span><br><span class="line">│ └─────────────────────────────────┘ │</span><br><span class="line">│                                     │</span><br><span class="line">│ ┌─────────────────────────────────┐ │</span><br><span class="line">│ │    Global Execution Context     │ │</span><br><span class="line">│ │  (created and code is executed) │ │</span><br><span class="line">│ └─────────────────────────────────┘ │</span><br><span class="line">│                                     │</span><br><span class="line">└─────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h2 id="🐳-Functions-Context-and-Variables-Environments"><a href="#🐳-Functions-Context-and-Variables-Environments" class="headerlink" title="🐳 Functions, Context, and Variables Environments"></a>🐳 Functions, Context, and Variables Environments</h2><blockquote>
+<p><strong>Variable Environment</strong>: where the variables live and how they realte to each other in memory</p>
+</blockquote>
+<p>在每個 Execution Context 被創建之後，同時該 Execution Context 也會有一個自己的 Variable Environment。我們可以透過以下的程式碼為例，來說明 Variable Environment 在 JavaScript 中是如何被建立的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">b</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> myVar;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">a</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> myVar = <span class="number">2</span>;</span><br><span class="line">    <span class="title function_">b</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myVar = <span class="number">1</span>;</span><br><span class="line"><span class="title function_">a</span>()</span><br></pre></td></tr></table></figure>
+
+<p>當上述程式碼被執行之後，myVar 會是什麼值？程式碼執行後，JavaScript Engine 會分別在 Global、a()、b() 各自的 Execution Context 中各建立一個 Variable Environment，所以 myVar 在不同的 Execution Context 當中就會有不同的值，需要先觀察目前程式碼執行到哪邊，再去判斷 myVar 目前的值。如下圖：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">│                                                        │</span><br><span class="line">│                                                        │</span><br><span class="line">│                                                        │</span><br><span class="line">│                                                        │</span><br><span class="line">│   ┌───────────────────────────────────────────────┐    │  ───────► Execution Stack</span><br><span class="line">│   │                  b()                          │    │</span><br><span class="line">│   │                                               │    │</span><br><span class="line">│   │           Execution Context       ┌─────────┐ │    │</span><br><span class="line">│   │                                   │   myVar │ │    │</span><br><span class="line">│   │          (create and execute)     │undefined├─┼────┼──────┐</span><br><span class="line">│   └───────────────────────────────────┴─────────┴─┘    │      │</span><br><span class="line">│                                                        │      │</span><br><span class="line">│   ┌───────────────────────────────────────────────┐    │      │</span><br><span class="line">│   │                  a()                          │    │      │</span><br><span class="line">│   │                                               │    │      │</span><br><span class="line">│   │           Execution Context         ┌───────┐ │    │      │</span><br><span class="line">│   │                                     │ myVar │ │    │      │</span><br><span class="line">│   │          (create and execute)       │   2   ├─┼────┼──────┼─────► Variable Environment</span><br><span class="line">│   └─────────────────────────────────────┴───────┴─┘    │      │</span><br><span class="line">│                                                        │      │</span><br><span class="line">│   ┌───────────────────────────────────────────────┐    │      │</span><br><span class="line">│   │                                               │    │      │</span><br><span class="line">│   │      Global Execution Context                 │    │      │</span><br><span class="line">│   │                                     ┌───────┐ │    │      │</span><br><span class="line">│   │    (created and code is executed)   │ myVar │ │    │      │</span><br><span class="line">│   │                                     │   1   ├─┼────┼──────┘</span><br><span class="line">│   └─────────────────────────────────────┴───────┴─┘    │</span><br><span class="line">│                                                        │</span><br><span class="line">└────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h2 id="🐳-The-Scope-Chain"><a href="#🐳-The-Scope-Chain" class="headerlink" title="🐳 The Scope Chain"></a>🐳 The Scope Chain</h2><p>還記得我們在前面提到，程式碼執行之後，會為每個執行的函數建立自己的 Execution Context、自己的 Variable Environment。現在我們要談到，當程式碼執行後除了會建立上述提到的部分，還會建立一個 Outer Environment，意思就是指會建立一個對外的 Scope 參照。</p>
+<p>總結來說，當一個 Execution Context 被建立的時候，裡面會有以下幾種東西：</p>
+<ul>
+<li>Global Object</li>
+<li>this</li>
+<li>Hoisting</li>
+<li>Outer Environment</li>
+<li>Variable Environment</li>
+</ul>
+<p>所以，建立一個對外的 Scope 參照是什麼意思？</p>
+<p>如果用文字敘述來說明的話，指的是 JavaScript Engine 會去檢查該程式碼（比如說某個 function）的 Lexical Environment，也就是去檢查某個 funciton 的所在位置，再將該 function 所在位置的 variable environment 當作參照。</p>
+<p>比如某個 function 是在全域環境中宣告的，那麼當 JavaScript Engine 在執行該 function 的時候，除了會建立 function 自己的 variable environment 之外，也會去參照這個 function 所在位置的 variable environment，也就是全域環境的 variable environment。</p>
+<p>而上述提到的這種行為，便會導致一個稱為「Scope Chain」的現象發生。我們現在可以來看看以下幾個不同的程式碼，來更加了解 Scope Chain。</p>
+<hr>
+<p>首先來觀察狀況一，<code>b()</code> 裡面的 <code>console.log(myVar)</code> 會印出什麼？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 狀況一</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">b</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(myVar);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">a</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> myVar = <span class="number">2</span>;</span><br><span class="line">    <span class="title function_">b</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myVar = <span class="number">1</span>;</span><br><span class="line"><span class="title function_">a</span>()</span><br></pre></td></tr></table></figure>
+
+<p>因為 <code>b()</code> 裡面並沒有宣告 <code>myVar</code> 這個變數，所以 JavaScript Engine 會藉由 Lexical Context 去檢查 <code>function b</code> 在哪個環境被宣告的，檢查之後發現是在全域，於是 JavaScript Engine 又在全域環境中檢查是不是有 <code>myVar</code> 這個變數，然後發現有，於是便印出 <code>1</code>。</p>
+<hr>
+<p>接下來來看看狀況二，在狀況二的程式碼中，<code>b()</code> 裡面的 <code>console.log(myVar)</code> 會印出什麼？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 狀況二</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">a</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">b</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(myVar);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> myVar = <span class="number">2</span>;</span><br><span class="line">    <span class="title function_">b</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myVar = <span class="number">1</span>;</span><br><span class="line"><span class="title function_">a</span>();</span><br></pre></td></tr></table></figure>
+
+<p>因為 <code>b()</code> 裡面並沒有宣告 <code>myVar</code> 這個變數，所以 JavaScript Engine 會藉由 Lexical Context 去檢查 <code>function b</code> 在哪個環境被宣告的，檢查之後發現是在 <code>a function</code> 裡面宣告的，於是 JavaScript Engine 又在 <code>a function</code> 的執行環境中檢查是不是有 <code>myVar</code> 這個變數，然後發現有，於是便印出 <code>２</code>。</p>
+<hr>
+<p>接下來來看看狀況三，在狀況三的程式碼中，<code>b()</code> 裡面的 <code>console.log(myVar)</code> 會印出什麼？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 狀況三</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">a</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">b</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(myVar);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="title function_">b</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myVar = <span class="number">1</span>;</span><br><span class="line"><span class="title function_">a</span>();</span><br></pre></td></tr></table></figure>
+
+<p>因為 <code>b()</code> 裡面並沒有宣告 <code>myVar</code> 這個變數，所以 JavaScript Engine 會藉由 Lexical Context 去檢查 <code>function b</code> 在哪個環境被宣告的，檢查之後發現是在 <code>a function</code> 裡面宣告的，於是 JavaScript Engine 又在 <code>a function</code> 的執行環境中檢查是不是有 <code>myVar</code> 這個變數，然後發現沒有，於是又再繼續檢查 <code>a funciton</code> 是在哪個環境被宣告的，檢查之後發現是在全域環境，於是又再繼續檢查全域環境有沒有變數 <code>myVar</code>，然後終於發現有，於是便印出 <code>1</code>。</p>
+<hr>
+<p>從以上三個狀況中，可以看到以下幾個步驟：</p>
+<ol>
+<li>某個函式被呼叫並執行</li>
+<li>JavaScript Engine 檢查該函式的 Lexical Context，確定它的 Outer Environment（也就是函式被宣告的環境）。</li>
+<li>如果某個函式呼叫了一個自己的 Variable Environment 沒有的變數，JavaScript Engine 就會開始往 Outer Environment 的 Variable Environment 檢查有沒有那個變數。</li>
+<li>一直重複步驟 3，直到找到那個變數，或是找到最後發現沒有那個變數</li>
+</ol>
+<p>這種不斷地往 Outer Environment 尋找 Variable 的現象就稱為「Scope Chain」。</p>
+<h2 id="🐳-Scope-ES6-and-let"><a href="#🐳-Scope-ES6-and-let" class="headerlink" title="🐳 Scope, ES6, and let"></a>🐳 Scope, ES6, and let</h2><blockquote>
+<p>Scope: where a variable is available in your code.</p>
+</blockquote>
+<p>在 ES6 以前，若想要宣告一個變數，只有 <code>var</code> 可以用，但在 ES6 公布之後，目前有 <code>var</code>、<code>const</code>、<code>let</code> 可以用來宣告變數。</p>
+<p>這三者之間也有些許不同。用 <code>let</code> 和 <code>const</code> 宣告變數後，那個變數所在的 Scope 是一個 block Scope（例如用<code>&#123;&#125;</code>圍起來就是一個 block），而用 <code>var</code> 則會將變數宣告在 Function Scope 當中。</p>
+<p>用 <code>var</code>、<code>const</code>、<code>let</code> 都會有 Hoisting 的現象，只是使用 <code>var</code> 時，會給予變數一個 undefined 的初始值，但如果是 <code>const</code>、<code>let</code> 的話，則是會讓變數存在暫時死區無法使用，然後報錯。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>var</code></th>
+<th><code>const</code></th>
+<th><code>let</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>作用域</td>
+<td>函式作用域</td>
+<td>區塊作用域</td>
+<td>區塊作用域</td>
+</tr>
+<tr>
+<td>Hoisting</td>
+<td>undefined</td>
+<td>進入暫時死區，會報錯</td>
+<td>進入暫時死區，會報錯</td>
+</tr>
+</tbody></table>
+<h2 id="🐳-What-about-Asynchronous-Callbacks"><a href="#🐳-What-about-Asynchronous-Callbacks" class="headerlink" title="🐳 What about Asynchronous Callbacks?"></a>🐳 What about Asynchronous Callbacks?</h2><p>在前面的影片有提到 JavaScript 是一個單執行緒、同步的語言（一次只做一件事情），但是在瀏覽器當中卻可以做到非同步（一次做很多件事情），這到底是如何辦到的？是因為有瀏覽器這個執行的環境，它可以先做一些非同步的處理，然後再將處理好的函數一一丟到 JavaScript Engine 當中去執行。</p>
+<p>瀏覽器處理非同步的過程有個專有名詞稱為 Event Loop，也許之後可以再寫一篇筆記來記錄瀏覽器當中的 Event Loop 是如何運作的。</p>
+
+    </div>
+     
+    <div class="post-footer__meta"><p>updated at 2022-03-11</p></div> 
+    <div class="post-entry__tags"><a href="/tags/JavaScript/" class="post-tags__link button"># JavaScript</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2022/01/29/metadata/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            metadata 、&lt;meta&gt; 知多少
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2022 <a href="/">寫字練習</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+
+ 
+
+ 
+
+
+    <script src='https://unpkg.com/browse/mermaid@8.14.0/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+
+
+    </body>
+</html>
