@@ -162,12 +162,12 @@ meta:
 
   # 文章自动摘要
   auto_excerpt: 
-    enable: true
+    enable: false
     length: 150
 
   # 文章目录
   toc: 
-    enable: true
+    enable: false
     list_number: false
 
   # 文章版权声明

@@ -7,6 +7,8 @@ tags:
 
 此篇是記錄 Udemy 上面的課程 JavaScript: Understanding the Weird Parts 的筆記。
 
+<!-- more -->
+
 ## 🐳 Concept Asides 名詞解釋
 
 ### 🦀 Syntax Parser 語意分析
@@ -112,7 +114,7 @@ var a = 1;
 a // 1
 window.a // 1
 ```
-{% note caution 特別注意 %}
+{% note info info %}
 es6 新增了兩個新的宣告方式 `const` 以及 `let`，這兩個的用法與 `var` 不同，如果在全域環境使用 `const` 或 `let`，並不會在 Global Object 中建立一個 Name/Value Pair，避免了一些使用 `var` 會產生的問題。這三者的比較可能會之後再寫一篇筆記做更深入探討．
 {% endnote %}
 
@@ -195,7 +197,7 @@ a = 'Hello World!';
 └────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-{% note caution 特別注意 %}
+{% note caution caution %}
 盡量在執行函數或使用變數之前先宣告他們，不要過度依賴於 Hoisting 的現象。因為你不知道你宣告的變數有沒有可能會變成 undefined。
 {% endnote %}
 
