@@ -159,7 +159,7 @@ http://example.com/index.html
 <script src="[folder_name]/[file_name].js"></script>
 ```
 
-另外在使用 `<script>` 這個標籤時，可以特別注意某些屬性是怎麼使用的，比如說：**`defer` 和 `async` 的差別**、**`type="module"` 怎麼用**等等。更多詳細的屬性解說可以參考 MDN 文件：[script: The Script element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script)。
+另外在使用 `<script>` 這個標籤時，可以特別注意某些屬性是怎麼使用的，比如說： `defer` 和 `async` 的差別、`type="module"` 怎麼用等等。更多詳細的屬性解說可以參考 MDN 文件：[script: The Script element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script)。
 
 ### `<meta>`
 

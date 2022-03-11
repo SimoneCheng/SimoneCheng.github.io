@@ -85,7 +85,7 @@ style:
 
   # 颜色配置
   color: 
-    main_color: '#4F9D9D'
+    main_color: '#0080FF'
     main_color_dark: '#bb86fc'
 
   # 弧度设置
@@ -101,7 +101,7 @@ style:
   highlight: 
 
     # 默认代码高亮主题
-    default: 
+    default: atelier-sulphurpool-light
 
     # 暗色代码高亮主题
     darkmode: 
