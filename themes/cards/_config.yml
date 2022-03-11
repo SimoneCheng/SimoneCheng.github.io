@@ -61,7 +61,7 @@ navbar:
 
   # 导航栏永远显示在屏幕顶端
   # 仅当屏幕宽度不小于 1080 px 时生效
-  sticky: true
+  sticky: false
 
 # 封面 cover 设置
 cover: 
@@ -509,7 +509,7 @@ vendors:
   # Mermiad Disgrams
   # https://mermaid-js.github.io/
   # Version 8.10.2
-  mermaid: 
+  mermaid: https://unpkg.com/browse/mermaid@8.14.0/dist/mermaid.min.js
 
   # busuanzi counter js
   # https://busuanzi.ibruce.info
