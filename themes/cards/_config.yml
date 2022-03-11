@@ -94,7 +94,7 @@ style:
     
   # 间距设置
   space: 
-    main_space: 3.5rem
+    main_space: 2rem
     sm_space: 1.5rem  # 当屏幕宽度小于 650px 时候启用
 
   # 默认代码高亮
@@ -137,7 +137,7 @@ meta:
   
   # 默认文章作者（可在front-matter中覆盖）
   author:
-    name: SimoneCheng
+    name: Simone
     url: 
   
   # 文章创建日期
@@ -172,7 +172,7 @@ meta:
 
   # 文章版权声明
   copyright: 
-    enable: false
+    enable: true
     
     # 在作者声明和永久链接之后，可以多行，支持 markdown
     custom_text:
