@@ -44,7 +44,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://github.com/SimoneCheng/blog/blob/main/public/images/opengraph.png?raw=true">
 <meta property="article:published_time" content="2022-01-29T09:55:38.000Z">
-<meta property="article:modified_time" content="2022-03-11T14:20:14.177Z">
+<meta property="article:modified_time" content="2022-03-11T23:35:34.549Z">
 <meta property="article:author" content="Simone Cheng">
 <meta property="article:tag" content="HTML">
 <meta name="twitter:card" content="summary_large_image">
@@ -57,7 +57,7 @@
 
     
     
-        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="this.media='all'">
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/atelier-sulphurpool-light.css" media="none" onload="this.media='all'">
         
     
 
@@ -201,7 +201,7 @@
 <h3 id="lt-script-gt"><a href="#lt-script-gt" class="headerlink" title="&lt;script&gt;"></a><code>&lt;script&gt;</code></h3><p>可以使用 <code>&lt;script&gt;</code> 這個標籤來引入 JavaScript，執行一些這個 <code>HTML</code> 網頁所需要的程式碼，比如 CDN 、Gooogle Analytics、網頁互動邏輯等等，可以使用以下兩種不同的方式引入：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 方法一：直接將 JavaSript 寫在裡面</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-handlebars"><span class="language-xml"> </span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars"> <span class="comment">&lt;!-- 要執行的 JavaScript --&gt;</span></span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars"></span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">// 方法二：插入一個 JavaScript 檔</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;[folder_name]/[file_name].js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>另外在使用 <code>&lt;script&gt;</code> 這個標籤時，可以特別注意某些屬性是怎麼使用的，比如說：**<code>defer</code> 和 <code>async</code> 的差別<strong>、</strong><code>type=&quot;module&quot;</code> 怎麼用**等等。更多詳細的屬性解說可以參考 MDN 文件：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script">script: The Script element</a>。</p>
+<p>另外在使用 <code>&lt;script&gt;</code> 這個標籤時，可以特別注意某些屬性是怎麼使用的，比如說： <code>defer</code> 和 <code>async</code> 的差別、<code>type=&quot;module&quot;</code> 怎麼用等等。更多詳細的屬性解說可以參考 MDN 文件：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script">script: The Script element</a>。</p>
 <h3 id="lt-meta-gt"><a href="#lt-meta-gt" class="headerlink" title="&lt;meta&gt;"></a><code>&lt;meta&gt;</code></h3><p>除了上述使用到的標籤之外，可能也還有很多 metadata 需要寫進 <code>HTML</code> 檔裡，比如這個網頁的編碼方式、這個網頁的作者、這個網頁的描述等等，這些都可以使用 <code>&lt;meta&gt;</code> 這個標籤來實現。簡單來說，除了前面提到的標籤以及它們的用途之外，其他的 metadata 都可以寫在 <code>&lt;meta&gt;</code> 這個標籤中，在下一個部分會針對 <code>&lt;meta&gt;</code> 的屬性做更詳細的理解與介紹。</p>
 <h2 id="淺談-lt-meta-gt"><a href="#淺談-lt-meta-gt" class="headerlink" title="淺談 &lt;meta&gt;"></a>淺談 <code>&lt;meta&gt;</code></h2><p>在這個部分會一一介紹幾個 <code>&lt;meta&gt;</code> 當中常用到的 attribute，了解這些 attribute 的用途。</p>
 <h3 id="name、content"><a href="#name、content" class="headerlink" title="name、content"></a>name、content</h3><p>首先第一個登場的 attribute 就是 name 和 content。name 和 content 可以用來描述一個網站的資訊，像是這個網站的作者、這個網站的描述、圖片等等，通常這兩者可以寫在一起，比如下面的範例：</p>
@@ -263,7 +263,7 @@
         
     </div>
  
-    <div class="post-footer__meta"><p>updated at 2022-03-11</p></div> 
+    <div class="post-footer__meta"><p>updated at 2022-03-12</p></div> 
     <div class="post-entry__tags"><a href="/tags/HTML/" class="post-tags__link button"># HTML</a></div> 
 </article>
 
