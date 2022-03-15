@@ -5,6 +5,7 @@ tags:
 - JavaScript
 ---
 
+測試測試
 此篇是記錄 Udemy 上面的課程 JavaScript: Understanding the Weird Parts 的筆記。
 
 <!-- more -->
