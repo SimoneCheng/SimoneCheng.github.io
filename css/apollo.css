@@ -471,9 +471,8 @@ header .nav-list-item a {
   font-size: 1.1em;
 }
 .post-content a:not(.footnote-backref):not(#more):not(.license) {
-  background-color: rgba(187, 239, 253, 0.3);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  color: #1a1a1a;
+  border-bottom: 1px solid rgba(84, 84, 248, 0.5);
+  color: #5454f8;
   margin: 0px 2px;
 }
 .post-content blockquote {
