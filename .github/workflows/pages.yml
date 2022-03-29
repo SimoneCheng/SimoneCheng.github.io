@@ -1,32 +1,56 @@
-name: Pages
+name: Deploy Blog
 
-on:
+on: 
   push:
-    branches:
-      - master  # default branch
+    branches: 
+      - master
 
 jobs:
-  pages:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-      - name: Cache NPM dependencies
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-npm-cache
-          restore-keys: |
-            ${{ runner.OS }}-npm-cache
-      - name: Install Dependencies
-        run: npm install
-      - name: Build
-        run: npm run build
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+    - name: Checkout source
+      uses: actions/checkout@v2
+      with:
+        path: main
+    - name: Checkout submodules
+      run: |
+        cd main
+        auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+        git submodule sync --recursive
+        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+    - name: Setup node and yarn
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Install hexo dependencies
+      run: |
+        cd main
+        yarn
+        npm i -g hexo-cli 
+    - name: Generate blog
+      env:
+        TZ: Asia/Taipei
+      run: |
+        cd main
+        hexo clean
+        hexo generate
+        ls
+    - name: Checkout gh-pages
+      uses: actions/checkout@v2
+      with:
+        path: gh-pages-pre
+        ref: gh-pages
+        fetch-depth: 0
+    - name: Publish to gh-pages
+      env:
+        TZ: Asia/Taipei
+      run: |
+        mv main/public gh-pages
+        cp -r gh-pages-pre/.git gh-pages/
+        cd gh-pages
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "Auto Delopy at `date +"%Y-%m-%d %H:%M"`"
+        git push origin gh-pages
