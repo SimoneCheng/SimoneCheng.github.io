@@ -103,5 +103,5 @@ theme: apollo
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/SimoneCheng/SimoneCheng.github.io.git
+  repo: git@github.com:SimoneCheng/SimoneCheng.github.io.git
   branch: gh-pages
