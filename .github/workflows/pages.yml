@@ -12,10 +12,10 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v2
       with:
-        path: main
+        path: master
     - name: Checkout submodules
       run: |
-        cd main
+        cd master
         auth_header="$(git config --local --get http.https://github.com/.extraheader)"
         git submodule sync --recursive
         git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
@@ -25,14 +25,14 @@ jobs:
         node-version: 12.x
     - name: Install hexo dependencies
       run: |
-        cd main
+        cd master
         yarn
         npm i -g hexo-cli 
     - name: Generate blog
       env:
         TZ: Asia/Taipei
       run: |
-        cd main
+        cd master
         hexo clean
         hexo generate
         ls
@@ -46,7 +46,7 @@ jobs:
       env:
         TZ: Asia/Taipei
       run: |
-        mv main/public gh-pages
+        mv master/public gh-pages
         cp -r gh-pages-pre/.git gh-pages/
         cd gh-pages
         git config --local user.email "actions@github.com"
