@@ -2,15 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://simonecheng.github.io/2022/03/15/JS-weird-parts-2/</loc>
-    
-    <lastmod>2022-04-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://simonecheng.github.io/2022/01/29/metadata/</loc>
     
     <lastmod>2022-04-10</lastmod>
@@ -21,15 +12,6 @@
   
   <url>
     <loc>https://simonecheng.github.io/2022/01/19/react-pure-function/</loc>
-    
-    <lastmod>2022-04-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://simonecheng.github.io/2022/03/11/JS-weird-parts-1/</loc>
     
     <lastmod>2022-04-10</lastmod>
     
@@ -66,6 +48,24 @@
   
   <url>
     <loc>https://simonecheng.github.io/tags/index.html</loc>
+    
+    <lastmod>2022-04-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://simonecheng.github.io/2022/03/15/JS-weird-parts-2/</loc>
+    
+    <lastmod>2022-04-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://simonecheng.github.io/2022/03/11/JS-weird-parts-1/</loc>
     
     <lastmod>2022-04-10</lastmod>
     
