@@ -25,6 +25,18 @@
 <h4 id="Coercion-強制轉型"><a href="#Coercion-強制轉型" class="headerlink" title="Coercion 強制轉型"></a>Coercion 強制轉型</h4><blockquote>
 <p>Converting a value from one type to another.<br>This happens quite often in JavaScript because it’s dynamically typed.</p>
 </blockquote>
+<p>因為 JavaScript 是動態型別的語言，所以在程式執行的時候，它時不時會將寫好的變數或是值自動轉換型別，來看看以下簡易的範例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = <span class="number">1</span> + <span class="number">2</span>;</span><br><span class="line"><span class="keyword">const</span> b = <span class="string">&#x27;Hello &#x27;</span> + <span class="string">&#x27;World&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b);</span><br></pre></td></tr></table></figure>
+
+<p>在上述例子當中， a 和 b 都是同型別相加，所以我們可以知道 a 會印出 3，b 會印出 Hello World。但如果是不同型別之間的相加呢？比如以下的範例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> c = <span class="number">1</span> + <span class="string">&#x27;2&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(c);</span><br></pre></td></tr></table></figure>
+
+<p>在這個範例中，和其他程式語言不同，JavaScript 不會因為這兩個值的型別不同而報錯，反而會嘗試將這兩個值轉成相同的型別，所以此時數字 1 會被轉型成字串 1，然後再與字串 2 相加，最後會印出字串 12。這個現象就是 Coercison。理解在 JavaScript 中有這個現象後，更容易在撰寫程式的時候避免許多因為轉型造成的錯誤。</p>
+<div class="info">
+💡 <b>目前學到的轉型規則</b> 💡<br>
+當有兩個東西「相加」的時候，如果其中一個東西是字串，JavaScript 會嘗試將另一個東西也轉成字串。
+</div>
+
 <h2 id="Operator-Precedence-and-Associativity"><a href="#Operator-Precedence-and-Associativity" class="headerlink" title="Operator Precedence and Associativity"></a>Operator Precedence and Associativity</h2><p>首先要來定義什麼是 Operator Precedence 和 Associativity：</p>
 <blockquote>
 <p><b>Operator Precedence:</b> which operator get called first.<br>Functions are called in order of precedence. (Higher precedence wins.)</p>
@@ -45,7 +57,38 @@
 
 <p>在上述的例子當中，可以看到 <code>a = b = c</code> 這一行的運算子優先級是相同的（因為都是 &#x3D;，每個 &#x3D; 的優先級相同），接下來要看的就是 &#x3D; 的 Associativity，到 MDN 文件查之後，知道 &#x3D; 的 Associativity 是從右到左，所以 <code>a = b = c</code> 會從右到左執行，先執行 <code>b = c</code> 再執行 <code>a = b</code>，也就是說會先將 c 賦值給 b，再將 b 賦值給 c，所以最後 a、b、c 都會印出 4。</p>
 <p>從以上兩個例子中，可以很清楚的知道 Operator Precedence 和 Associativity 的作用。</p>
+<h2 id="Comparison-Operators"><a href="#Comparison-Operators" class="headerlink" title="Comparison Operators"></a>Comparison Operators</h2><p>在這個小節當中，講師提到當所有以上概念（Coercion、Operator Precedence and Associativity）合在一起的時候，JavaScript 會出現一些讓人困惑的現象。</p>
+<p>第一個讓人困惑的地方是，JavaScript 在計算多個運算子的時候，運算的方式其實與人腦的運算方式並不同，所以會出現一些我們預期之外的狀況。</p>
+<p>首先先觀察一個符合人們直覺的範例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">1</span> &lt; <span class="number">2</span> &lt; <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+
+<p>上述的程式碼會印出 true，而這個也符合人們對數學運算的理解，1 的確是小於2，2 也的確是小於 3。但如果是以下的程式碼呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">3</span> &lt; <span class="number">2</span> &lt; <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>JavaScript 還是會印出 true，這時候就要來理解，當看到 3 &lt; 2 &lt; 1 的時候，JavaScript Engine 是以下面的步驟在運作的：</p>
+<ol>
+<li>根據 Operator Associativity 先執行 3 &lt; 2，得到 false</li>
+<li>進行 false &lt; 1 的運算</li>
+<li>嘗試把 false 轉型成 number，所以 false &lt; 1 變成 0 &lt; 1</li>
+<li>進行 0 &lt; 1 的運算</li>
+<li>得到 true，然後印出來</li>
+</ol>
+<p>從以上步驟可以知道，JavaScript Engine 在進行各種運算子運算的時候，與我們平常在算數學時使用的計算方式不同。</p>
+<hr>
+<p>第二個讓人困惑的地方是有關 undefined、false、null 這三個型別如果被轉型成數字的話，我們會預期都是 0。但實際上並不是，undefined 會被轉型成 NaN，false、null 才會被轉型成數字 0。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Number</span>(<span class="literal">undefined</span>); <span class="comment">// NaN</span></span><br><span class="line"><span class="title class_">Number</span>(<span class="literal">false</span>); <span class="comment">// 0</span></span><br><span class="line"><span class="title class_">Number</span>(<span class="literal">null</span>); <span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>第三個讓人困惑的地方是，如果使用運算子，特別是 <code>==</code> 的時候（因為使用兩個等於會先轉型才比較），又會發生讓人困惑的狀況，比如以下幾個例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">false</span> == <span class="number">0</span> <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="literal">null</span> == <span class="number">0</span> <span class="comment">// false</span></span><br><span class="line"><span class="literal">null</span> &lt; <span class="number">1</span> <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;</span> == <span class="number">0</span> <span class="comment">// true</span></span><br><span class="line"><span class="string">&quot;&quot;</span> == <span class="literal">false</span> <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>由於使用 <code>==</code> 會導致互相比較的值先轉型才進行比較，但我們很多時候並沒有辦法準確預測 JavaScript Engine 會將值轉型成什麼型別，可能會造成小錯誤。</p>
+<p>在 JavaScript 當中，還有另外一個運算子 <code>===</code> 也可以用來比較兩個值是否相等。使用 <code>===</code> 時並不會使想要比較的值被轉型，會先比較型別是否相同然後才比較兩者的值，如果型別不同便會直接回傳 false，所以可以盡量使用 <code>===</code> 會比較好。</p>
+<h2 id="什麼時候用到了-Coercion？"><a href="#什麼時候用到了-Coercion？" class="headerlink" title="什麼時候用到了 Coercion？"></a>什麼時候用到了 Coercion？</h2><p>其實平常在寫 code 的時候，我們也默默用到了很多轉型的概念，比如說以下的 react 的使用情境就是利用當 state 是空字串時會轉型成 false，非空字串會轉型成 true ，來判斷要顯示什麼樣的畫面。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">funciton <span class="title class_">Component</span>() &#123;</span><br><span class="line">    <span class="keyword">const</span> [state, setState] = <span class="title function_">useState</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="title function_">setState</span>(<span class="string">&#x27;Hello World&#x27;</span>)</span><br><span class="line">    &#125;, [])</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span>(</span><br><span class="line">        <span class="comment">// 這邊的 state ? 就用到了轉型 //</span></span><br><span class="line">        &#123;state ? <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;state&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span> : <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>There is no state<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>&#125;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="參考資源"><a href="#參考資源" class="headerlink" title="參考資源"></a>參考資源</h2><ul>
-<li>MDN 文件：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Operators/Operator_Precedence">https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Operators/Operator_Precedence</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence">MDN 文件 - Operator precedence</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness">MDN 文件 - Equality comparisons and sameness</a></li>
 </ul>
 </div></article></div></main><footer><div class="paginator"><a class="next" href="/2022/03/11/JS-weird-parts-1/">NEXT</a></div><div class="copyright"><p>© 2021 - 2022 <a href="https://simonecheng.github.io">Simone Cheng</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/achjqz/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></body></html>
