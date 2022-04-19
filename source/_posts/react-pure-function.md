@@ -36,7 +36,7 @@ tag:
 
 ### 條件一：相同的 input，永遠都輸出相同的 output
 
-#### ❌  不符合條件一的例子
+#### ❌ 不符合條件一的例子
 
 以下兩個 function 每次的 output 都不一樣，所以不符合條件一。
 ```javascript
@@ -49,7 +49,7 @@ function now() {
 Math.random();
 ```
 
-#### ✔️  符合條件一的例子
+#### ✔️ 符合條件一的例子
 
 ```javascript
 // a, b都是整數
