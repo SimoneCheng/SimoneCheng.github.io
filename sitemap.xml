@@ -2,36 +2,36 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://simonecheng.github.io/2022/03/15/JS-weird-parts-2/</loc>
+    <loc>https://simonecheng.github.io/JS-weird-parts-2/</loc>
     
-    <lastmod>2022-04-19</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://simonecheng.github.io/2022/01/29/metadata/</loc>
-    
-    <lastmod>2022-04-19</lastmod>
+    <lastmod>2022-05-15</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://simonecheng.github.io/2022/01/19/react-pure-function/</loc>
+    <loc>https://simonecheng.github.io/metadata/</loc>
     
-    <lastmod>2022-04-19</lastmod>
+    <lastmod>2022-05-15</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://simonecheng.github.io/2022/03/11/JS-weird-parts-1/</loc>
+    <loc>https://simonecheng.github.io/react-pure-function/</loc>
     
-    <lastmod>2022-04-19</lastmod>
+    <lastmod>2022-05-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://simonecheng.github.io/JS-weird-parts-1/</loc>
+    
+    <lastmod>2022-05-15</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -40,7 +40,7 @@
   <url>
     <loc>https://simonecheng.github.io/googleef0edd4c524f0b02.html</loc>
     
-    <lastmod>2022-04-19</lastmod>
+    <lastmod>2022-05-15</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -49,7 +49,7 @@
   <url>
     <loc>https://simonecheng.github.io/about/index.html</loc>
     
-    <lastmod>2022-04-19</lastmod>
+    <lastmod>2022-05-15</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -58,7 +58,7 @@
   <url>
     <loc>https://simonecheng.github.io/category/index.html</loc>
     
-    <lastmod>2022-04-19</lastmod>
+    <lastmod>2022-05-15</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -67,7 +67,7 @@
   <url>
     <loc>https://simonecheng.github.io/tags/index.html</loc>
     
-    <lastmod>2022-04-19</lastmod>
+    <lastmod>2022-05-15</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -76,7 +76,7 @@
 
   <url>
     <loc>https://simonecheng.github.io/</loc>
-    <lastmod>2022-04-19</lastmod>
+    <lastmod>2022-05-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -84,28 +84,28 @@
   
   <url>
     <loc>https://simonecheng.github.io/tags/JavaScript/</loc>
-    <lastmod>2022-04-19</lastmod>
+    <lastmod>2022-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://simonecheng.github.io/tags/HTML/</loc>
-    <lastmod>2022-04-19</lastmod>
+    <lastmod>2022-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://simonecheng.github.io/tags/React/</loc>
-    <lastmod>2022-04-19</lastmod>
+    <lastmod>2022-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://simonecheng.github.io/tags/funcitonal-programming/</loc>
-    <lastmod>2022-04-19</lastmod>
+    <lastmod>2022-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
