@@ -1,5 +1,5 @@
 ---
-title: metadata、meta 知多少 
+title: 【HTML】metadata、meta 知多少 
 date: 2022-01-29 17:55:38
 tag:
 - HTML
@@ -239,11 +239,9 @@ http-equiv 還有另外一個用法是 refresh，可以設定幾秒過後重新�
 
 ### Open Graph
 
-平常在各個社群網站分享網址的時候，除了將一串網址貼到貼文上面之外，是不是還會看有一個區塊，上面會有你分享的網站的標題、敘述、圖片等等，例如下圖：
+平常在各個社群網站分享網址的時候，除了將一串網址貼到貼文上面之外，是不是還會看有一個區塊，上面會有你分享的網站的標題、敘述、圖片等等。
 
-![](https://github.com/SimoneCheng/blog/blob/main/public/images/opengraph.png?raw=true)
-
-沒錯，上圖中用紅色框起來的部分就是用 Open Graph 辦到的，讓使用者在社群當中分享網站時，可以顯示美美的畫面，且只需要在 `<meta>` 當中寫下以下程式碼就可以辦到了：
+這部分就是用 Open Graph 辦到的，讓使用者在社群當中分享網站時，可以顯示美美的畫面，且只需要在 `<meta>` 當中寫下以下程式碼就可以辦到了：
 
 ```html
 <meta property="og:title" content="Open Graph protocol">
