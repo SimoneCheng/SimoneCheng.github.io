@@ -9,7 +9,7 @@ tag:
 
 <!-- more -->
 
-筆記來源大部分參考自：https://www.udemy.com/course/git-basic/。
+筆記來源大部分參考自：https://www.udemy.com/course/git-basic/ 。
 
 # Git Local 基本原理解析
 
