@@ -114,9 +114,9 @@ var a = 1;
 a // 1
 window.a // 1
 ```
-<div class="info">
+::: info
 es6 新增了兩個新的宣告方式 <code>const</code> 以及 <code>let</code>，這兩個的用法與 <code>var</code> 不同，如果在全域環境使用 <code>const</code> 或 <code>let</code>，並不會在 Global Object 中建立一個 Name/Value Pair，避免了一些使用 <code>var</code> 會產生的問題。這三者的比較可能會之後再寫一篇筆記做更深入探討。
-</div>
+:::
 
 ## The Execution Context
 
@@ -197,9 +197,9 @@ a = 'Hello World!';
 └────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-<div class="warning">
+::: warning
 盡量在執行函數或使用變數之前先宣告他們，不要過度依賴於 Hoisting 的現象。因為你不知道你宣告的變數有沒有可能會變成 undefined。
-</div>
+:::
 
 #### Code Execution
 JavaScript 在執行程式碼的時候就比較好理解了，不會有什麼 Hoisting 啦之類的奇怪的事情發生，就是我們寫好的程式碼會被 JavaScript Engine 在它該在的環境當中被一行一行的執行。但要特別注意的是，JavaScript 是單執行緒的語言喔。

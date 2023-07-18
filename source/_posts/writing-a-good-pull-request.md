@@ -94,9 +94,9 @@ reviewer 看完你的 pull request 之後，可以快速地針對 reviewer 的�
 
 在開始實作之前，可以先將同事討論如何實作，用什麼樣的方法，如何拆分 pull request 等等，也許你的同事可以給你更多不一樣的實作想法。事先討論也可以避免下面的情況：也許你想實作的東西不一定需要修改，可以先和同事確認，避免改了之後，其實不需要改的做白工狀況發生。
 
-<div class="success">
+::: success
 可以參考 google 的 <a href="https://google.github.io/eng-practices/" target="_blank">Google Engineering Practices Documentation</a>，看看 google 是如何訂定 pull request author 和 pull request reviewer guide。
-</div>
+:::
 
 ## Resource
 

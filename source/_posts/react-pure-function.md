@@ -119,10 +119,10 @@ console.log(result); // { name: 'Bobo', shoeSize: 400 }
 
 如此一來，我們在沒有改動到原本的 `person` 的情況下，得到我們想要的 `result`。於是這個原本不 pure 的 function，也變 pure 了。
 
-<div class="warning">
+::: warning
 ⚠️ <b>淺拷貝 v.s.深拷貝</b><br>
 你的複製真的是成功的複製嗎？有沒有可能你其實沒有複製到，所以還是會改動到原本的 data？  
-</div>
+:::
 
 ## 為什麼我們需要 pure function？
 大概了解 pure function 的定義和什麼是 pure function 之後，就要來問：所以為什麼需要 pure function？它是用來幹嘛的？

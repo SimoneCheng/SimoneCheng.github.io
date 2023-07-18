@@ -24,9 +24,9 @@ git config --global user.name "[your name]"
 
 除了設定使用者之外，git config 其實還可以做非常多其他的設定，來達到 git 的客製化。
 
-<div class="success">
+::: success
 git repository 會優先採用 local config 的設定，再使用 global config 的設定。
-</div>
+:::
 
 #### 初始化代碼倉庫
 建立一個 git repository 主要有兩種方法：
@@ -111,9 +111,9 @@ git ls-files // 只顯示檔名
 git ls-files -s // 顯示檔名、該檔案的權限、文件內容
 ```
 
-<div class="success">
+::: success
 所以可以知道，前面提到的 blob object 只儲存文件內容，而文件的檔名會儲存在 index（索引區）。可以透過 `git status` 指令來觀察 Staging Area 和 Working Directory 的變化。
-</div>
+:::
 
 #### git commit 背後發生了什麼
 將文件加入到 Staging Area 之後，接著要使用 `git commit -m "message"` 來生成 commit，生成 commit 的目的是為了將有修改的地方存到代碼倉庫（git repository）當中，那麼 commit 在生成的時候，究竟是生成了什麼呢？
@@ -165,9 +165,10 @@ cat .git/HEAD
 7. ```git branch -m [舊 branch 名稱] [新 branch 名稱]```：重新命名分支名稱。
 8. ```git checkout -b [branch 名稱]```：創建分支並且切換到該分支。
 
-<div class="warning">
-<b>注意：</b>如果現在所在的分支是想要刪除的分支的話，就不能刪除分支。要先移動到別的分支，才能刪除。
-</div>
+::: warning
+**注意：**
+如果現在所在的分支是想要刪除的分支的話，就不能刪除分支。要先移動到別的分支，才能刪除。
+:::
 
 #### 使用 git checkout 出特定的 commit
 
@@ -180,9 +181,10 @@ cat .git/HEAD
 
 這個用法平常不太常用到，但在特殊情況下特別有用！
 
-<div class="warning">
-<b>刪除分支到底刪除了什麼？</b> 刪除分支時，只會刪除分支這個指針，並不會刪除任何的 commit！
-</div>
+::: warning
+**刪除分支到底刪除了什麼？**
+刪除分支時，只會刪除分支這個指針，並不會刪除任何的 commit！
+:::
 
 #### 關於 git diff 這個命令
 
@@ -204,9 +206,9 @@ cat .git/HEAD
 
 在這樣的結構之下進行 git merge 的話，master branch 的指針會向右移動，會與 bugfix 位於同一個 commit，稱之為 fast forward merge。
 
-<div class="info">
+::: info
 在這裡簡單總結符合 fast forward merge 的條件：分支 B 合併進 分支 A 的時候，分支 B 的第一個 commit 指向分支 A 最新的 commit。
-</div>
+:::
 
 #### 3 Way Merge
 
@@ -238,9 +240,9 @@ cat .git/HEAD
 
 使用 `git rebase master` 之後，就可以讓 feature 1 分支的三次 commit 接在 master 分支最新的 commit 之後，如此一來就可以進行 Fast Forward Merge。
 
-<div class="warning">
+::: warning
 要特別注意的是使用 <code>git rebase</code> 也有可能會造成衝突，如果有衝突的話需要將衝突解掉才能 rebase。另外使用了 rebase 之後，在該分支上面的 commit 會全部重新計算，因為這幾個 commit 的第一個有了新的 parent commit，所以 commit tree 便重新算了一次，也就是說在該分支所建立的 commit 的 id 會不一樣，雖然每個 commit 的修改內容仍和先前相同。
-</div>
+:::
 
 ## 參考資料
 - [Git/GitHub/GitLab 完全教程（包括Git底層原理）](https://www.udemy.com/course/git-basic/)
