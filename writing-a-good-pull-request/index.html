@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Writing a Good Pull Request · 寫字練習</title><meta name="description" content="Writing a Good Pull Request - Simone Cheng"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/dovefavicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://simonecheng.github.io/atom.xml" title="寫字練習"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="寫字練習" type="application/atom+xml">
-</head><body><div class="wrap"><header><a class="logo-link" href="/"><img src="/dovefavicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link" href="/" target="_self">BLOG</a></li><li class="nav-list-item"><a class="nav-list-link" href="/tags/" target="_self">TAGS</a></li><li class="nav-list-item"><a class="nav-list-link" href="/archives/" target="_self">ARCHIVE</a></li><li class="nav-list-item"><a class="nav-list-link" href="/about/" target="_self">ABOUT</a></li><li class="nav-list-item"><a class="nav-list-link" href="/atom.xml" target="_self">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Writing a Good Pull Request</h1><div class="post-info">Mar 10, 2023</div><div class="post-content"><h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>會想要寫一篇「如何寫好的 pull request」相關的文章，是因為在實作一個大功能的重構時，發了一個龐大的 pull request，把要重構的項目一次修改掉。但這個 pull request 是一個不太好的 pull request：</p>
+</head><body><div class="wrap"><header><a class="logo-link" href="/"><img src="/dovefavicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link" href="/" target="_self">BLOG</a></li><li class="nav-list-item"><a class="nav-list-link" href="/tags/" target="_self">TAGS</a></li><li class="nav-list-item"><a class="nav-list-link" href="/archives/" target="_self">ARCHIVE</a></li><li class="nav-list-item"><a class="nav-list-link" href="/about/" target="_self">ABOUT</a></li><li class="nav-list-item"><a class="nav-list-link" href="/atom.xml" target="_self">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Writing a Good Pull Request</h1><div class="post-info">Mar 10, 2023</div><div class="post-content"><h2 id="前情提要">前情提要</h2>
+<p>會想要寫一篇「如何寫好的 pull request」相關的文章，是因為在實作一個大功能的重構時，發了一個龐大的 pull request，把要重構的項目一次修改掉。但這個 pull request 是一個不太好的 pull request：</p>
 <span id="more"></span>
-
 <blockquote>
 <ol>
 <li>一次 pull request 修改改太多（高達兩千行），reviewer 會看了很痛苦。</li>
@@ -9,16 +9,20 @@
 </ol>
 </blockquote>
 <p>所以希望透過搜尋相關的資料，讓自己的 pull request 可以寫得好一點。讓 reviewer 可以輕鬆寫意的看懂，功能可以順利上線。</p>
-<h2 id="好的-pull-request-有哪些特質"><a href="#好的-pull-request-有哪些特質" class="headerlink" title="好的 pull request 有哪些特質"></a>好的 pull request 有哪些特質</h2><p>一個好的 pull request 通常具有以下的特質：</p>
+<h2 id="好的-pull-request-有哪些特質">好的 pull request 有哪些特質</h2>
+<p>一個好的 pull request 通常具有以下的特質：</p>
 <p><strong>「一，可以得到清楚的回饋或修改建議」</strong></p>
 <p>如果一個 pull request 得到清楚明瞭的回饋或是修改建議，不代表這個 pull request 是不好的，而是表示它讓 reviewer 好閱讀，進而提出具體和清楚的修改建議，</p>
 <p><strong>「二，可以很快速地被 review」</strong></p>
 <p>如果一個 pull request 可以很快速地被 review，那就表示 reviewer 會更願意 review 該 pull request，因為比較不會打斷 reviewr 本來的工作安排。</p>
 <p><strong>「三，reviewer 不會問太多關於這個 pull request 的問題」</strong></p>
 <p>如果你的 pull request 發出去後，reviewer 對這個 pull request 問了很多 How 和 Why 的問題，那可能表示這不是一個好的 pull request，因為 reviewer 可能看不太懂為什麼要發 pull request，或是該 pull request 究竟如何解決了問題。一個好的 pull request 應該要能夠很好地對上述兩個疑問解惑。</p>
-<h2 id="如何寫出好的-pull-request"><a href="#如何寫出好的-pull-request" class="headerlink" title="如何寫出好的 pull request"></a>如何寫出好的 pull request</h2><p>下面來一一列出如何寫出好的 pull request的具體方法。</p>
-<h4 id="遵守團隊訂定的-coding-style-規範"><a href="#遵守團隊訂定的-coding-style-規範" class="headerlink" title="遵守團隊訂定的 coding style 規範"></a>遵守團隊訂定的 coding style 規範</h4><p>這是一定要的，每次發出 pull request 之前，可以先自己檢查寫的 code 有沒有符合團隊的 coding 規範。</p>
-<h4 id="Make-Pull-Request-Small"><a href="#Make-Pull-Request-Small" class="headerlink" title="Make Pull Request Small"></a>Make Pull Request Small</h4><p>一個 pull request 裡面修改的 code 不要太多（個人認為最少最少要控制在 800 行內）。</p>
+<h2 id="如何寫出好的-pull-request">如何寫出好的 pull request</h2>
+<p>下面來一一列出如何寫出好的 pull request的具體方法。</p>
+<h4 id="遵守團隊訂定的-coding-style-規範">遵守團隊訂定的 coding style 規範</h4>
+<p>這是一定要的，每次發出 pull request 之前，可以先自己檢查寫的 code 有沒有符合團隊的 coding 規範。</p>
+<h4 id="Make-Pull-Request-Small">Make Pull Request Small</h4>
+<p>一個 pull request 裡面修改的 code 不要太多（個人認為最少最少要控制在 800 行內）。</p>
 <p>因為：</p>
 <ol>
 <li>reviewer 可以更完整地 review pull request</li>
@@ -33,29 +37,37 @@
 <li>善用 <code>git add --patch</code> 和 <code>git rebase --interactive</code>。</li>
 <li>如果是在一個要長期進行的 feature branch 的話，可以將該 branch 設為你的 pull request target branch 而不是 master branch。</li>
 </ol>
-<h4 id="Use-Commits"><a href="#Use-Commits" class="headerlink" title="Use Commits"></a>Use Commits</h4><p>commit 寫個好的話，reviewer 也可以更容易看懂該次 commit 做了哪些 code 的修改。可以在 google 搜尋「commit convention」來了解如何好的運用 commit。</p>
-<h4 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h4><ol>
+<h4 id="Use-Commits">Use Commits</h4>
+<p>commit 寫個好的話，reviewer 也可以更容易看懂該次 commit 做了哪些 code 的修改。可以在 google 搜尋「commit convention」來了解如何好的運用 commit。</p>
+<h4 id="Test">Test</h4>
+<ol>
 <li>手動測試：在發出 pull request 之前，先自己手動測試修改的地方有沒有問題，例如新功能有沒有問題、用 edge case 來測試自己修改的地方有沒有問題。</li>
 <li>自動化測試：如果是新功能的 pull request，且在時程上有時間的話，可以增加自動化測試，確保自己寫出來的 code 是安全的，有了自動化測試，對於未來的重構也會很有幫助。</li>
 <li>視情況在 pull request 的 description 說明測試結果，或是有什麼 edge case 需要 reviewer 注意等等。</li>
 </ol>
-<h4 id="Make-a-Clear-Description"><a href="#Make-a-Clear-Description" class="headerlink" title="Make a Clear Description"></a>Make a Clear Description</h4><p>在 pull request 的 description 中，盡量對以下幾點做清楚的描述，讓 reviewer 更清楚地了解你寫的 pull request 在做什麼：</p>
+<h4 id="Make-a-Clear-Description">Make a Clear Description</h4>
+<p>在 pull request 的 description 中，盡量對以下幾點做清楚的描述，讓 reviewer 更清楚地了解你寫的 pull request 在做什麼：</p>
 <ol>
 <li>描述這個 pull request 解決了什麼問題，同時附上 issue 的連結</li>
 <li>如果有決定採取什麼 design pattern 或是一些迫不得已的 walkaround 的話，也可以在 decription 說明</li>
 <li>測試相關的說明，可以參考上述 Test 提到的第三點。</li>
 </ol>
-<h4 id="Add-possible-risks-and-highlight-risky-code"><a href="#Add-possible-risks-and-highlight-risky-code" class="headerlink" title="Add possible risks and highlight risky code"></a>Add possible risks and highlight risky code</h4><p>如果在發 pull request 之後，有一些不太確定的地方，比如說不確定某段修改的 code 改得好不好，會不會有什麼問題（例如：效能、資安、edge case 等問題）。可以在 pull request 發出之後，特別在該段 code 留個言，請 reviewer 特別注意或是協助你改善 code。</p>
-<h4 id="Rebase-Onto-Fresh-Master-Before-Creating-a-PR"><a href="#Rebase-Onto-Fresh-Master-Before-Creating-a-PR" class="headerlink" title="Rebase Onto Fresh Master Before Creating a PR"></a>Rebase Onto Fresh Master Before Creating a PR</h4><p>在正式 merge 之前，可以先將自己開發的分支 rebase 到 target branch，確保自己的分支一直有在跟 target branch 做同步和更新，這樣可以減少 merge 的衝突，如果 target branch 有什麼新的功能或是 function 也可以在自己的分支使用。</p>
-<h4 id="不要修改已經-review-過的-commit"><a href="#不要修改已經-review-過的-commit" class="headerlink" title="不要修改已經 review 過的 commit"></a>不要修改已經 review 過的 commit</h4><p>如果某些 commits 已經被 review 過的話，就不要再去動它了，不要去修改 commit message 或是 squash 等等。如果有收到 review 需要修改的話，請直接寫一個新的 commit。</p>
+<h4 id="Add-possible-risks-and-highlight-risky-code">Add possible risks and highlight risky code</h4>
+<p>如果在發 pull request 之後，有一些不太確定的地方，比如說不確定某段修改的 code 改得好不好，會不會有什麼問題（例如：效能、資安、edge case 等問題）。可以在 pull request 發出之後，特別在該段 code 留個言，請 reviewer 特別注意或是協助你改善 code。</p>
+<h4 id="Rebase-Onto-Fresh-Master-Before-Creating-a-PR">Rebase Onto Fresh Master Before Creating a PR</h4>
+<p>在正式 merge 之前，可以先將自己開發的分支 rebase 到 target branch，確保自己的分支一直有在跟 target branch 做同步和更新，這樣可以減少 merge 的衝突，如果 target branch 有什麼新的功能或是 function 也可以在自己的分支使用。</p>
+<h4 id="不要修改已經-review-過的-commit">不要修改已經 review 過的 commit</h4>
+<p>如果某些 commits 已經被 review 過的話，就不要再去動它了，不要去修改 commit message 或是 squash 等等。如果有收到 review 需要修改的話，請直接寫一個新的 commit。</p>
 <p>因為如果把舊的改掉的話，reviewer 可能會不知道他已經 review 過舊的部分，又再多看一次，降低了雙方的效率。</p>
-<h4 id="快速地回覆-review"><a href="#快速地回覆-review" class="headerlink" title="快速地回覆 review"></a>快速地回覆 review</h4><p>reviewer 看完你的 pull request 之後，可以快速地針對 reviewer 的回饋進行修改，一來自己寫 code 的邏輯和想法都還記得，二來 reviewer 也還對 review 的記憶比較深刻。不要過了太久才進行修改，不然雙方都很容易忘記。</p>
-<h4 id="發-pull-request-前先跟同事溝通"><a href="#發-pull-request-前先跟同事溝通" class="headerlink" title="發 pull request 前先跟同事溝通"></a>發 pull request 前先跟同事溝通</h4><p>在開始實作之前，可以先將同事討論如何實作，用什麼樣的方法，如何拆分 pull request 等等，也許你的同事可以給你更多不一樣的實作想法。事先討論也可以避免下面的情況：也許你想實作的東西不一定需要修改，可以先和同事確認，避免改了之後，其實不需要改的做白工狀況發生。</p>
+<h4 id="快速地回覆-review">快速地回覆 review</h4>
+<p>reviewer 看完你的 pull request 之後，可以快速地針對 reviewer 的回饋進行修改，一來自己寫 code 的邏輯和想法都還記得，二來 reviewer 也還對 review 的記憶比較深刻。不要過了太久才進行修改，不然雙方都很容易忘記。</p>
+<h4 id="發-pull-request-前先跟同事溝通">發 pull request 前先跟同事溝通</h4>
+<p>在開始實作之前，可以先將同事討論如何實作，用什麼樣的方法，如何拆分 pull request 等等，也許你的同事可以給你更多不一樣的實作想法。事先討論也可以避免下面的情況：也許你想實作的東西不一定需要修改，可以先和同事確認，避免改了之後，其實不需要改的做白工狀況發生。</p>
 <div class="success">
-可以參考 google 的 <a href="https://google.github.io/eng-practices/" target="_blank">Google Engineering Practices Documentation</a>，看看 google 是如何訂定 pull request author 和 pull request reviewer guide。
+<p>可以參考 google 的 <a href="https://google.github.io/eng-practices/" target="_blank">Google Engineering Practices Documentation</a>，看看 google 是如何訂定 pull request author 和 pull request reviewer guide。</p>
 </div>
-
-<h2 id="Resource"><a href="#Resource" class="headerlink" title="Resource"></a>Resource</h2><ul>
+<h2 id="Resource">Resource</h2>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://google.github.io/eng-practices/">Google Engineering Practices Documentation</a></li>
 <li><a target="_blank" rel="noopener" href="https://developers.google.com/blockly/guides/contribute/get-started/write_a_good_pr">Writing a Good Pull Request, Blockly, developers Google</a></li>
 <li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-make-a-perfect-pull-request-3578fb4c112">How to Make a Perfect Pull Request, Anton Chuchkalov, Medium</a></li>
