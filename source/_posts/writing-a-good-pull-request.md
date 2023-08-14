@@ -1,6 +1,8 @@
 ---
 title: Writing a Good Pull Request
 date: 2023-03-10 22:22:05
+tag:
+- Others
 ---
 
 ## 前情提要
