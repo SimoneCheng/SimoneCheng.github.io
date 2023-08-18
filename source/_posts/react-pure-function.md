@@ -21,7 +21,7 @@ tag:
 - 了解一點點 Redux
 - 最重要的是：了解 JavaScript
 
-## 什麼是 pure function？  
+## 🐳 什麼是 pure function？  
 
 > A pure function is a function which:
 > - The function always returns the same result if the same arguments are passed in. It does not depend on any state, or data, change during a program’s execution. It must only depend on its input arguments.
@@ -34,9 +34,9 @@ tag:
 
 我們就可以把這個 function 稱為 pure function。但要怎麼樣才能符合這兩個條件餒？接下來可以來細看這兩個條件的意涵。
 
-### 條件一：相同的 input，永遠都輸出相同的 output
+## 🐳 條件一：相同的 input，永遠都輸出相同的 output
 
-#### ❌ 不符合條件一的例子
+### ❌ 不符合條件一的例子
 
 以下兩個 function 每次的 output 都不一樣，所以不符合條件一。
 ```javascript
@@ -49,7 +49,7 @@ function now() {
 Math.random();
 ```
 
-#### ✔️ 符合條件一的例子
+### ✔️ 符合條件一的例子
 
 ```javascript
 // a, b都是整數
@@ -62,9 +62,9 @@ add(3, 5); // => input 是 3, 5，永遠都 return 8
 add(4, 6); // => input 是 4, 6，永遠都 return 10
 ```
 
-### 條件二：沒有產生 side effect
+## 🐳 條件二：沒有產生 side effect
 
-#### 什麼是 side effect？
+### 🦀 什麼是 side effect？
 
 > An observable side effect is any interaction with the outside world from within a function. That could be anything from changing a variable that exists outside the function, to calling another method from within a function.
 > 
@@ -74,7 +74,7 @@ add(4, 6); // => input 是 4, 6，永遠都 return 10
 
 雖然 side effect 聽起來很像是負面的名詞，但不表示 side effect 就是不好的，在程式當中，side effect 單純就只是描述在寫 function 時有可能會出現的情況或是現象而已。
 
-#### side effect 有哪些？
+### 🦀 side effect 有哪些？
 
 以下介紹一些常見的 side effect，但不限於此：
 1. Making a HTTP request
@@ -124,7 +124,7 @@ console.log(result); // { name: 'Bobo', shoeSize: 400 }
 你的複製真的是成功的複製嗎？有沒有可能你其實沒有複製到，所以還是會改動到原本的 data？  
 :::
 
-## 為什麼我們需要 pure function？
+## 🐳 為什麼我們需要 pure function？
 大概了解 pure function 的定義和什麼是 pure function 之後，就要來問：所以為什麼需要 pure function？它是用來幹嘛的？
 
 **1.immediately testable, maintain and refactor easier**
@@ -135,7 +135,7 @@ console.log(result); // { name: 'Bobo', shoeSize: 400 }
 
 **2.是 functional programming 很重要的 basic concept。**
 
-## 為什麼 pure function 在 React 裡面是重要的？
+## 🐳 為什麼 pure function 在 React 裡面是重要的？
 
 在 React 的官方文件 [Components and Props](https://reactjs.org/docs/components-and-props.html) 中，特別提到了一句話：
 
@@ -150,7 +150,7 @@ pure function 在 React 當中之所以重要，是因為：
 3. 還沒有 hooks 時，在 functional component 裡面，讓 props 只能是唯讀的，使資料在修改的時候比較好追蹤和管理。
 4. A React component should be pure, this means the result of its render method should depend solely on the props and the state, and for the same properties and state render should give the same result. If render is not pure, it means it can return different results for the same input, so React cannot tell which parts of the DOM need to be updated based on the changes to the component. This is critical as the performance of React depends of this.
 
-## 參考資源
+## 🐳 參考資源
 
 - [What Is a Pure Function in JavaScript? - FreeCodeCamp](https://www.freecodecamp.org/news/what-is-a-pure-function-in-javascript-acb887375dfe/)
 - [JavaScript: What Are Pure Functions And Why Use Them? - Medium](https://medium.com/@jamesjefferyuk/javascript-what-are-pure-functions-4d4d5392d49c)

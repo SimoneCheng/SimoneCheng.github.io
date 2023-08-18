@@ -12,7 +12,7 @@ tags:
 
 ## 🐳 Concept Asides 名詞解釋
 
-#### 🦀 Namespace
+### 🦀 Namespace
 
 > A container for variables and functions.  
 > Typically to keep variables and function with the same name seperate.
@@ -27,15 +27,15 @@ console.log(english.greet);
 console.log(spanish.greet);
 ```
 
-#### 🦀 First Class Function
+### 🦀 First Class Function
 > Everything you can do with other types you can do with functions.  
 > Assign them to variables, pass them around, create them on the fly.
 
-#### 🦀 Mutate
+### 🦀 Mutate
 > To change something.  
 > **Immutable** means it can't be changed. 
 
-#### 🦀 Arguments
+### 🦀 Arguments
 > The parameters you pass to a function.  
 > Jacascript gives you a keyword of the same name which contains them all.
 
@@ -68,7 +68,7 @@ console.log(greet.lang);
 
 在 JavaScript 當中有兩種方式可以用來宣告 function，分別是：敘述式（function statement）和表達式（function expression）。
 
-#### 🦀 Function Statement 敘述式
+### 🦀 Function Statement 敘述式
 
 敘述式的寫法如下：
 ```javascript
@@ -77,7 +77,7 @@ function greeting() {
 }
 ```
 
-#### 🦀 Function Expression 表達式
+### 🦀 Function Expression 表達式
 
 表達式的寫法如下：
 ```javascript
@@ -93,7 +93,7 @@ const greeting = () => {
 };
 ```
 
-#### 🦀 兩者之間的差別
+### 🦀 兩者之間的差別
 
 來看看這兩段程式碼就可以很清楚的知道敘述式和表達式的差別：
 ```javascript
@@ -120,7 +120,7 @@ const greet = function() {
 
 ## 🐳 By Value and By Reference
 
-#### 🦀 By Value
+### 🦀 By Value
 
 目前有下列的程式碼：
 ```javascript
@@ -132,7 +132,7 @@ b = a;
 
 ![](../assets/byvalue.png)
 
-#### 🦀 By Reference
+### 🦀 By Reference
 
 接下來以下面的程式碼範例為例，來舉例什麼是 **by reference**：
 ```javascript
@@ -246,7 +246,7 @@ c.log();
 
 ## 🐳 'arguments' and Spread
 
-#### 🦀 arguments
+### 🦀 arguments
 
 在開始說明什麼是 `arguments` 之前，我們先來看一個普通的 function：
 ```javascript
@@ -326,7 +326,7 @@ function greet(firstName, lastName, language) {
 }
 ```
 
-#### 🦀 spread
+### 🦀 spread
 
 spread 簡單來說就是很常看到的 `...`。而這個 `...` 實際上有什麼用途呢？目前我所知道的用法主要有三個：
 1. 如果傳入某個 function 的變數可能是OO個和OO個以上，這個「以上」的部分可以用 `...` 包起來。
