@@ -3,6 +3,7 @@ title: 【克服JS的奇怪部分】Types and Operators
 date: 2022-03-15 15:28:52
 tag:
 - JavaScript
+- 克服JS的奇怪部分
 ---
 
 此篇是記錄 Udemy 上面的課程 JavaScript: Understanding the Weird Parts 的筆記。
