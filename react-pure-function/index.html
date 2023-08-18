@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 【React】什麼是 Pure Function？在 React 當中的重要性是什麼？ · 寫字練習</title><meta name="description" content="【React】什麼是 Pure Function？在 React 當中的重要性是什麼？ - Simone Cheng"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/dovefavicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://simonecheng.github.io/atom.xml" title="寫字練習"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="寫字練習" type="application/atom+xml">
-</head><body><div class="wrap"><header><a class="logo-link" href="/"><img src="/dovefavicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link" href="/" target="_self">BLOG</a></li><li class="nav-list-item"><a class="nav-list-link" href="/tags/" target="_self">TAGS</a></li><li class="nav-list-item"><a class="nav-list-link" href="/archives/" target="_self">ARCHIVE</a></li><li class="nav-list-item"><a class="nav-list-link" href="/about/" target="_self">ABOUT</a></li><li class="nav-list-item"><a class="nav-list-link" href="/atom.xml" target="_self">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">【React】什麼是 Pure Function？在 React 當中的重要性是什麼？</h1><div class="post-info">Jan 19, 2022<a class="tag-title" href="/tags/React/">#React</a><a class="tag-title" href="/tags/funcitonal-programming/">#funcitonal programming</a></div><div class="post-content"><p>在 functional programming 當中，有一個重要的概念稱為 pure function，而這個概念在 React 的官方文件當中被提起，那麼 pure function 在 React 當中到底扮演了什麼樣的角色呢？這是本文試圖理解並回答的問題。</p>
+</head><body><div class="wrap"><header><a class="logo-link" href="/"><img src="/dovefavicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link" href="/" target="_self">BLOG</a></li><li class="nav-list-item"><a class="nav-list-link" href="/tags/" target="_self">TAGS</a></li><li class="nav-list-item"><a class="nav-list-link" href="/archives/" target="_self">ARCHIVE</a></li><li class="nav-list-item"><a class="nav-list-link" href="/about/" target="_self">ABOUT</a></li><li class="nav-list-item"><a class="nav-list-link" href="/atom.xml" target="_self">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">【React】什麼是 Pure Function？在 React 當中的重要性是什麼？</h1><div class="post-info">Jan 19, 2022<a class="tag-title" href="/tags/React/">#React</a><a class="tag-title" href="/tags/funcitonal-programming/">#funcitonal programming</a></div><aside class="toc"><div class="toc-title">目錄</div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-%E4%BB%80%E9%BA%BC%E6%98%AF-pure-function%EF%BC%9F"><span class="toc-text">🐳 什麼是 pure function？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-%E6%A2%9D%E4%BB%B6%E4%B8%80%EF%BC%9A%E7%9B%B8%E5%90%8C%E7%9A%84-input%EF%BC%8C%E6%B0%B8%E9%81%A0%E9%83%BD%E8%BC%B8%E5%87%BA%E7%9B%B8%E5%90%8C%E7%9A%84-output"><span class="toc-text">🐳 條件一：相同的 input，永遠都輸出相同的 output</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9D%8C-%E4%B8%8D%E7%AC%A6%E5%90%88%E6%A2%9D%E4%BB%B6%E4%B8%80%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-text">❌ 不符合條件一的例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%94%EF%B8%8F-%E7%AC%A6%E5%90%88%E6%A2%9D%E4%BB%B6%E4%B8%80%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-text">✔️ 符合條件一的例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-%E6%A2%9D%E4%BB%B6%E4%BA%8C%EF%BC%9A%E6%B2%92%E6%9C%89%E7%94%A2%E7%94%9F-side-effect"><span class="toc-text">🐳 條件二：沒有產生 side effect</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E4%BB%80%E9%BA%BC%E6%98%AF-side-effect%EF%BC%9F"><span class="toc-text">🦀 什麼是 side effect？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-side-effect-%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">🦀 side effect 有哪些？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-%E7%82%BA%E4%BB%80%E9%BA%BC%E6%88%91%E5%80%91%E9%9C%80%E8%A6%81-pure-function%EF%BC%9F"><span class="toc-text">🐳 為什麼我們需要 pure function？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-%E7%82%BA%E4%BB%80%E9%BA%BC-pure-function-%E5%9C%A8-React-%E8%A3%A1%E9%9D%A2%E6%98%AF%E9%87%8D%E8%A6%81%E7%9A%84%EF%BC%9F"><span class="toc-text">🐳 為什麼 pure function 在 React 裡面是重要的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90"><span class="toc-text">🐳 參考資源</span></a></li></ol></div></aside><div class="post-content"><p>在 functional programming 當中，有一個重要的概念稱為 pure function，而這個概念在 React 的官方文件當中被提起，那麼 pure function 在 React 當中到底扮演了什麼樣的角色呢？這是本文試圖理解並回答的問題。</p>
 <span id="more"></span>
 <p>目前的文章架構如下：</p>
 <ul>
@@ -14,7 +14,7 @@
 <li>了解一點點 Redux</li>
 <li>最重要的是：了解 JavaScript</li>
 </ul>
-<h2 id="什麼是-pure-function？">什麼是 pure function？</h2>
+<h2 id="🐳-什麼是-pure-function？">🐳 什麼是 pure function？</h2>
 <blockquote>
 <p>A pure function is a function which:</p>
 <ul>
@@ -28,22 +28,22 @@
 <li>沒有產生 side effect。跟其他function不會互相干擾，不會修改/引用/存取或是依賴到到外部變數，但是當作參數傳入是可以的。</li>
 </ol>
 <p>我們就可以把這個 function 稱為 pure function。但要怎麼樣才能符合這兩個條件餒？接下來可以來細看這兩個條件的意涵。</p>
-<h3 id="條件一：相同的-input，永遠都輸出相同的-output">條件一：相同的 input，永遠都輸出相同的 output</h3>
-<h4 id="❌-不符合條件一的例子">❌ 不符合條件一的例子</h4>
+<h2 id="🐳-條件一：相同的-input，永遠都輸出相同的-output">🐳 條件一：相同的 input，永遠都輸出相同的 output</h2>
+<h3 id="❌-不符合條件一的例子">❌ 不符合條件一的例子</h3>
 <p>以下兩個 function 每次的 output 都不一樣，所以不符合條件一。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">now</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Date</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Math</span>.<span class="title function_">random</span>();</span><br></pre></td></tr></table></figure>
-<h4 id="✔️-符合條件一的例子">✔️ 符合條件一的例子</h4>
+<h3 id="✔️-符合條件一的例子">✔️ 符合條件一的例子</h3>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a, b都是整數</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">add</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">add</span>(<span class="number">1</span>, <span class="number">2</span>); <span class="comment">// =&gt; input 是 1, 2，永遠都 return 3</span></span><br><span class="line"><span class="title function_">add</span>(<span class="number">3</span>, <span class="number">5</span>); <span class="comment">// =&gt; input 是 3, 5，永遠都 return 8</span></span><br><span class="line"><span class="title function_">add</span>(<span class="number">4</span>, <span class="number">6</span>); <span class="comment">// =&gt; input 是 4, 6，永遠都 return 10</span></span><br></pre></td></tr></table></figure>
-<h3 id="條件二：沒有產生-side-effect">條件二：沒有產生 side effect</h3>
-<h4 id="什麼是-side-effect？">什麼是 side effect？</h4>
+<h2 id="🐳-條件二：沒有產生-side-effect">🐳 條件二：沒有產生 side effect</h2>
+<h3 id="🦀-什麼是-side-effect？">🦀 什麼是 side effect？</h3>
 <blockquote>
 <p>An observable side effect is any interaction with the outside world from within a function. That could be anything from changing a variable that exists outside the function, to calling another method from within a function.</p>
 <p>Note: If a pure function calls a pure function this isn’t a side effect and the calling function is still pure.</p>
 </blockquote>
 <p>簡單來說，side effect 指的就是在執行某個 function 時，該 function 的作用會影響到外面（比如全域環境或是其他 function 裡的東西），那麼「會影響到該 function 外面」這個行為，就叫做 side effect。</p>
 <p>雖然 side effect 聽起來很像是負面的名詞，但不表示 side effect 就是不好的，在程式當中，side effect 單純就只是描述在寫 function 時有可能會出現的情況或是現象而已。</p>
-<h4 id="side-effect-有哪些？">side effect 有哪些？</h4>
+<h3 id="🦀-side-effect-有哪些？">🦀 side effect 有哪些？</h3>
 <p>以下介紹一些常見的 side effect，但不限於此：</p>
 <ol>
 <li>Making a HTTP request</li>
@@ -62,13 +62,13 @@
 <div class="warning">
 <p>⚠️ <b>淺拷貝 v.s.深拷貝</b><br>你的複製真的是成功的複製嗎？有沒有可能你其實沒有複製到，所以還是會改動到原本的 data？</p>
 </div>
-<h2 id="為什麼我們需要-pure-function？">為什麼我們需要 pure function？</h2>
+<h2 id="🐳-為什麼我們需要-pure-function？">🐳 為什麼我們需要 pure function？</h2>
 <p>大概了解 pure function 的定義和什麼是 pure function 之後，就要來問：所以為什麼需要 pure function？它是用來幹嘛的？</p>
 <p><strong>1.immediately testable, maintain and refactor easier</strong></p>
 <p>「相同的 input，永遠都輸出相同的 output。」這個 pure function 的特性使它能夠非常容易地被拿來測試。</p>
 <p>當你寫的程式越來越龐大，程式碼的閱讀性與語法簡潔、易於測試、維護與除錯、易於規模化等等，都會變成要考量的重點，這時 pure function 的好處就會非常明顯──好讀、好維護、data的改動可以被追蹤、比較不會出現一些預期之外的錯誤（side effect）。</p>
 <p><strong>2.是 functional programming 很重要的 basic concept。</strong></p>
-<h2 id="為什麼-pure-function-在-React-裡面是重要的？">為什麼 pure function 在 React 裡面是重要的？</h2>
+<h2 id="🐳-為什麼-pure-function-在-React-裡面是重要的？">🐳 為什麼 pure function 在 React 裡面是重要的？</h2>
 <p>在 React 的官方文件 <a target="_blank" rel="noopener" href="https://reactjs.org/docs/components-and-props.html">Components and Props</a> 中，特別提到了一句話：</p>
 <blockquote>
 <p>All React components must act like <strong>pure functions</strong> with respect to their props.</p>
@@ -82,7 +82,7 @@
 <li>還沒有 hooks 時，在 functional component 裡面，讓 props 只能是唯讀的，使資料在修改的時候比較好追蹤和管理。</li>
 <li>A React component should be pure, this means the result of its render method should depend solely on the props and the state, and for the same properties and state render should give the same result. If render is not pure, it means it can return different results for the same input, so React cannot tell which parts of the DOM need to be updated based on the changes to the component. This is critical as the performance of React depends of this.</li>
 </ol>
-<h2 id="參考資源">參考資源</h2>
+<h2 id="🐳-參考資源">🐳 參考資源</h2>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.freecodecamp.org/news/what-is-a-pure-function-in-javascript-acb887375dfe/">What Is a Pure Function in JavaScript? - FreeCodeCamp</a></li>
 <li><a target="_blank" rel="noopener" href="https://medium.com/@jamesjefferyuk/javascript-what-are-pure-functions-4d4d5392d49c">JavaScript: What Are Pure Functions And Why Use Them? - Medium</a></li>
