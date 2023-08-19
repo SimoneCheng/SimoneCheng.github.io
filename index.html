@@ -10,4 +10,17 @@
   var options = JSON.parse(document.getElementById('maid-script').getAttribute('mermaidoptioins'));
   mermaid.initialize(options);
 }
-</script></body></html>
+</script><script>const tocTitleElement = document.querySelector('.toc-title');
+const tocContentElement = document.querySelector('.toc-content');
+if (tocTitleElement) {
+  tocTitleElement.addEventListener('click', (e) => {
+    const isActive = tocContentElement.classList.contains('active') || tocTitleElement.classList.contains('active');
+    if (isActive) {
+      tocContentElement.classList.remove('active');
+      tocTitleElement.classList.remove('active');
+    } else {
+      tocContentElement.classList.add('active');
+      tocTitleElement.classList.add('active');
+    }
+  });
+}</script></body></html>
