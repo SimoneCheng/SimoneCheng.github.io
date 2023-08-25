@@ -5,6 +5,10 @@ tags:
 - Data Structure
 ---
 
+接下來想要緩慢的把自己的 CS 相關基礎補上，多多接觸寬廣的技術知識，就先從遞迴開始吧！
+
+<!-- more -->
+
 ## 🐳 遞迴的種類
 
 如果一個 function 裡面有 self-calling 的敘述，便稱為遞迴，遞迴概略可以分為三個種類，分別是：
@@ -13,8 +17,6 @@ tags:
 - Tail Recursion
 
 下面舉一些簡單的例子來說明這三個遞迴。
-
-<!-- more -->
 
 ### 🦀 Direct Recursion
 
