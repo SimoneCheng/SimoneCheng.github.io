@@ -3,6 +3,7 @@ title: Recursion 遞迴
 date: 2023-08-14 19:49:33
 tags:
 - Data Structure
+mathjax: true
 ---
 
 接下來想要緩慢的把自己的 CS 相關基礎補上，多多接觸寬廣的技術知識，就先從遞迴開始吧！
@@ -250,7 +251,7 @@ function hanoi(n, from, to, via) {
 
 #### 河內塔的遞迴定義
 
-把上面提到的步驟用數學式來表示，T(n) 表示移動 n 個盤子時程式所需的執行次數，如果解出 T(n) 就表示解出了這個 function 的時間複雜度：
+把上面提到的步驟用數學式來表示，$T(n)$ 表示移動 $n$ 個盤子時程式所需的執行次數，如果解出 $T(n)$ 就表示解出了這個 function 的時間複雜度：
 
 $$
 \begin{equation*}
@@ -261,7 +262,7 @@ $$
 \end{equation*}
 $$
 
-解 T(n)，用展開代入法：
+解 $T(n)$，用展開代入法：
 
 $$
 \begin{equation*}
