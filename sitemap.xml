@@ -29,42 +29,6 @@
   </url>
   
   <url>
-    <loc>https://simonecheng.github.io/stack-and-queue/</loc>
-    
-    <lastmod>2024-05-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://simonecheng.github.io/tree-and-binary-tree/</loc>
-    
-    <lastmod>2024-05-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://simonecheng.github.io/writing-a-good-pull-request/</loc>
-    
-    <lastmod>2024-05-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://simonecheng.github.io/about/index.html</loc>
-    
-    <lastmod>2024-05-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://simonecheng.github.io/JS-weird-parts-1/</loc>
     
     <lastmod>2024-05-30</lastmod>
@@ -129,6 +93,42 @@
   
   <url>
     <loc>https://simonecheng.github.io/recursion/</loc>
+    
+    <lastmod>2024-05-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://simonecheng.github.io/stack-and-queue/</loc>
+    
+    <lastmod>2024-05-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://simonecheng.github.io/tree-and-binary-tree/</loc>
+    
+    <lastmod>2024-05-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://simonecheng.github.io/writing-a-good-pull-request/</loc>
+    
+    <lastmod>2024-05-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://simonecheng.github.io/about/index.html</loc>
     
     <lastmod>2024-05-30</lastmod>
     
