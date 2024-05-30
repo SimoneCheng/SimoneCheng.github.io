@@ -1,5 +1,5 @@
 ---
-title: Binary TreeTraversal  二元樹走訪
+title: Binary Tree Traversal  二元樹走訪
 description: ""
 date: 2023-12-07
 tags:
