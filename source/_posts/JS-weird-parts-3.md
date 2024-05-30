@@ -1,5 +1,6 @@
 ---
 title: 【克服JS的奇怪部分】Objects and Functions —— Part 1
+toc: true
 date: 2022-06-02 15:25:27
 tags:
 - JavaScript

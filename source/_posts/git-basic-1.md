@@ -1,5 +1,6 @@
 ---
 title: 【Git】基本原理、分支與分支合併
+toc: true
 date: 2023-01-09 17:21:05
 tag:
 - Git

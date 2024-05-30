@@ -1,5 +1,6 @@
 ---
 title: 【React】什麼是 Pure Function？在 React 當中的重要性是什麼？
+toc: true
 date: 2022-01-19 17:36:23
 tag:
 - React

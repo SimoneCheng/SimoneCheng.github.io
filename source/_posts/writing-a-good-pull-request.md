@@ -1,5 +1,6 @@
 ---
 title: Writing a Good Pull Request
+toc: true
 date: 2023-03-10 22:22:05
 tag:
 - Others

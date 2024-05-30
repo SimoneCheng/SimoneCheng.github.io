@@ -1,5 +1,6 @@
 ---
 title: 【克服JS的奇怪部分】Types and Operators
+toc: true
 date: 2022-03-15 15:28:52
 tag:
 - JavaScript

@@ -1,5 +1,6 @@
 ---
 title: Stack and Queue 堆疊與佇列
+toc: true
 date: 2023-08-25 21:02:39
 tags:
 - Data Structure

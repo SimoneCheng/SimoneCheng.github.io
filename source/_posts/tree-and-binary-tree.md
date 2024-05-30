@@ -1,5 +1,6 @@
 ---
 title: Tree and Binary Tree 樹與二元樹
+toc: true
 date: 2023-10-12 16:08:31
 tags:
 - Data Structure
