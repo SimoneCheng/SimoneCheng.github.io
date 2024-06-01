@@ -1,6 +1,6 @@
 ---
 title: Binary Tree Traversal  二元樹走訪
-description: ""
+toc: true
 date: 2023-12-07
 tags:
 - Data Structure
