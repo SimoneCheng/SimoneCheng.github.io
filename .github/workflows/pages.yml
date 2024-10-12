@@ -26,7 +26,7 @@ jobs:
     - name: Install hexo dependencies
       run: |
         cd master
-        npm
+        npm ci
         npm i -g hexo-cli 
     - name: Generate blog
       env:
