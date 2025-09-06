@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> From Zero to Bug Hunter: My LKMP Journey · 寫字練習</title><meta name="description" content="From Zero to Bug Hunter: My LKMP Journey - Simone Cheng"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/dovefavicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://simonecheng.github.io/atom.xml" title="寫字練習"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="寫字練習" type="application/atom+xml">
+</head><body><div class="wrap"><header><a class="logo-link" href="/"><img src="/dovefavicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link" href="/" target="_self">BLOG</a></li><li class="nav-list-item"><a class="nav-list-link" href="/tags/" target="_self">TAGS</a></li><li class="nav-list-item"><a class="nav-list-link" href="/archives/" target="_self">ARCHIVE</a></li><li class="nav-list-item"><a class="nav-list-link" href="/about/" target="_self">ABOUT</a></li><li class="nav-list-item"><a class="nav-list-link" href="/atom.xml" target="_self">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">From Zero to Bug Hunter: My LKMP Journey</h1><div class="post-info">Sep 5, 2025</div><div class="post-content"><p>This is a note recording my experience to the linux kernel mentorship program(LKMP).</p>
+<span id="more"></span>
+<h2 id="Why-Learning-Linux-Kernel">Why Learning Linux Kernel?</h2>
+<p>After several years as a frontend engineer, I became increasingly curious about how systems work at a deeper level. I tried learning operating systems and Linux on my own, but found it quite challenging to maintain momentum without guidance. That’s when a friend recommended the Linux Kernel Mentorship Program as an excellent opportunity to both learn and contribute to the kernel.</p>
+<h2 id="Getting-Into-LKMP">Getting Into LKMP</h2>
+<p>Before getting into LKMP, there are prerequisite tasks that need to be completed. For me, these tasks serve as an excellent guide for a kernel newbie trying to navigate the massive kernel source code. Whether or not you’re selected for the mentorship program, I strongly encourage anyone new to the kernel to complete all these tasks.</p>
+<p>Details about how to apply, application deadlines, and prerequisites can all be found on the <a target="_blank" rel="noopener" href="https://wiki.linuxfoundation.org/lkmp">Linux Kernel Mentorship Program website</a>. If I had to give one piece of advice, it would be to start working on the prerequisites as early as possible. Even if you complete them after the official deadline, don’t give up —— just keep working on them until a mentor reviews your submissions. You never know when an opportunity might come your way.</p>
+<h2 id="What-I-Learned-From-LKMP">What I Learned From LKMP</h2>
+<p>HOW and WHERE to start reading kernel source code? That is the first question that come to mind after I download the kernel source tree. It is honestly quite intimidating at first glance. This is my first time diving deep into system programming —— before this, I am just a web developer without even a computer science degree, and I have only learned C for about three weeks.</p>
+<p>Fortunately, I have an amazing mentor, Shuah Khan, along with kernel documentation and a supportive community to guide me through the learning process.</p>
+<p>There are several ways can contribute to the kernel:</p>
+<blockquote>
+<ol>
+<li>Fix documentation typos, grammar mistakes, and other errors</li>
+<li>Resolve compilation warnings or build errors</li>
+<li>Use static analysis tools (Coverity, Sparse, Smatch) to identify potential issues</li>
+<li>Fix bugs discovered through automated testing tools like Syzbot</li>
+</ol>
+</blockquote>
+<p>Through working on these types of contributions, I gain experience in several key areas, and I will discuss each in detail:</p>
+<h3 id="Reading-Mailing-Lists">Reading Mailing Lists</h3>
+<p>Learning to navigate the kernel mailing lists was honestly quite confusing at first. There are so many different mailing lists, and the discussions can get really fast.</p>
+<p>But I quickly realize that <a target="_blank" rel="noopener" href="http://lore.kernel.org">lore.kernel.org</a> became my best friend. Before I even think about working on any bug or issue, I always check the mailing lists first to see if someone already reported it or fixed it.</p>
+<p>The search function on lore is actually pretty powerful once you figure it out. I learned to use some basic search tricks:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s: for searching subject lines</span><br><span class="line">b: for searching the actual email content</span><br><span class="line">f: to find emails from specific people</span><br><span class="line">d: to search by date ranges</span><br></pre></td></tr></table></figure>
+<p>For example, if I find a compilation warning, I will search something like <code>s:&quot;the-function-name&quot;</code> to see if anyone already talk about it. Sometimes I find that someone already sent a patch for the exact same issue.</p>
+<p>The threading feature is also really helpful. You can follow entire conversations about bugs and see how maintainers think about problems. It’s like getting a behind-the-scenes look at how kernel development really works.</p>
+<h3 id="Using-b4-to-Send-Patches">Using b4 to Send Patches</h3>
+<p>At the beginning, I was using <code>git send-email</code> to submit patches. Even though I was already using <code>get_maintainer.pl</code> to find the right people, I still had to manually type out all the email addresses in the git send-email command like <code>git send-email --to=xxx --cc=xxx --cc=xxx</code>. It was tedious and error-prone.</p>
+<p>Then I discover b4, and it simplifys everything! The workflow becomes much easier —— just <code>b4 send</code> and it takes care of everything. No more copying and pasting email addresses or worrying about typos in the recipient list.</p>
+<h3 id="Static-Analysis-vs-Dynamic-Analysis">Static Analysis vs. Dynamic Analysis</h3>
+<p>Before LKMP, I honestly have no idea what static analysis or dynamic analysis means. Through using various tools during the mentorship, I finally understand the difference between these two approaches.</p>
+<p>Since I’m still quite new to kernel development, I found myself contributing mostly to static analysis findings. The reports are easier for me to understand and fix. When Sparse flags an incorrect function annotation or Smatch finds a potential null pointer dereference, I can usually trace through the code and understand what needs to be fixed.</p>
+<p>Dynamic analysis reports from Syzbot, however, are much more challenging for me to interpret. They often involve complex crash dumps and require deeper understanding of kernel internals to debug properly. I’m still learning how to read these reports effectively.</p>
+<h3 id="Trying-to-Understand-the-Kernel-Internals">Trying to Understand the Kernel Internals</h3>
+<p>One of the biggest challenges for me is learning how to actually understand what the kernel code is doing. Coming from frontend development, diving into kernel internals feels like learning a completely different language.</p>
+<p>My approach to learning: start with simple patches, then try to understand the bigger picture. When I worked on a simple patch - like replacing a ternary operator with a helper function - I didn’t just fix it and move on. Instead, I used it as a starting point to trace through the code.</p>
+<p>For example, when I modified a function, I started tracing backwards to see how it gets called, then looked up the relevant documentation to understand what that subsystem is supposed to do. This helped me see how my small change fits into the larger kernel architecture.</p>
+<p>But honestly, there’s still so much I don’t understand. The kernel is massive, and each subsystem has its own complexities. Sometimes I feel like I’m just scratching the surface, but at least now I have a method for gradually learning more about the parts I’m working on.</p>
+<h2 id="What’s-Next">What’s Next?</h2>
+<p>For me, joining LKMP was just the starting point of learning the Linux kernel and entering the open source community. Through this mentorship program, I learned that although the Linux kernel is huge and complex, and it’s natural to worry about whether you can fit into the community, it actually welcomes everyone who wants to learn and contribute.</p>
+<p>Moving forward, I plan to continue learning. I want to improve my C programming skills, read more related books, and watch related webinars. LKMP gave me the confidence that I can actually understand this stuff, even though I lack knowledge of operating systems.</p>
+<p>Most importantly, I learned that you don’t need to be a expert to start contributing. You just need curiosity, patience, and willingness to ask questions when you’re stuck.</p>
+<h2 id="References">References</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://wiki.linuxfoundation.org/lkmp">Linux Kernel Mentorship Program Website</a></li>
+<li><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1Nyfdy2OqSjKr0DnlhFtMx4NR6uTs4swq/view">Linux kernel Bug Fixing Mentorship Program Learning Resources</a></li>
+<li><a target="_blank" rel="noopener" href="https://hackerbikepacker.com/syzbot">Fixing bugs in the Linux kernel with Syzbot, Qemu and GDB</a></li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a class="next" href="/cs-master-program-entrace/">NEXT</a></div><div class="copyright"><p>© 2021 - 2025 <a href="https://simonecheng.github.io">Simone Cheng</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/achjqz/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script type="text/javascript" id="maid-script" src="https://unpkg.com/mermaid@10.3.1/dist/mermaid.min.js?v=undefined"></script><script>if (window.mermaid) {
+  var options = JSON.parse(document.getElementById('maid-script').getAttribute('mermaidoptioins'));
+  mermaid.initialize(options);
+}
+</script><script>const tocTitleElement = document.querySelector('.toc-title');
+const tocContentElement = document.querySelector('.toc-content');
+if (tocTitleElement) {
+  tocTitleElement.addEventListener('click', (e) => {
+    const isActive = tocContentElement.classList.contains('active') || tocTitleElement.classList.contains('active');
+    if (isActive) {
+      tocContentElement.classList.remove('active');
+      tocTitleElement.classList.remove('active');
+    } else {
+      tocContentElement.classList.add('active');
+      tocTitleElement.classList.add('active');
+    }
+  });
+}</script></body></html>
