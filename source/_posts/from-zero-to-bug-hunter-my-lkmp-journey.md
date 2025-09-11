@@ -87,3 +87,4 @@ Most importantly, I learned that you don't need to be a expert to start contribu
 - [Linux Kernel Mentorship Program Website](https://wiki.linuxfoundation.org/lkmp)
 - [Linux kernel Bug Fixing Mentorship Program Learning Resources](https://drive.google.com/file/d/1Nyfdy2OqSjKr0DnlhFtMx4NR6uTs4swq/view)
 - [Fixing bugs in the Linux kernel with Syzbot, Qemu and GDB](https://hackerbikepacker.com/syzbot)
+- [ONE simple and rewarding way to contribute to the Linux Kernel: Fix Coverity issues – Gustavo A. R. Silva](https://embeddedor.com/blog/2024/09/28/one-simple-and-rewarding-way-to-contribute-to-the-linux-kernel-fix-coverity-issues/)
