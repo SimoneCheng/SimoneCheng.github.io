@@ -1,0 +1,640 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Bomb Lab 解題筆記 · 寫字練習</title><meta name="description" content="Bomb Lab 解題筆記 - Simone Cheng"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/dovefavicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://simonecheng.github.io/atom.xml" title="寫字練習"><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="寫字練習" type="application/atom+xml">
+</head><body><div class="wrap"><header><a class="logo-link" href="/"><img src="/dovefavicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link" href="/" target="_self">BLOG</a></li><li class="nav-list-item"><a class="nav-list-link" href="/tags/" target="_self">TAGS</a></li><li class="nav-list-item"><a class="nav-list-link" href="/archives/" target="_self">ARCHIVE</a></li><li class="nav-list-item"><a class="nav-list-link" href="/about/" target="_self">ABOUT</a></li><li class="nav-list-item"><a class="nav-list-link" href="/atom.xml" target="_self">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Bomb Lab 解題筆記</h1><div class="post-info">Dec 25, 2025<a class="tag-title" href="/tags/CSAPP/">#CSAPP</a><a class="tag-title" href="/tags/System-Programming/">#System Programming</a></div><aside class="toc"><div class="toc-title"><div class="text">目錄</div><div class="chevron-down-icon"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"/></svg></div></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-GDB-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="toc-text">🐳 GDB 常用指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E6%8E%A7%E5%88%B6%E5%9F%B7%E8%A1%8C"><span class="toc-text">🦀 控制執行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E6%9F%A5%E7%9C%8B%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="toc-text">🦀 查看程式碼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E6%9F%A5%E7%9C%8B%E8%B3%87%E6%96%99"><span class="toc-text">🦀 查看資料</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E5%85%B6%E4%BB%96"><span class="toc-text">🦀 其他</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-x86-64-Assembly-%E5%9F%BA%E7%A4%8E%E7%9F%A5%E8%AD%98"><span class="toc-text">🐳 x86-64 Assembly 基礎知識</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E5%B8%B8%E7%94%A8%E6%9A%AB%E5%AD%98%E5%99%A8%E8%88%87%E7%94%A8%E9%80%94"><span class="toc-text">🦀 常用暫存器與用途</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E6%8C%87%E4%BB%A4%E8%AA%9E%E6%B3%95%EF%BC%88AT-T-%E6%A0%BC%E5%BC%8F%EF%BC%89"><span class="toc-text">🦀 指令語法（AT&amp;T 格式）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E8%A8%98%E6%86%B6%E9%AB%94%E5%AD%98%E5%8F%96%E8%AA%9E%E6%B3%95"><span class="toc-text">🦀 記憶體存取語法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E6%AF%94%E8%BC%83%E5%92%8C%E8%B7%B3%E8%BA%8D%E6%8C%87%E4%BB%A4"><span class="toc-text">🦀 比較和跳躍指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%B7%E6%9A%AB%E5%AD%98%E5%99%A8%E6%98%AF%E4%BD%8D%E5%9D%80%E9%82%84%E6%98%AF%E5%80%BC"><span class="toc-text">🦀 如何判斷暫存器是位址還是值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Phase-1"><span class="toc-text">🐳 Phase 1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E8%A7%A3%E9%A1%8C%E7%AD%96%E7%95%A5"><span class="toc-text">🦀 解題策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E8%A7%A3%E6%9E%90%E6%AD%A5%E9%A9%9F"><span class="toc-text">🦀 解析步驟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Phase-2"><span class="toc-text">🐳 Phase 2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E8%A7%A3%E9%A1%8C%E7%AD%96%E7%95%A5-2"><span class="toc-text">🦀 解題策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E8%A7%A3%E6%9E%90%E6%AD%A5%E9%A9%9F-2"><span class="toc-text">🦀 解析步驟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Phase-3"><span class="toc-text">🐳 Phase 3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E8%A7%A3%E9%A1%8C%E7%AD%96%E7%95%A5-3"><span class="toc-text">🦀 解題策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E8%A7%A3%E6%9E%90%E6%AD%A5%E9%A9%9F-3"><span class="toc-text">🦀 解析步驟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Phase-4"><span class="toc-text">🐳 Phase 4</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E8%A7%A3%E9%A1%8C%E7%AD%96%E7%95%A5-4"><span class="toc-text">🦀 解題策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E8%A7%A3%E6%9E%90%E6%AD%A5%E9%A9%9F-4"><span class="toc-text">🦀 解析步驟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Phase-5"><span class="toc-text">🐳 Phase 5</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E8%A7%A3%E9%A1%8C%E9%82%8F%E8%BC%AF"><span class="toc-text">🦀 解題邏輯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E9%97%9C%E9%8D%B5%E6%8C%87%E4%BB%A4%E8%A7%A3%E6%9E%90"><span class="toc-text">🦀 關鍵指令解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E8%A7%A3%E9%A1%8C%E6%AD%A5%E9%A9%9F"><span class="toc-text">🦀 解題步驟</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E6%96%B0%E5%AD%B8%E5%88%B0%E7%9A%84%E6%8C%87%E4%BB%A4"><span class="toc-text">🦀 新學到的指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Phase-6"><span class="toc-text">🐳 Phase 6</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E8%A7%A3%E9%A1%8C%E9%82%8F%E8%BC%AF-2"><span class="toc-text">🦀 解題邏輯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E5%AE%8C%E6%95%B4-Assembly-Code-%E5%88%86%E6%9E%90"><span class="toc-text">🦀 完整 Assembly Code 分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E8%A7%A3%E9%A1%8C%E6%AD%A5%E9%A9%9F-2"><span class="toc-text">🦀 解題步驟</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5%E6%95%B4%E7%90%86"><span class="toc-text">🦀 重要概念整理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-GDB-%E9%99%A4%E9%8C%AF%E6%8A%80%E5%B7%A7"><span class="toc-text">🦀 GDB 除錯技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E6%96%B0%E5%AD%B8%E5%88%B0%E7%9A%84%E6%8C%87%E4%BB%A4-2"><span class="toc-text">🦀 新學到的指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A6%80-%E5%B0%8F%E7%B5%90"><span class="toc-text">🦀 小結</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B3-Reference"><span class="toc-text">🐳 Reference</span></a></li></ol></div></aside><div class="post-content"><h2 id="🐳-GDB-常用指令">🐳 GDB 常用指令</h2>
+<h3 id="🦀-控制執行">🦀 控制執行</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">break</span> phase_1        <span class="comment"># 在函數設中斷點</span></span><br><span class="line"><span class="built_in">break</span> *0x400ee0      <span class="comment"># 在特定位址設中斷點</span></span><br><span class="line">run                  <span class="comment"># 開始執行</span></span><br><span class="line">run &lt; solution.txt   <span class="comment"># 用檔案輸入執行</span></span><br><span class="line"><span class="built_in">continue</span> (c)         <span class="comment"># 繼續執行到下個中斷點</span></span><br><span class="line">ni                   <span class="comment"># 執行一條指令（不進入函數）</span></span><br><span class="line">si                   <span class="comment"># 執行一條指令（會進入函數）</span></span><br></pre></td></tr></table></figure>
+<h3 id="🦀-查看程式碼">🦀 查看程式碼</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">disassemble          <span class="comment"># 看當前函數的組語</span></span><br><span class="line">disassemble phase_2  <span class="comment"># 看指定函數的組語</span></span><br><span class="line">layout asm           <span class="comment"># 開啟組語視窗（視覺化）</span></span><br><span class="line">layout regs          <span class="comment"># 顯示暫存器視窗</span></span><br><span class="line">ctrl + x, 再按 a      <span class="comment"># 退出 layout</span></span><br><span class="line">x/i <span class="variable">$rip</span>             <span class="comment"># 看當前要執行的指令</span></span><br></pre></td></tr></table></figure>
+<h3 id="🦀-查看資料">🦀 查看資料</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span> <span class="variable">$rax</span>               <span class="comment"># 看暫存器的值（十進位）</span></span><br><span class="line"><span class="built_in">print</span>/x <span class="variable">$rax</span>             <span class="comment"># 看暫存器的值（十六進位）</span></span><br><span class="line">info registers           <span class="comment"># 看所有暫存器</span></span><br><span class="line">info registers rdi rsi   <span class="comment"># 只顯示特定暫存器</span></span><br><span class="line">x/d <span class="variable">$rsp</span>                 <span class="comment"># 看記憶體內容（十進位，預設 8 bytes）</span></span><br><span class="line">x/dw <span class="variable">$rsp</span>                <span class="comment"># 看記憶體內容（十進位，4 bytes = int）</span></span><br><span class="line">x/6d <span class="variable">$rsp</span>                <span class="comment"># 看 6 個數字</span></span><br><span class="line">x/x <span class="variable">$rsp</span>                 <span class="comment"># 看記憶體內容（十六進位）</span></span><br><span class="line">x/s 0x402400             <span class="comment"># 看記憶體內容（字串）</span></span><br><span class="line">x/i <span class="variable">$rip</span>                 <span class="comment"># 看記憶體內容（指令）</span></span><br><span class="line">x/8a 0x402470            <span class="comment"># 看 8 個位址（用於 jump table）</span></span><br><span class="line">backtrace                <span class="comment"># 顯示函數呼叫堆疊（call stack），看目前在哪個函數、是被誰呼叫的</span></span><br><span class="line">bt                       <span class="comment"># 顯示函數呼叫堆疊（call stack），看目前在哪個函數、是被誰呼叫的</span></span><br><span class="line"><span class="built_in">where</span>                    <span class="comment"># 顯示函數呼叫堆疊（call stack），看目前在哪個函數、是被誰呼叫的</span></span><br></pre></td></tr></table></figure>
+<h3 id="🦀-其他">🦀 其他</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">quit (q)             <span class="comment"># 離開 gdb</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="🐳-x86-64-Assembly-基礎知識">🐳 x86-64 Assembly 基礎知識</h2>
+<h3 id="🦀-常用暫存器與用途">🦀 常用暫存器與用途</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">函數參數傳遞（calling convention）：</span><br><span class="line">%rdi  →  第 1 個參數</span><br><span class="line">%rsi  →  第 2 個參數</span><br><span class="line">%rdx  →  第 3 個參數</span><br><span class="line">%rcx  →  第 4 個參數</span><br><span class="line">%r8   →  第 5 個參數</span><br><span class="line">%r9   →  第 6 個參數</span><br><span class="line"></span><br><span class="line">其他重要暫存器：</span><br><span class="line">%rax  →  函數返回值</span><br><span class="line">%rsp  →  stack pointer（指向 stack 頂端）</span><br><span class="line">%rbp  →  base pointer（stack frame 的基準）</span><br><span class="line">%rip  →  instruction pointer（下一條要執行的指令）</span><br></pre></td></tr></table></figure>
+<h3 id="🦀-指令語法（AT-T-格式）">🦀 指令語法（AT&amp;T 格式）</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov    %rsp,%rsi    # 把 %rsp 的值複製到 %rsi</span><br><span class="line">                    # 格式：mov 來源, 目的地</span><br><span class="line">add    %eax,%eax    # %eax = %eax + %eax（乘以 2）</span><br></pre></td></tr></table></figure>
+<h3 id="🦀-記憶體存取語法">🦀 記憶體存取語法</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(%rsp)              # 取 %rsp 指向的記憶體內容</span><br><span class="line">0x4(%rsp)           # 取 %rsp + 4 的記憶體內容</span><br><span class="line">-0x4(%rbx)          # 取 %rbx - 4 的記憶體內容</span><br><span class="line">0x402470(,%rax,8)   # 計算：0x402470 + %rax * 8</span><br></pre></td></tr></table></figure>
+<h3 id="🦀-比較和跳躍指令">🦀 比較和跳躍指令</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cmp    %eax,(%rbx)  # 比較 (%rbx) 和 %eax</span><br><span class="line">je     地址          # jump if equal（相等就跳）</span><br><span class="line">jne    地址          # jump if not equal（不相等就跳）</span><br><span class="line">jg     地址          # jump if greater（大於就跳）</span><br><span class="line">ja     地址          # jump if above（無號數大於）</span><br><span class="line">jbe    地址          # jump if below or equal（小於等於就跳）</span><br></pre></td></tr></table></figure>
+<h3 id="🦀-如何判斷暫存器是位址還是值">🦀 如何判斷暫存器是位址還是值</h3>
+<ol>
+<li>看有沒有括號</li>
+</ol>
+<ul>
+<li>有括號 <code>()</code> → 當作位址使用</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov (%rsp),%eax    # 從 %rsp 指向的位址讀資料</span><br></pre></td></tr></table></figure>
+<ul>
+<li>沒括號 → 直接使用值</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov %rsp,%eax      # 把 %rsp 的值（位址本身）複製給 %eax</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>觀察使用模式</li>
+</ol>
+<ul>
+<li><code>add $0x4,%rbx</code> — 指標遞增 4 bytes → %rbx 是位址</li>
+<li><code>add %eax,%eax</code> — 數值運算 → %eax 是值</li>
+<li><code>lea 0x4(%rsp),%rbx</code> — Load Effective Address → 計算位址存到 %rbx</li>
+</ul>
+<hr>
+<h2 id="🐳-Phase-1">🐳 Phase 1</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">break</span> phase_1</span><br><span class="line">Breakpoint 1 at 0x400ee0</span><br><span class="line">(gdb) run</span><br><span class="line">Starting program: /home/simone/WorkSpace/ISLab/CSAPP/bomb/bomb </span><br><span class="line">This GDB supports auto-downloading debuginfo from the following URLs:</span><br><span class="line">  &lt;https://debuginfod.ubuntu.com&gt;</span><br><span class="line">Enable debuginfod <span class="keyword">for</span> this session? (y or [n]) y</span><br><span class="line">Debuginfod has been enabled.</span><br><span class="line">To make this setting permanent, add <span class="string">&#x27;set debuginfod enabled on&#x27;</span> to .gdbinit.</span><br><span class="line">[Thread debugging using libthread_db enabled]</span><br><span class="line">Using host libthread_db library <span class="string">&quot;/lib/x86_64-linux-gnu/libthread_db.so.1&quot;</span>.</span><br><span class="line">Welcome to my fiendish little bomb. You have 6 phases with</span><br><span class="line"><span class="built_in">which</span> to blow yourself up. Have a <span class="built_in">nice</span> day!</span><br><span class="line">aaa</span><br><span class="line"></span><br><span class="line">Breakpoint 1, 0x0000000000400ee0 <span class="keyword">in</span> phase_1 ()</span><br><span class="line">(gdb) disassemble</span><br><span class="line">Dump of assembler code <span class="keyword">for</span> <span class="keyword">function</span> phase_1:</span><br><span class="line">=&gt; 0x0000000000400ee0 &lt;+0&gt;:    sub    <span class="variable">$0x8</span>,%rsp</span><br><span class="line">   0x0000000000400ee4 &lt;+4&gt;:    mov    <span class="variable">$0x402400</span>,%esi</span><br><span class="line">   0x0000000000400ee9 &lt;+9&gt;:    call   0x401338 &lt;strings_not_equal&gt;</span><br><span class="line">   0x0000000000400eee &lt;+14&gt;:    <span class="built_in">test</span>   %eax,%eax</span><br><span class="line">   0x0000000000400ef0 &lt;+16&gt;:    je     0x400ef7 &lt;phase_1+23&gt;</span><br><span class="line">   0x0000000000400ef2 &lt;+18&gt;:    call   0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000400ef7 &lt;+23&gt;:    add    <span class="variable">$0x8</span>,%rsp</span><br><span class="line">   0x0000000000400efb &lt;+27&gt;:    ret</span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
+<h3 id="🦀-解題策略">🦀 解題策略</h3>
+<p>這是最簡單的 phase，主要是字串比較。</p>
+<h3 id="🦀-解析步驟">🦀 解析步驟</h3>
+<ol>
+<li>
+<p>找關鍵參數</p>
+<ul>
+<li>觀察 <code>mov $0x402400,%esi</code> 這行</li>
+<li><code>%esi</code> 是第二個參數，<code>0x402400</code> 是一個位址</li>
+</ul>
+</li>
+<li>
+<p>查看位址內容</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) x/s 0x402400</span><br><span class="line">0x402400: <span class="string">&quot;Border relations with Canada have never been better.&quot;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>理解程式邏輯
+<ul>
+<li>呼叫 <code>strings_not_equal</code> 函數比較兩個字串</li>
+<li>第一個參數（<code>%rdi</code>）是你的輸入</li>
+<li>第二個參數（<code>%rsi</code>）是 <code>0x402400</code> 的字串</li>
+<li>如果 <code>%eax == 0</code>（相等），就通過</li>
+<li>否則爆炸</li>
+</ul>
+</li>
+</ol>
+<h2 id="🐳-Phase-2">🐳 Phase 2</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">break</span> phase_2</span><br><span class="line">Breakpoint 1 at 0x400efc</span><br><span class="line">(gdb) run &lt; solution.txt </span><br><span class="line">Starting program: /home/nvidia/Desktop/bomb/bomb &lt; solution.txt</span><br><span class="line">Welcome to my fiendish little bomb. You have 6 phases with</span><br><span class="line"><span class="built_in">which</span> to blow yourself up. Have a <span class="built_in">nice</span> day!</span><br><span class="line">Phase 1 defused. How about the next one?</span><br><span class="line"></span><br><span class="line">Breakpoint 1, 0x0000000000400efc <span class="keyword">in</span> phase_2 ()</span><br><span class="line">(gdb) disassemble</span><br><span class="line">Dump of assembler code <span class="keyword">for</span> <span class="keyword">function</span> phase_2:</span><br><span class="line">=&gt; 0x0000000000400efc &lt;+0&gt;:	push   %rbp</span><br><span class="line">   0x0000000000400efd &lt;+1&gt;:	push   %rbx</span><br><span class="line">   0x0000000000400efe &lt;+2&gt;:	sub    <span class="variable">$0x28</span>,%rsp</span><br><span class="line">   0x0000000000400f02 &lt;+6&gt;:	mov    %rsp,%rsi</span><br><span class="line">   0x0000000000400f05 &lt;+9&gt;:	callq  0x40145c &lt;read_six_numbers&gt;</span><br><span class="line">   0x0000000000400f0a &lt;+14&gt;:	cmpl   <span class="variable">$0x1</span>,(%rsp)</span><br><span class="line">   0x0000000000400f0e &lt;+18&gt;:	je     0x400f30 &lt;phase_2+52&gt;</span><br><span class="line">   0x0000000000400f10 &lt;+20&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000400f15 &lt;+25&gt;:	jmp    0x400f30 &lt;phase_2+52&gt;</span><br><span class="line">   0x0000000000400f17 &lt;+27&gt;:	mov    -0x4(%rbx),%eax</span><br><span class="line">   0x0000000000400f1a &lt;+30&gt;:	add    %eax,%eax</span><br><span class="line">   0x0000000000400f1c &lt;+32&gt;:	cmp    %eax,(%rbx)</span><br><span class="line">   0x0000000000400f1e &lt;+34&gt;:	je     0x400f25 &lt;phase_2+41&gt;</span><br><span class="line">   0x0000000000400f20 &lt;+36&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000400f25 &lt;+41&gt;:	add    <span class="variable">$0x4</span>,%rbx</span><br><span class="line">   0x0000000000400f29 &lt;+45&gt;:	cmp    %rbp,%rbx</span><br><span class="line">   0x0000000000400f2c &lt;+48&gt;:	jne    0x400f17 &lt;phase_2+27&gt;</span><br><span class="line">   0x0000000000400f2e &lt;+50&gt;:	jmp    0x400f3c &lt;phase_2+64&gt;</span><br><span class="line">   0x0000000000400f30 &lt;+52&gt;:	lea    0x4(%rsp),%rbx</span><br><span class="line">   0x0000000000400f35 &lt;+57&gt;:	lea    0x18(%rsp),%rbp</span><br><span class="line">   0x0000000000400f3a &lt;+62&gt;:	jmp    0x400f17 &lt;phase_2+27&gt;</span><br><span class="line">   0x0000000000400f3c &lt;+64&gt;:	add    <span class="variable">$0x28</span>,%rsp</span><br><span class="line">   0x0000000000400f40 &lt;+68&gt;:	pop    %rbx</span><br><span class="line">   0x0000000000400f41 &lt;+69&gt;:	pop    %rbp</span><br><span class="line">   0x0000000000400f42 &lt;+70&gt;:	retq   </span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
+<h3 id="🦀-解題策略-2">🦀 解題策略</h3>
+<p>這個 phase 檢查 6 個數字是否符合特定規律。需要理解迴圈結構。</p>
+<h3 id="🦀-解析步驟-2">🦀 解析步驟</h3>
+<ol>
+<li>
+<p>理解輸入</p>
+<ul>
+<li>函數 <code>read_six_numbers</code> 會讀取 6 個整數</li>
+<li>這些數字存在 stack 上（從 <code>%rsp</code> 開始，每個佔 4 bytes）</li>
+</ul>
+</li>
+<li>
+<p>第一個數字的檢查</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmpl   $0x1,(%rsp)    # 比較 (%rsp) 和 1</span><br><span class="line">je     0x400f30       # 相等就繼續</span><br></pre></td></tr></table></figure>
+<p>→ 第一個數字必須是 1</p>
+<ol start="3">
+<li>迴圈邏輯分析（關鍵）</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov    -0x4(%rbx),%eax    # 取前一個數字</span><br><span class="line">add    %eax,%eax          # %eax = %eax + %eax（乘以 2！）</span><br><span class="line">cmp    %eax,(%rbx)        # 比較當前數字和 %eax</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>add %eax,%eax</code> 等於把 %eax 乘以 2</li>
+<li>每個數字必須是前一個數字的 <strong>2 倍</strong></li>
+</ul>
+<ol start="4">
+<li>驗證推理</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(gdb) x/6d <span class="variable">$rsp</span>      <span class="comment"># 查看輸入的 6 個數字</span></span><br><span class="line">(gdb) ni             <span class="comment"># 單步執行</span></span><br><span class="line">(gdb) <span class="built_in">print</span> <span class="variable">$eax</span>     <span class="comment"># 觀察計算結果</span></span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>推算數列
+<ul>
+<li>第 1 個：1</li>
+<li>第 2 個：1 × 2 = 2</li>
+<li>第 3 個：2 × 2 = 4</li>
+<li>第 4 個：4 × 2 = 8</li>
+<li>第 5 個：8 × 2 = 16</li>
+<li>第 6 個：16 × 2 = 32</li>
+</ul>
+</li>
+</ol>
+<h2 id="🐳-Phase-3">🐳 Phase 3</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">break</span> phase_3</span><br><span class="line">Breakpoint 1 at 0x400f43</span><br><span class="line">(gdb) run solution.txt </span><br><span class="line">Starting program: /home/nvidia/Desktop/bomb/bomb solution.txt</span><br><span class="line">Welcome to my fiendish little bomb. You have 6 phases with</span><br><span class="line"><span class="built_in">which</span> to blow yourself up. Have a <span class="built_in">nice</span> day!</span><br><span class="line">Phase 1 defused. How about the next one?</span><br><span class="line">That<span class="string">&#x27;s number 2.  Keep going!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Breakpoint 1, 0x0000000000400f43 in phase_3 ()</span></span><br><span class="line"><span class="string">(gdb) layout asm</span></span><br><span class="line"><span class="string">(gdb) disassemble</span></span><br><span class="line"><span class="string">No frame selected.</span></span><br><span class="line"><span class="string">(gdb) run solution.txt </span></span><br><span class="line"><span class="string">Starting program: /home/nvidia/Desktop/bomb/bomb solution.txt</span></span><br><span class="line"><span class="string">Welcome to my fiendish little bomb. You have 6 phases with</span></span><br><span class="line"><span class="string">which to blow yourself up. Have a nice day!</span></span><br><span class="line"><span class="string">Phase 1 defused. How about the next one?</span></span><br><span class="line"><span class="string">That&#x27;</span>s number 2.  Keep going!</span><br><span class="line"></span><br><span class="line">Breakpoint 1, 0x0000000000400f43 <span class="keyword">in</span> phase_3 ()</span><br><span class="line">(gdb) disassemble</span><br><span class="line">Dump of assembler code <span class="keyword">for</span> <span class="keyword">function</span> phase_3:</span><br><span class="line">=&gt; 0x0000000000400f43 &lt;+0&gt;:	sub    <span class="variable">$0x18</span>,%rsp</span><br><span class="line">   0x0000000000400f47 &lt;+4&gt;:	lea    0xc(%rsp),%rcx</span><br><span class="line">   0x0000000000400f4c &lt;+9&gt;:	lea    0x8(%rsp),%rdx</span><br><span class="line">   0x0000000000400f51 &lt;+14&gt;:	mov    <span class="variable">$0x4025cf</span>,%esi</span><br><span class="line">   0x0000000000400f56 &lt;+19&gt;:	mov    <span class="variable">$0x0</span>,%eax</span><br><span class="line">   0x0000000000400f5b &lt;+24&gt;:	callq  0x400bf0 &lt;__isoc99_sscanf@plt&gt;</span><br><span class="line">   0x0000000000400f60 &lt;+29&gt;:	cmp    <span class="variable">$0x1</span>,%eax</span><br><span class="line">   0x0000000000400f63 &lt;+32&gt;:	jg     0x400f6a &lt;phase_3+39&gt;</span><br><span class="line">   0x0000000000400f65 &lt;+34&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000400f6a &lt;+39&gt;:	cmpl   <span class="variable">$0x7</span>,0x8(%rsp)</span><br><span class="line">   0x0000000000400f6f &lt;+44&gt;:	ja     0x400fad &lt;phase_3+106&gt;</span><br><span class="line">   0x0000000000400f71 &lt;+46&gt;:	mov    0x8(%rsp),%eax</span><br><span class="line">   0x0000000000400f75 &lt;+50&gt;:	jmpq   *0x402470(,%rax,8)</span><br><span class="line">   0x0000000000400f7c &lt;+57&gt;:	mov    <span class="variable">$0xcf</span>,%eax</span><br><span class="line">   0x0000000000400f81 &lt;+62&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400f83 &lt;+64&gt;:	mov    <span class="variable">$0x2c3</span>,%eax</span><br><span class="line">   0x0000000000400f88 &lt;+69&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400f8a &lt;+71&gt;:	mov    <span class="variable">$0x100</span>,%eax</span><br><span class="line">   0x0000000000400f8f &lt;+76&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400f91 &lt;+78&gt;:	mov    <span class="variable">$0x185</span>,%eax</span><br><span class="line">   0x0000000000400f96 &lt;+83&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400f98 &lt;+85&gt;:	mov    <span class="variable">$0xce</span>,%eax</span><br><span class="line">   0x0000000000400f9d &lt;+90&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400f9f &lt;+92&gt;:	mov    <span class="variable">$0x2aa</span>,%eax</span><br><span class="line">   0x0000000000400fa4 &lt;+97&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400fa6 &lt;+99&gt;:	mov    <span class="variable">$0x147</span>,%eax</span><br><span class="line">   0x0000000000400fab &lt;+104&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400fad &lt;+106&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000400fb2 &lt;+111&gt;:	mov    <span class="variable">$0x0</span>,%eax</span><br><span class="line">   0x0000000000400fb7 &lt;+116&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400fb9 &lt;+118&gt;:	mov    <span class="variable">$0x137</span>,%eax</span><br><span class="line">   0x0000000000400fbe &lt;+123&gt;:	cmp    0xc(%rsp),%eax</span><br><span class="line">   0x0000000000400fc2 &lt;+127&gt;:	je     0x400fc9 &lt;phase_3+134&gt;</span><br><span class="line">   0x0000000000400fc4 &lt;+129&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000400fc9 &lt;+134&gt;:	add    <span class="variable">$0x18</span>,%rsp</span><br><span class="line">   0x0000000000400fcd &lt;+138&gt;:	retq   </span><br><span class="line">End of assembler dump.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="🦀-解題策略-3">🦀 解題策略</h3>
+<p>這個 phase 使用 switch-case 結構，根據第一個數字決定第二個數字的值。有 8 組可能的答案。</p>
+<h3 id="🦀-解析步驟-3">🦀 解析步驟</h3>
+<ol>
+<li>理解輸入格式</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) x/s 0x4025cf</span><br><span class="line">0x4025cf: <span class="string">&quot;%d %d&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>sscanf</code> 讀取兩個整數</li>
+<li>參數準備：
+<ul>
+<li><code>%rdi</code>：輸入字串（你打的內容）</li>
+<li><code>%rsi</code>：格式字串 <code>&quot;%d %d&quot;</code></li>
+<li><code>%rdx</code>：第一個整數的儲存位址（<code>%rsp+8</code>）</li>
+<li><code>%rcx</code>：第二個整數的儲存位址（<code>%rsp+12</code>）</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>第一個數字的範圍限制</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmpl   $0x7,0x8(%rsp)    # 比較第一個數字和 7</span><br><span class="line">ja     0x400fad          # 如果大於就爆炸</span><br></pre></td></tr></table></figure>
+<p>→ 第一個數字必須 <code>&lt;=</code> 7（即 0-7）</p>
+<ol start="3">
+<li>Jump Table 的運作原理</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmpq   *0x402470(,%rax,8)</span><br></pre></td></tr></table></figure>
+<p>這是間接跳躍，實現 switch-case：</p>
+<ul>
+<li><code>%rax</code> = 第一個數字（0-7）</li>
+<li>計算位址：<code>0x402470 + %rax * 8</code></li>
+<li>從該位址讀取跳躍目標，然後跳過去</li>
+</ul>
+<ol start="4">
+<li>查看 Jump Table：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(gdb) x/8a 0x402470</span><br><span class="line">0x402470:  0x400f7c     <span class="comment"># case 0</span></span><br><span class="line">0x402478:  0x400fb9     <span class="comment"># case 1</span></span><br><span class="line">0x402480:  0x400f83     <span class="comment"># case 2</span></span><br><span class="line">0x402488:  0x400f8a     <span class="comment"># case 3</span></span><br><span class="line">0x402490:  0x400f91     <span class="comment"># case 4</span></span><br><span class="line">0x402498:  0x400f98     <span class="comment"># case 5</span></span><br><span class="line">0x4024a0:  0x400f9f     <span class="comment"># case 6</span></span><br><span class="line">0x4024a8:  0x400fa6     <span class="comment"># case 7</span></span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>各個 Case 的結構</li>
+</ol>
+<p>每個 case 都做一樣的事：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov    $某個數字,%eax     # 把期望值放到 %eax</span><br><span class="line">jmp    0x400fbe          # 跳到共同檢查點</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>共同檢查點：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmp    0xc(%rsp),%eax    # 比較 %eax 和第二個輸入 (%rsp+12)</span><br><span class="line">je     0x400fc9          # 相等就通過</span><br><span class="line">callq  explode_bomb      # 否則爆炸</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>找出對應關係</li>
+</ol>
+<p>從組語中可以看到 8 個 case 的期望值（十六進位）：</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th>組語位置</th>
+<th>%eax 值（hex）</th>
+<th>轉成十進位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>+57</td>
+<td>0xcf</td>
+<td>207</td>
+</tr>
+<tr>
+<td>1</td>
+<td>+118</td>
+<td>0x137</td>
+<td>311</td>
+</tr>
+<tr>
+<td>2</td>
+<td>+64</td>
+<td>0x2c3</td>
+<td>707</td>
+</tr>
+<tr>
+<td>3</td>
+<td>+71</td>
+<td>0x100</td>
+<td>256</td>
+</tr>
+<tr>
+<td>4</td>
+<td>+78</td>
+<td>0x185</td>
+<td>389</td>
+</tr>
+<tr>
+<td>5</td>
+<td>+85</td>
+<td>0xce</td>
+<td>206</td>
+</tr>
+<tr>
+<td>6</td>
+<td>+92</td>
+<td>0x2aa</td>
+<td>682</td>
+</tr>
+<tr>
+<td>7</td>
+<td>+99</td>
+<td>0x147</td>
+<td>327</td>
+</tr>
+</tbody>
+</table>
+<h2 id="🐳-Phase-4">🐳 Phase 4</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">break</span> phase_4</span><br><span class="line">Breakpoint 1 at 0x40100c</span><br><span class="line">(gdb) run solution.txt</span><br><span class="line">Starting program: /home/simone/WorkSpace/ISLab/CSAPP/bomb/bomb solution.txt</span><br><span class="line"></span><br><span class="line">This GDB supports auto-downloading debuginfo from the following URLs:</span><br><span class="line">  &lt;https://debuginfod.ubuntu.com&gt;</span><br><span class="line">Enable debuginfod <span class="keyword">for</span> this session? (y or [n]) y</span><br><span class="line">Debuginfod has been enabled.</span><br><span class="line">To make this setting permanent, add <span class="string">&#x27;set debuginfod enabled on&#x27;</span> to .gdbinit.</span><br><span class="line">[Thread debugging using libthread_db enabled]</span><br><span class="line">Using host libthread_db library <span class="string">&quot;/lib/x86_64-linux-gnu/libthread_db.so.1&quot;</span>.</span><br><span class="line">Welcome to my fiendish little bomb. You have 6 phases with</span><br><span class="line"><span class="built_in">which</span> to blow yourself up. Have a <span class="built_in">nice</span> day!</span><br><span class="line">Phase 1 defused. How about the next one?</span><br><span class="line">That<span class="string">&#x27;s number 2.  Keep going!</span></span><br><span class="line"><span class="string">Halfway there!</span></span><br><span class="line"><span class="string">1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Breakpoint 1, 0x000000000040100c in phase_4 ()</span></span><br><span class="line"><span class="string">(gdb) disassemble</span></span><br><span class="line"><span class="string">Dump of assembler code for function phase_4:</span></span><br><span class="line"><span class="string">=&gt; 0x000000000040100c &lt;+0&gt;:	sub    $0x18,%rsp</span></span><br><span class="line"><span class="string">   0x0000000000401010 &lt;+4&gt;:	lea    0xc(%rsp),%rcx</span></span><br><span class="line"><span class="string">   0x0000000000401015 &lt;+9&gt;:	lea    0x8(%rsp),%rdx</span></span><br><span class="line"><span class="string">   0x000000000040101a &lt;+14&gt;:	mov    $0x4025cf,%esi</span></span><br><span class="line"><span class="string">   0x000000000040101f &lt;+19&gt;:	mov    $0x0,%eax</span></span><br><span class="line"><span class="string">   0x0000000000401024 &lt;+24&gt;:	call   0x400bf0 &lt;__isoc99_sscanf@plt&gt;</span></span><br><span class="line"><span class="string">   0x0000000000401029 &lt;+29&gt;:	cmp    $0x2,%eax</span></span><br><span class="line"><span class="string">   0x000000000040102c &lt;+32&gt;:	jne    0x401035 &lt;phase_4+41&gt;</span></span><br><span class="line"><span class="string">   0x000000000040102e &lt;+34&gt;:	cmpl   $0xe,0x8(%rsp)</span></span><br><span class="line"><span class="string">   0x0000000000401033 &lt;+39&gt;:	jbe    0x40103a &lt;phase_4+46&gt;</span></span><br><span class="line"><span class="string">   0x0000000000401035 &lt;+41&gt;:	call   0x40143a &lt;explode_bomb&gt;</span></span><br><span class="line"><span class="string">   0x000000000040103a &lt;+46&gt;:	mov    $0xe,%edx</span></span><br><span class="line"><span class="string">   0x000000000040103f &lt;+51&gt;:	mov    $0x0,%esi</span></span><br><span class="line"><span class="string">   0x0000000000401044 &lt;+56&gt;:	mov    0x8(%rsp),%edi</span></span><br><span class="line"><span class="string">   0x0000000000401048 &lt;+60&gt;:	call   0x400fce &lt;func4&gt;</span></span><br><span class="line"><span class="string">   0x000000000040104d &lt;+65&gt;:	test   %eax,%eax</span></span><br><span class="line"><span class="string">   0x000000000040104f &lt;+67&gt;:	jne    0x401058 &lt;phase_4+76&gt;</span></span><br><span class="line"><span class="string">   0x0000000000401051 &lt;+69&gt;:	cmpl   $0x0,0xc(%rsp)</span></span><br><span class="line"><span class="string">   0x0000000000401056 &lt;+74&gt;:	je     0x40105d &lt;phase_4+81&gt;</span></span><br><span class="line"><span class="string">   0x0000000000401058 &lt;+76&gt;:	call   0x40143a &lt;explode_bomb&gt;</span></span><br><span class="line"><span class="string">   0x000000000040105d &lt;+81&gt;:	add    $0x18,%rsp</span></span><br><span class="line"><span class="string">   0x0000000000401061 &lt;+85&gt;:	ret</span></span><br><span class="line"><span class="string">End of assembler dump.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">(gdb) disassemble</span></span><br><span class="line"><span class="string">Dump of assembler code for function func4:</span></span><br><span class="line"><span class="string">=&gt; 0x0000000000400fce &lt;+0&gt;:	sub    $0x8,%rsp</span></span><br><span class="line"><span class="string">   0x0000000000400fd2 &lt;+4&gt;:	mov    %edx,%eax</span></span><br><span class="line"><span class="string">   0x0000000000400fd4 &lt;+6&gt;:	sub    %esi,%eax</span></span><br><span class="line"><span class="string">   0x0000000000400fd6 &lt;+8&gt;:	mov    %eax,%ecx</span></span><br><span class="line"><span class="string">   0x0000000000400fd8 &lt;+10&gt;:	shr    $0x1f,%ecx</span></span><br><span class="line"><span class="string">   0x0000000000400fdb &lt;+13&gt;:	add    %ecx,%eax</span></span><br><span class="line"><span class="string">   0x0000000000400fdd &lt;+15&gt;:	sar    $1,%eax</span></span><br><span class="line"><span class="string">   0x0000000000400fdf &lt;+17&gt;:	lea    (%rax,%rsi,1),%ecx</span></span><br><span class="line"><span class="string">   0x0000000000400fe2 &lt;+20&gt;:	cmp    %edi,%ecx</span></span><br><span class="line"><span class="string">   0x0000000000400fe4 &lt;+22&gt;:	jle    0x400ff2 &lt;func4+36&gt;</span></span><br><span class="line"><span class="string">   0x0000000000400fe6 &lt;+24&gt;:	lea    -0x1(%rcx),%edx</span></span><br><span class="line"><span class="string">   0x0000000000400fe9 &lt;+27&gt;:	call   0x400fce &lt;func4&gt;</span></span><br><span class="line"><span class="string">   0x0000000000400fee &lt;+32&gt;:	add    %eax,%eax</span></span><br><span class="line"><span class="string">   0x0000000000400ff0 &lt;+34&gt;:	jmp    0x401007 &lt;func4+57&gt;</span></span><br><span class="line"><span class="string">   0x0000000000400ff2 &lt;+36&gt;:	mov    $0x0,%eax</span></span><br><span class="line"><span class="string">   0x0000000000400ff7 &lt;+41&gt;:	cmp    %edi,%ecx</span></span><br><span class="line"><span class="string">   0x0000000000400ff9 &lt;+43&gt;:	jge    0x401007 &lt;func4+57&gt;</span></span><br><span class="line"><span class="string">   0x0000000000400ffb &lt;+45&gt;:	lea    0x1(%rcx),%esi</span></span><br><span class="line"><span class="string">   0x0000000000400ffe &lt;+48&gt;:	call   0x400fce &lt;func4&gt;</span></span><br><span class="line"><span class="string">   0x0000000000401003 &lt;+53&gt;:	lea    0x1(%rax,%rax,1),%eax</span></span><br><span class="line"><span class="string">   0x0000000000401007 &lt;+57&gt;:	add    $0x8,%rsp</span></span><br><span class="line"><span class="string">   0x000000000040100b &lt;+61&gt;:	ret</span></span><br><span class="line"><span class="string">End of assembler dump.</span></span><br></pre></td></tr></table></figure>
+<h3 id="🦀-解題策略-4">🦀 解題策略</h3>
+<p>這個 phase 包含遞迴函數 <code>func4</code>，實作二分搜尋邏輯。需要理解遞迴呼叫和返回值的計算。</p>
+<h3 id="🦀-解析步驟-4">🦀 解析步驟</h3>
+<ol>
+<li>
+<p>理解輸入格式和 Phase 3 類似，使用 <code>sscanf</code> 讀取兩個整數。</p>
+</li>
+<li>
+<p>func4 的參數從 phase_4 呼叫 func4 時：</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov    0x8(%rsp),%edi     # 第 1 參數 = 第一個輸入</span><br><span class="line">mov    $0x0,%esi          # 第 2 參數 = 0</span><br><span class="line">mov    $0xe,%edx          # 第 3 參數 = 14</span><br><span class="line">call   func4</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>func4 的邏輯結構計算中點（Binary Search 的核心）：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mov    %edx,%eax          # %eax = high (14)</span><br><span class="line">sub    %esi,%eax          # %eax = high - low</span><br><span class="line">mov    %eax,%ecx</span><br><span class="line">shr    $0x1f,%ecx         # 處理符號位（這裡是 0）</span><br><span class="line">add    %ecx,%eax</span><br><span class="line">sar    $1,%eax            # 除以 2</span><br><span class="line">lea    (%rax,%rsi,1),%ecx # %ecx = mid = (low + high) / 2</span><br></pre></td></tr></table></figure>
+<p>這段計算：<code>mid = (low + high) / 2</code></p>
+<p>三路分支判斷：分支 1：mid &gt; target（搜尋左半邊）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cmp    %edi,%ecx          # 比較 mid 和 target</span><br><span class="line">jle    0x400ff2           # 如果 mid &lt;= target，跳到分支 2</span><br><span class="line">lea    -0x1(%rcx),%edx    # high = mid - 1</span><br><span class="line">call   func4              # 遞迴：func4(target, low, mid-1)</span><br><span class="line">add    %eax,%eax          # 返回值 *= 2</span><br><span class="line">jmp    0x401007           # 返回</span><br></pre></td></tr></table></figure>
+<p>分支 2：mid == target（找到目標）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov    $0x0,%eax          # 返回值 = 0</span><br><span class="line">cmp    %edi,%ecx          # 比較 mid 和 target</span><br><span class="line">jge    0x401007           # 如果 mid &gt;= target，返回</span><br></pre></td></tr></table></figure>
+<p>分支 3：mid &lt; target（搜尋右半邊）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lea    0x1(%rcx),%esi     # low = mid + 1</span><br><span class="line">call   func4              # 遞迴：func4(target, mid+1, high)</span><br><span class="line">lea    0x1(%rax,%rax,1),%eax  # 返回值 = 返回值 * 2 + 1</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>追蹤遞迴過程使用 <code>si</code> 進入遞迴：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">break</span> func4</span><br><span class="line">(gdb) run</span><br><span class="line"><span class="comment"># 輸入前面的答案...</span></span><br><span class="line">1 0    <span class="comment"># 測試答案</span></span><br><span class="line"></span><br><span class="line">(gdb) si              <span class="comment"># 用 si 而不是 ni！</span></span><br><span class="line">(gdb) backtrace       <span class="comment"># 查看遞迴深度</span></span><br><span class="line">(gdb) info registers  <span class="comment"># 查看參數變化</span></span><br></pre></td></tr></table></figure>
+<p>自動追蹤遞迴呼叫：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">break</span> func4</span><br><span class="line">(gdb) commands</span><br><span class="line">&gt; silent</span><br><span class="line">&gt; <span class="built_in">printf</span> <span class="string">&quot;func4(%d, %d, %d), mid=%d\n&quot;</span>, <span class="variable">$edi</span>, <span class="variable">$esi</span>, <span class="variable">$edx</span>, (<span class="variable">$esi</span>+<span class="variable">$edx</span>)/2</span><br><span class="line">&gt; <span class="built_in">continue</span></span><br><span class="line">&gt; end</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>推導有效答案關鍵觀察： 只有當輸入等於某次計算的 mid 值時，才會走分支 2，返回 0。</li>
+</ol>
+<p>初始呼叫：<code>func4(target, 0, 14)</code></p>
+<p>可能的 mid 值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">第 1 層：mid = (0 + 14) / 2 = 7</span><br><span class="line">第 2 層：mid = (0 + 6) / 2 = 3  或  mid = (8 + 14) / 2 = 11</span><br><span class="line">第 3 層：mid = (0 + 2) / 2 = 1  或  mid = (4 + 6) / 2 = 5</span><br><span class="line">第 4 層：mid = (0 + 0) / 2 = 0  或  mid = (2 + 2) / 2 = 2</span><br></pre></td></tr></table></figure>
+<p>但只有在「自然分裂」路徑上的 mid 會返回 0：</p>
+<p>從 14 開始不斷除以 2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">14 / 2 = 7</span><br><span class="line">7 / 2 = 3</span><br><span class="line">3 / 2 = 1</span><br><span class="line">1 / 2 = 0</span><br></pre></td></tr></table></figure>
+<p>→ 第一個輸入只能是：0, 1, 3, 7</p>
+<ol start="6">
+<li>驗證答案</li>
+</ol>
+<p>測試不同輸入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 有效答案</span></span><br><span class="line">0 0</span><br><span class="line">1 0</span><br><span class="line">3 0</span><br><span class="line">7 0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 無效答案（會經過分支 3，返回值非 0）</span></span><br><span class="line">2 0</span><br><span class="line">5 0</span><br></pre></td></tr></table></figure>
+<p>驗證過程（以輸入 1 為例）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">第 1 次：func4(1, 0, 14) → mid=7, 7&gt;1 → 分支 1 → func4(1, 0, 6)</span><br><span class="line">第 2 次：func4(1, 0, 6)  → mid=3, 3&gt;1 → 分支 1 → func4(1, 0, 2)</span><br><span class="line">第 3 次：func4(1, 0, 2)  → mid=1, 1==1 → 分支 2 → 返回 0</span><br><span class="line">回到第 2 次：返回值 = 0 * 2 = 0</span><br><span class="line">回到第 1 次：返回值 = 0 * 2 = 0</span><br></pre></td></tr></table></figure>
+<p>答案（4 選 1）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 0</span><br><span class="line">1 0  ← 選這組</span><br><span class="line">3 0</span><br><span class="line">7 0</span><br></pre></td></tr></table></figure>
+<p>第二個數字必須是 0（phase_4 會檢查）。</p>
+<p>學習重點</p>
+<ul>
+<li>理解遞迴函數的分析方法
+<ul>
+<li>找 base case（終止條件）</li>
+<li>找 recursive case（遞迴呼叫）</li>
+<li>追蹤參數如何改變</li>
+</ul>
+</li>
+<li>使用 gdb 追蹤遞迴
+<ul>
+<li><code>si</code> 進入函數（vs <code>ni</code> 跳過函數）</li>
+<li><code>backtrace</code> 查看呼叫堆疊</li>
+<li>觀察每層遞迴的參數變化</li>
+</ul>
+</li>
+<li>二分搜尋的組語實作
+<ul>
+<li>計算中點：<code>(low + high) / 2</code></li>
+<li>三路分支：小於、等於、大於</li>
+<li>遞迴縮小搜尋範圍</li>
+</ul>
+</li>
+<li>返回值的計算規律
+<ul>
+<li>分支 2（找到）：返回 0</li>
+<li>分支 1（左半）：返回值 * 2</li>
+<li>分支 3（右半）：返回值 * 2 + 1</li>
+</ul>
+</li>
+</ul>
+<p>重要 GDB 指令補充</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">backtrace (bt)          <span class="comment"># 顯示函數呼叫堆疊</span></span><br><span class="line">info registers          <span class="comment"># 顯示所有暫存器值</span></span><br><span class="line">info registers rdi rsi  <span class="comment"># 只顯示特定暫存器</span></span><br><span class="line">finish                  <span class="comment"># 執行完當前函數返回上一層</span></span><br></pre></td></tr></table></figure>
+<p>額外觀察這個 phase 展示了：</p>
+<ul>
+<li>遞迴函數在組語中的樣子</li>
+<li>如何通過返回值編碼不同的路徑</li>
+<li>為什麼某些看似合理的輸入會失敗（不在二分搜尋的「自然路徑」上）</li>
+</ul>
+<h2 id="🐳-Phase-5">🐳 Phase 5</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">break</span> phase_5</span><br><span class="line">Breakpoint 1 at 0x401062</span><br><span class="line">(gdb) run solution.txt</span><br><span class="line">Starting program: /home/nvidia/Desktop/bomb/bomb solution.txt</span><br><span class="line">Welcome to my fiendish little bomb. You have 6 phases with</span><br><span class="line"><span class="built_in">which</span> to blow yourself up. Have a <span class="built_in">nice</span> day!</span><br><span class="line">Phase 1 defused. How about the next one?</span><br><span class="line">That<span class="string">&#x27;s number 2.  Keep going!</span></span><br><span class="line"><span class="string">Halfway there!</span></span><br><span class="line"><span class="string">So you got that one.  Try this one.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Breakpoint 1, 0x0000000000401062 in phase_5 ()</span></span><br><span class="line"><span class="string">(gdb) disassemble</span></span><br><span class="line"><span class="string">Dump of assembler code for function phase_5:</span></span><br><span class="line"><span class="string">=&gt; 0x0000000000401062 &lt;+0&gt;:	push   %rbx</span></span><br><span class="line"><span class="string">   0x0000000000401063 &lt;+1&gt;:	sub    $0x20,%rsp</span></span><br><span class="line"><span class="string">   0x0000000000401067 &lt;+5&gt;:	mov    %rdi,%rbx</span></span><br><span class="line"><span class="string">   0x000000000040106a &lt;+8&gt;:	mov    %fs:0x28,%rax</span></span><br><span class="line"><span class="string">   0x0000000000401073 &lt;+17&gt;:	mov    %rax,0x18(%rsp)</span></span><br><span class="line"><span class="string">   0x0000000000401078 &lt;+22&gt;:	xor    %eax,%eax</span></span><br><span class="line"><span class="string">   0x000000000040107a &lt;+24&gt;:	callq  0x40131b &lt;string_length&gt;</span></span><br><span class="line"><span class="string">   0x000000000040107f &lt;+29&gt;:	cmp    $0x6,%eax</span></span><br><span class="line"><span class="string">   0x0000000000401082 &lt;+32&gt;:	je     0x4010d2 &lt;phase_5+112&gt;</span></span><br><span class="line"><span class="string">   0x0000000000401084 &lt;+34&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span></span><br><span class="line"><span class="string">   0x0000000000401089 &lt;+39&gt;:	jmp    0x4010d2 &lt;phase_5+112&gt;</span></span><br><span class="line"><span class="string">   0x000000000040108b &lt;+41&gt;:	movzbl (%rbx,%rax,1),%ecx</span></span><br><span class="line"><span class="string">   0x000000000040108f &lt;+45&gt;:	mov    %cl,(%rsp)</span></span><br><span class="line"><span class="string">   0x0000000000401092 &lt;+48&gt;:	mov    (%rsp),%rdx</span></span><br><span class="line"><span class="string">   0x0000000000401096 &lt;+52&gt;:	and    $0xf,%edx</span></span><br><span class="line"><span class="string">   0x0000000000401099 &lt;+55&gt;:	movzbl 0x4024b0(%rdx),%edx</span></span><br><span class="line"><span class="string">   0x00000000004010a0 &lt;+62&gt;:	mov    %dl,0x10(%rsp,%rax,1)</span></span><br><span class="line"><span class="string">   0x00000000004010a4 &lt;+66&gt;:	add    $0x1,%rax</span></span><br><span class="line"><span class="string">   0x00000000004010a8 &lt;+70&gt;:	cmp    $0x6,%rax</span></span><br><span class="line"><span class="string">   0x00000000004010ac &lt;+74&gt;:	jne    0x40108b &lt;phase_5+41&gt;</span></span><br><span class="line"><span class="string">   0x00000000004010ae &lt;+76&gt;:	movb   $0x0,0x16(%rsp)</span></span><br><span class="line"><span class="string">   0x00000000004010b3 &lt;+81&gt;:	mov    $0x40245e,%esi</span></span><br><span class="line"><span class="string">   0x00000000004010b8 &lt;+86&gt;:	lea    0x10(%rsp),%rdi</span></span><br><span class="line"><span class="string">   0x00000000004010bd &lt;+91&gt;:	callq  0x401338 &lt;strings_not_equal&gt;</span></span><br><span class="line"><span class="string">   0x00000000004010c2 &lt;+96&gt;:	test   %eax,%eax</span></span><br><span class="line"><span class="string">   0x00000000004010c4 &lt;+98&gt;:	je     0x4010d9 &lt;phase_5+119&gt;</span></span><br><span class="line"><span class="string">   0x00000000004010c6 &lt;+100&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span></span><br><span class="line"><span class="string">   0x00000000004010cb &lt;+105&gt;:	nopl   0x0(%rax,%rax,1)</span></span><br><span class="line"><span class="string">   0x00000000004010d0 &lt;+110&gt;:	jmp    0x4010d9 &lt;phase_5+119&gt;</span></span><br><span class="line"><span class="string">   0x00000000004010d2 &lt;+112&gt;:	mov    $0x0,%eax</span></span><br><span class="line"><span class="string">   0x00000000004010d7 &lt;+117&gt;:	jmp    0x40108b &lt;phase_5+41&gt;</span></span><br><span class="line"><span class="string">   0x00000000004010d9 &lt;+119&gt;:	mov    0x18(%rsp),%rax</span></span><br><span class="line"><span class="string">   0x00000000004010de &lt;+124&gt;:	xor    %fs:0x28,%rax</span></span><br><span class="line"><span class="string">   0x00000000004010e7 &lt;+133&gt;:	je     0x4010ee &lt;phase_5+140&gt;</span></span><br><span class="line"><span class="string">   0x00000000004010e9 &lt;+135&gt;:	callq  0x400b30 &lt;__stack_chk_fail@plt&gt;</span></span><br><span class="line"><span class="string">   0x00000000004010ee &lt;+140&gt;:	add    $0x20,%rsp</span></span><br><span class="line"><span class="string">   0x00000000004010f2 &lt;+144&gt;:	pop    %rbx</span></span><br><span class="line"><span class="string">   0x00000000004010f3 &lt;+145&gt;:	retq</span></span><br><span class="line"><span class="string">End of assembler dump.</span></span><br></pre></td></tr></table></figure>
+<h3 id="🦀-解題邏輯">🦀 解題邏輯</h3>
+<p>輸入 6 個字元 → 每個字元取低 4 bits 當索引 → 查表轉換 → 必須變成 “flyers”</p>
+<h3 id="🦀-關鍵指令解析">🦀 關鍵指令解析</h3>
+<ol>
+<li>長度檢查 (+24 ~ +34)</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">callq  0x40131b &lt;string_length&gt;</span><br><span class="line">cmp    $0x6,%eax</span><br><span class="line">je     0x4010d2 &lt;phase_5+112&gt;</span><br><span class="line">callq  0x40143a &lt;explode_bomb&gt;</span><br></pre></td></tr></table></figure>
+<p>→ 輸入必須是 6 個字元</p>
+<ol start="2">
+<li>初始化 loop counter (+112)</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov    $0x0,%eax</span><br><span class="line">jmp    0x40108b &lt;phase_5+41&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>%eax</code> = 0（迴圈計數器）</li>
+</ul>
+<ol start="3">
+<li>核心轉換迴圈 (+41 ~ +74)</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">movzbl (%rbx,%rax,1),%ecx      # 讀取輸入字串第 i 個字元</span><br><span class="line">mov    %cl,(%rsp)              # 暫存到 stack</span><br><span class="line">mov    (%rsp),%rdx             # 讀回到 %rdx</span><br><span class="line">and    $0xf,%edx               # 取低 4 bits (0-15)</span><br><span class="line">movzbl 0x4024b0(%rdx),%edx     # 查表！key instruction</span><br><span class="line">mov    %dl,0x10(%rsp,%rax,1)   # 存結果到 stack offset 0x10</span><br><span class="line">add    $0x1,%rax               # i++</span><br><span class="line">cmp    $0x6,%rax               # 迴圈 6 次</span><br><span class="line">jne    0x40108b &lt;phase_5+41&gt;</span><br></pre></td></tr></table></figure>
+<p>關鍵概念：</p>
+<ul>
+<li><code>and $0xf, %edx</code>：只保留字元的低 4 bits</li>
+<li><code>0x4024b0(%rdx)</code>：base + index 定址，從查表陣列取字元</li>
+<li>轉換後的字串存在 <code>%rsp + 0x10</code></li>
+</ul>
+<ol start="4">
+<li>字串比較 (+76 ~ +100)</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">movb   $0x0,0x16(%rsp)         # 加 null terminator</span><br><span class="line">mov    $0x40245e,%esi          # &quot;flyers&quot; 字串位址</span><br><span class="line">lea    0x10(%rsp),%rdi         # 轉換後的字串</span><br><span class="line">callq  0x401338 &lt;strings_not_equal&gt;</span><br><span class="line">test   %eax,%eax</span><br><span class="line">je     0x4010d9 &lt;phase_5+119&gt;  # 相等就通過</span><br><span class="line">callq  0x40143a &lt;explode_bomb&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="🦀-解題步驟">🦀 解題步驟</h3>
+<ol>
+<li>查看查表陣列</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) x/s 0x4024b0</span><br></pre></td></tr></table></figure>
+<p>找出索引 0-15 對應的字元</p>
+<ol start="2">
+<li>反推輸入</li>
+</ol>
+<ul>
+<li>目標：‘f’, ‘l’, ‘y’, ‘e’, ‘r’, ‘s’</li>
+<li>找出查表陣列中這些字母的索引位置</li>
+<li>找任意 ASCII 字元，其低 4 bits 等於這些索引</li>
+</ul>
+<ol start="3">
+<li>驗證</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(gdb) break *0x4010bd</span><br><span class="line">(gdb) x/s $rdi              # 檢查轉換結果</span><br><span class="line">(gdb) x/s 0x40245e          # 確認目標是 &quot;flyers&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="🦀-新學到的指令">🦀 新學到的指令</h3>
+<ul>
+<li><code>movzbl src, dst</code>：move zero-extend byte to long
+<ul>
+<li>讀 1 byte，放進 32-bit 暫存器，高位補 0</li>
+</ul>
+</li>
+<li><code>and $0xf, %reg</code>：bit masking
+<ul>
+<li>取最低 4 bits（範圍 0-15）</li>
+</ul>
+</li>
+<li><code>addr(%base, %index, scale)</code>：陣列定址
+<ul>
+<li>計算：base + index × scale</li>
+<li>例：<code>0x4024b0(%rdx)</code> = 0x4024b0 + %rdx</li>
+</ul>
+</li>
+</ul>
+<h2 id="🐳-Phase-6">🐳 Phase 6</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">Breakpoint 1, 0x00000000004010f4 <span class="keyword">in</span> phase_6 ()</span><br><span class="line">(gdb) disassemble</span><br><span class="line">Dump of assembler code <span class="keyword">for</span> <span class="keyword">function</span> phase_6:</span><br><span class="line">=&gt; 0x00000000004010f4 &lt;+0&gt;:	push   %r14</span><br><span class="line">   0x00000000004010f6 &lt;+2&gt;:	push   %r13</span><br><span class="line">   0x00000000004010f8 &lt;+4&gt;:	push   %r12</span><br><span class="line">   0x00000000004010fa &lt;+6&gt;:	push   %rbp</span><br><span class="line">   0x00000000004010fb &lt;+7&gt;:	push   %rbx</span><br><span class="line">   0x00000000004010fc &lt;+8&gt;:	sub    <span class="variable">$0x50</span>,%rsp</span><br><span class="line">   0x0000000000401100 &lt;+12&gt;:	mov    %rsp,%r13</span><br><span class="line">   0x0000000000401103 &lt;+15&gt;:	mov    %rsp,%rsi</span><br><span class="line">   0x0000000000401106 &lt;+18&gt;:	call   0x40145c &lt;read_six_numbers&gt;</span><br><span class="line">   0x000000000040110b &lt;+23&gt;:	mov    %rsp,%r14</span><br><span class="line">   0x000000000040110e &lt;+26&gt;:	mov    <span class="variable">$0x0</span>,%r12d</span><br><span class="line">   0x0000000000401114 &lt;+32&gt;:	mov    %r13,%rbp</span><br><span class="line">   0x0000000000401117 &lt;+35&gt;:	mov    0x0(%r13),%eax</span><br><span class="line">   0x000000000040111b &lt;+39&gt;:	sub    <span class="variable">$0x1</span>,%eax</span><br><span class="line">   0x000000000040111e &lt;+42&gt;:	cmp    <span class="variable">$0x5</span>,%eax</span><br><span class="line">   0x0000000000401121 &lt;+45&gt;:	jbe    0x401128 &lt;phase_6+52&gt;</span><br><span class="line">   0x0000000000401123 &lt;+47&gt;:	call   0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000401128 &lt;+52&gt;:	add    <span class="variable">$0x1</span>,%r12d</span><br><span class="line">   0x000000000040112c &lt;+56&gt;:	cmp    <span class="variable">$0x6</span>,%r12d</span><br><span class="line">   0x0000000000401130 &lt;+60&gt;:	je     0x401153 &lt;phase_6+95&gt;</span><br><span class="line">   0x0000000000401132 &lt;+62&gt;:	mov    %r12d,%ebx</span><br><span class="line">   0x0000000000401135 &lt;+65&gt;:	movslq %ebx,%rax</span><br><span class="line">   0x0000000000401138 &lt;+68&gt;:	mov    (%rsp,%rax,4),%eax</span><br><span class="line">   0x000000000040113b &lt;+71&gt;:	cmp    %eax,0x0(%rbp)</span><br><span class="line">   0x000000000040113e &lt;+74&gt;:	jne    0x401145 &lt;phase_6+81&gt;</span><br><span class="line">   0x0000000000401140 &lt;+76&gt;:	call   0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000401145 &lt;+81&gt;:	add    <span class="variable">$0x1</span>,%ebx</span><br><span class="line">   0x0000000000401148 &lt;+84&gt;:	cmp    <span class="variable">$0x5</span>,%ebx</span><br><span class="line">   0x000000000040114b &lt;+87&gt;:	jle    0x401135 &lt;phase_6+65&gt;</span><br><span class="line">   0x000000000040114d &lt;+89&gt;:	add    <span class="variable">$0x4</span>,%r13</span><br><span class="line">   0x0000000000401151 &lt;+93&gt;:	jmp    0x401114 &lt;phase_6+32&gt;</span><br><span class="line">   0x0000000000401153 &lt;+95&gt;:	lea    0x18(%rsp),%rsi</span><br><span class="line">--Type &lt;RET&gt; <span class="keyword">for</span> more, q to quit, c to <span class="built_in">continue</span> without paging--</span><br><span class="line">   0x0000000000401158 &lt;+100&gt;:	mov    %r14,%rax</span><br><span class="line">   0x000000000040115b &lt;+103&gt;:	mov    <span class="variable">$0x7</span>,%ecx</span><br><span class="line">   0x0000000000401160 &lt;+108&gt;:	mov    %ecx,%edx</span><br><span class="line">   0x0000000000401162 &lt;+110&gt;:	sub    (%rax),%edx</span><br><span class="line">   0x0000000000401164 &lt;+112&gt;:	mov    %edx,(%rax)</span><br><span class="line">   0x0000000000401166 &lt;+114&gt;:	add    <span class="variable">$0x4</span>,%rax</span><br><span class="line">   0x000000000040116a &lt;+118&gt;:	cmp    %rsi,%rax</span><br><span class="line">   0x000000000040116d &lt;+121&gt;:	jne    0x401160 &lt;phase_6+108&gt;</span><br><span class="line"></span><br><span class="line">   0x000000000040116f &lt;+123&gt;:	mov    <span class="variable">$0x0</span>,%esi</span><br><span class="line">   0x0000000000401174 &lt;+128&gt;:	jmp    0x401197 &lt;phase_6+163&gt;</span><br><span class="line">   0x0000000000401176 &lt;+130&gt;:	mov    0x8(%rdx),%rdx</span><br><span class="line">   0x000000000040117a &lt;+134&gt;:	add    <span class="variable">$0x1</span>,%eax</span><br><span class="line">   0x000000000040117d &lt;+137&gt;:	cmp    %ecx,%eax</span><br><span class="line">   0x000000000040117f &lt;+139&gt;:	jne    0x401176 &lt;phase_6+130&gt;</span><br><span class="line">   0x0000000000401181 &lt;+141&gt;:	jmp    0x401188 &lt;phase_6+148&gt;</span><br><span class="line">   0x0000000000401183 &lt;+143&gt;:	mov    <span class="variable">$0x6032d0</span>,%edx</span><br><span class="line">   0x0000000000401188 &lt;+148&gt;:	mov    %rdx,0x20(%rsp,%rsi,2)</span><br><span class="line">   0x000000000040118d &lt;+153&gt;:	add    <span class="variable">$0x4</span>,%rsi</span><br><span class="line">   0x0000000000401191 &lt;+157&gt;:	cmp    <span class="variable">$0x18</span>,%rsi</span><br><span class="line">   0x0000000000401195 &lt;+161&gt;:	je     0x4011ab &lt;phase_6+183&gt;</span><br><span class="line">   0x0000000000401197 &lt;+163&gt;:	mov    (%rsp,%rsi,1),%ecx</span><br><span class="line">   0x000000000040119a &lt;+166&gt;:	cmp    <span class="variable">$0x1</span>,%ecx</span><br><span class="line">   0x000000000040119d &lt;+169&gt;:	jle    0x401183 &lt;phase_6+143&gt;</span><br><span class="line">   0x000000000040119f &lt;+171&gt;:	mov    <span class="variable">$0x1</span>,%eax</span><br><span class="line">   0x00000000004011a4 &lt;+176&gt;:	mov    <span class="variable">$0x6032d0</span>,%edx</span><br><span class="line">   0x00000000004011a9 &lt;+181&gt;:	jmp    0x401176 &lt;phase_6+130&gt;</span><br><span class="line"></span><br><span class="line">   0x00000000004011ab &lt;+183&gt;:	mov    0x20(%rsp),%rbx</span><br><span class="line">   0x00000000004011b0 &lt;+188&gt;:	lea    0x28(%rsp),%rax</span><br><span class="line">   0x00000000004011b5 &lt;+193&gt;:	lea    0x50(%rsp),%rsi</span><br><span class="line">   0x00000000004011ba &lt;+198&gt;:	mov    %rbx,%rcx</span><br><span class="line">   0x00000000004011bd &lt;+201&gt;:	mov    (%rax),%rdx</span><br><span class="line">   0x00000000004011c0 &lt;+204&gt;:	mov    %rdx,0x8(%rcx)</span><br><span class="line">   0x00000000004011c4 &lt;+208&gt;:	add    <span class="variable">$0x8</span>,%rax</span><br><span class="line">--Type &lt;RET&gt; <span class="keyword">for</span> more, q to quit, c to <span class="built_in">continue</span> without paging--</span><br><span class="line">   0x00000000004011c8 &lt;+212&gt;:	cmp    %rsi,%rax</span><br><span class="line">   0x00000000004011cb &lt;+215&gt;:	je     0x4011d2 &lt;phase_6+222&gt;</span><br><span class="line">   0x00000000004011cd &lt;+217&gt;:	mov    %rdx,%rcx</span><br><span class="line">   0x00000000004011d0 &lt;+220&gt;:	jmp    0x4011bd &lt;phase_6+201&gt;</span><br><span class="line">   0x00000000004011d2 &lt;+222&gt;:	movq   <span class="variable">$0x0</span>,0x8(%rdx)</span><br><span class="line">   0x00000000004011da &lt;+230&gt;:	mov    <span class="variable">$0x5</span>,%ebp</span><br><span class="line">   0x00000000004011df &lt;+235&gt;:	mov    0x8(%rbx),%rax</span><br><span class="line">   0x00000000004011e3 &lt;+239&gt;:	mov    (%rax),%eax</span><br><span class="line">   0x00000000004011e5 &lt;+241&gt;:	cmp    %eax,(%rbx)</span><br><span class="line">   0x00000000004011e7 &lt;+243&gt;:	jge    0x4011ee &lt;phase_6+250&gt;</span><br><span class="line">   0x00000000004011e9 &lt;+245&gt;:	call   0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x00000000004011ee &lt;+250&gt;:	mov    0x8(%rbx),%rbx</span><br><span class="line">   0x00000000004011f2 &lt;+254&gt;:	sub    <span class="variable">$0x1</span>,%ebp</span><br><span class="line">   0x00000000004011f5 &lt;+257&gt;:	jne    0x4011df &lt;phase_6+235&gt;</span><br><span class="line">   0x00000000004011f7 &lt;+259&gt;:	add    <span class="variable">$0x50</span>,%rsp</span><br><span class="line">   0x00000000004011fb &lt;+263&gt;:	pop    %rbx</span><br><span class="line">   0x00000000004011fc &lt;+264&gt;:	pop    %rbp</span><br><span class="line">   0x00000000004011fd &lt;+265&gt;:	pop    %r12</span><br><span class="line">   0x00000000004011ff &lt;+267&gt;:	pop    %r13</span><br><span class="line">   0x0000000000401201 &lt;+269&gt;:	pop    %r14</span><br><span class="line">   0x0000000000401203 &lt;+271&gt;:	ret</span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
+<h3 id="🦀-解題邏輯-2">🦀 解題邏輯</h3>
+<p>輸入 6 個數字（1-6 且不重複）<br>
+→ 轉換成 <code>7-x</code><br>
+→ 根據轉換值選擇對應的 node(指標陣列)<br>
+→ 重排 linked list<br>
+→ 檢查 node 的值是否遞減</p>
+<h3 id="🦀-完整-Assembly-Code-分析">🦀 完整 Assembly Code 分析</h3>
+<h4 id="第一段：函數初始化-0-18">第一段：函數初始化 (+0 ~ +18)</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">push   %r14</span><br><span class="line">push   %r13</span><br><span class="line">push   %r12</span><br><span class="line">push   %rbp</span><br><span class="line">push   %rbx</span><br><span class="line">sub    $0x50,%rsp              # 分配 80 bytes stack 空間</span><br><span class="line">mov    %rsp,%r13               # r13 = stack 起始位址</span><br><span class="line">mov    %rsp,%rsi               # rsi = 第二個參數（輸出陣列位址）</span><br><span class="line">call   0x40145c &lt;read_six_numbers&gt;</span><br></pre></td></tr></table></figure>
+<p>關鍵概念：</p>
+<ul>
+<li>保存 callee-saved registers</li>
+<li><code>read_six_numbers(input_string, output_array)</code>
+<ul>
+<li>第一個參數 <code>%rdi</code>：輸入字串（在進入 phase_6 前已設定）</li>
+<li>第二個參數 <code>%rsi</code>：目的地陣列位址（stack）</li>
+<li>函數內部用 <code>sscanf</code> 解析，將 6 個整數寫入 <code>%rsi</code> 指向的位置</li>
+</ul>
+</li>
+</ul>
+<h4 id="第二段：檢查數字範圍與唯一性-23-93">第二段：檢查數字範圍與唯一性 (+23 ~ +93)</h4>
+<p>外層迴圈：檢查每個數字是否在 1-6 範圍內 (+32 ~ +60)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mov    %rsp,%r14               # r14 = 陣列起始位址（備份）</span><br><span class="line">mov    $0x0,%r12d              # r12d = 外層迴圈計數器 i = 0</span><br><span class="line">mov    %r13,%rbp               # rbp = 當前元素位址</span><br><span class="line"></span><br><span class="line"># Loop 1 開始:</span><br><span class="line">mov    0x0(%r13),%eax          # eax = array[i]</span><br><span class="line">sub    $0x1,%eax               # eax = array[i] - 1</span><br><span class="line">cmp    $0x5,%eax               # 檢查 (array[i] - 1) &lt;= 5</span><br><span class="line">jbe    0x401128                # 通過（即 1 &lt;= array[i] &lt;= 6）</span><br><span class="line">call   explode_bomb            # 否則爆炸</span><br><span class="line"></span><br><span class="line">add    $0x1,%r12d              # i++</span><br><span class="line">cmp    $0x6,%r12d              # i == 6?</span><br><span class="line">je     0x401153                # 是，跳到下一段</span><br></pre></td></tr></table></figure>
+<p>內層迴圈：檢查數字不重複 (+62 ~ +93)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mov    %r12d,%ebx              # ebx = i + 1（從下一個開始比較）</span><br><span class="line">movslq %ebx,%rax               # rax = ebx（符號擴展到 64-bit）</span><br><span class="line">mov    (%rsp,%rax,4),%eax      # eax = array[j]（第 j 個元素）</span><br><span class="line">cmp    %eax,0x0(%rbp)          # 比較 array[i] == array[j]?</span><br><span class="line">jne    0x401145                # 不相等，繼續</span><br><span class="line">call   explode_bomb            # 相等，爆炸（重複了）</span><br><span class="line"></span><br><span class="line">add    $0x1,%ebx               # j++</span><br><span class="line">cmp    $0x5,%ebx               # j &lt;= 5?</span><br><span class="line">jle    0x401135                # 繼續內層迴圈</span><br><span class="line"></span><br><span class="line">add    $0x4,%r13               # r13 += 4（移到下一個元素）</span><br><span class="line">jmp    0x401114                # 回到外層迴圈</span><br></pre></td></tr></table></figure>
+<p>等價 C 程式碼：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 外層迴圈：檢查範圍</span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">6</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">array</span>[i] &lt; <span class="number">1</span> || <span class="built_in">array</span>[i] &gt; <span class="number">6</span>) &#123;</span><br><span class="line">        explode_bomb();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 內層迴圈：檢查不重複</span></span><br><span class="line">    <span class="keyword">for</span> (j = i + <span class="number">1</span>; j &lt;= <span class="number">5</span>; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">array</span>[i] == <span class="built_in">array</span>[j]) &#123;</span><br><span class="line">            explode_bomb();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>關鍵指令解析：</p>
+<ul>
+<li><code>(%rsp,%rax,4)</code>：陣列定址 = <code>rsp + rax × 4</code>（因為 int 是 4 bytes）</li>
+<li><code>0x0(%rbp)</code>：當前比較的基準元素</li>
+<li><code>movslq</code>：move with sign-extension long to quad（帶符號擴展）</li>
+</ul>
+<h4 id="第三段：轉換成-7-x-95-121">第三段：轉換成 7-x (+95 ~ +121)</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">lea    0x18(%rsp),%rsi         # rsi = 陣列結尾位址（rsp + 24）</span><br><span class="line">mov    %r14,%rax               # rax = 陣列起始位址</span><br><span class="line"></span><br><span class="line"># Loop:</span><br><span class="line">mov    $0x7,%ecx               # ecx = 7</span><br><span class="line">mov    %ecx,%edx               # edx = 7</span><br><span class="line">sub    (%rax),%edx             # edx = 7 - array[i]</span><br><span class="line">mov    %edx,(%rax)             # array[i] = 7 - array[i]</span><br><span class="line">add    $0x4,%rax               # 移到下一個元素</span><br><span class="line">cmp    %rsi,%rax               # 處理完 6 個了嗎？</span><br><span class="line">jne    0x401160                # 繼續迴圈</span><br></pre></td></tr></table></figure>
+<p>為什麼是 <code>0x18</code>？</p>
+<ul>
+<li>6 個 int × 4 bytes = 24 (0x18) bytes</li>
+<li><code>%rsp + 0x18</code> 是陣列的結束位置（下一個位址）</li>
+</ul>
+<h4 id="第四段：根據轉換值找對應的-Node-123-161">第四段：根據轉換值找對應的 Node (+123 ~ +161)</h4>
+<p>Stack 記憶體佈局：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">%rsp + 0x00: [輸入陣列]  int[6]，每個 4 bytes，共 24 bytes</span><br><span class="line">%rsp + 0x20: [Node 指標陣列] ptr[6]，每個 8 bytes，共 48 bytes</span><br><span class="line">%rsp + 0x50: 指標陣列結尾</span><br></pre></td></tr></table></figure>
+<p>迴圈初始化 (+123):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov    $0x0,%esi               # esi = 0（陣列索引）</span><br><span class="line">jmp    0x401197</span><br></pre></td></tr></table></figure>
+<p>主要邏輯 (+163 ~ +161):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># 讀取轉換後的數字</span><br><span class="line">mov    (%rsp,%rsi,1),%ecx      # ecx = array[i]（7-x 的值）</span><br><span class="line">cmp    $0x1,%ecx               # ecx &lt;= 1?</span><br><span class="line">jle    0x401183                # 是，直接用 node1</span><br><span class="line"></span><br><span class="line"># ecx &gt; 1，需要走 linked list</span><br><span class="line">mov    $0x1,%eax               # eax = 1（counter：目前在第幾個 node）</span><br><span class="line">mov    $0x6032d0,%edx          # edx = node1 位址</span><br><span class="line">jmp    0x401176</span><br><span class="line"></span><br><span class="line"># 走訪 linked list (+130 ~ +139)</span><br><span class="line">mov    0x8(%rdx),%rdx          # rdx = rdx-&gt;next</span><br><span class="line">add    $0x1,%eax               # counter++</span><br><span class="line">cmp    %ecx,%eax               # counter == ecx?</span><br><span class="line">jne    0x401176                # 否，繼續走</span><br><span class="line">jmp    0x401188                # 是，找到了</span><br><span class="line"></span><br><span class="line"># 如果 ecx &lt;= 1，直接用 node1 (+143)</span><br><span class="line">mov    $0x6032d0,%edx          # edx = node1</span><br><span class="line"></span><br><span class="line"># 存 node 指標到新陣列 (+148)</span><br><span class="line">mov    %rdx,0x20(%rsp,%rsi,2)  # node_ptr_array[i] = rdx</span><br><span class="line">add    $0x4,%rsi               # i += 4（索引遞增）</span><br><span class="line">cmp    $0x18,%rsi              # i == 24?（處理完 6 個）</span><br><span class="line">je     0x4011ab                # 是，結束</span><br><span class="line">jmp    0x401197                # 繼續下一個</span><br></pre></td></tr></table></figure>
+<p>關鍵概念：</p>
+<ol>
+<li>
+<p>Linked List 結構：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> value;        <span class="comment">// offset 0x0</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">next</span>;</span> <span class="comment">// offset 0x8</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>走訪 Linked List：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov 0x8(%rdx),%rdx    # rdx = rdx-&gt;next</span><br></pre></td></tr></table></figure>
+<ul>
+<li>透過 offset <code>0x8</code> 讀取 next pointer</li>
+<li>不是連續記憶體，是透過指標跳轉</li>
+</ul>
+</li>
+<li>
+<p>為什麼 <code>0x20(%rsp,%rsi,2)</code> 但 <code>add $0x4,%rsi</code>？</p>
+<ul>
+<li>讀輸入：<code>(%rsp,%rsi,1)</code> → <code>rsp + rsi × 1</code></li>
+<li>寫指標：<code>0x20(%rsp,%rsi,2)</code> → <code>rsp + 0x20 + rsi × 2</code></li>
+<li><code>%rsi</code> 每次 +4：
+<ul>
+<li>第 1 次：rsi=0 → 讀 <code>rsp[0]</code>，寫 <code>rsp+0x20[0]</code></li>
+<li>第 2 次：rsi=4 → 讀 <code>rsp[4]</code>，寫 <code>rsp+0x20[8]</code></li>
+<li>第 3 次：rsi=8 → 讀 <code>rsp[8]</code>，寫 <code>rsp+0x20[16]</code></li>
+</ul>
+</li>
+<li>這樣同時遍歷兩個陣列（輸入陣列 vs 指標陣列）</li>
+</ul>
+</li>
+</ol>
+<p>等價 C 程式碼：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">node* node_array[<span class="number">6</span>];  <span class="comment">// 在 stack offset 0x20</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">6</span>; i++) &#123;</span><br><span class="line">    <span class="type">int</span> steps = <span class="built_in">array</span>[i];  <span class="comment">// 7-x 的值</span></span><br><span class="line">    <span class="keyword">if</span> (steps &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        node_array[i] = node1;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        node* current = node1;</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">1</span>; j &lt; steps; j++) &#123;</span><br><span class="line">            current = current-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        node_array[i] = current;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="第五段：重排-Linked-List-183-222">第五段：重排 Linked List (+183 ~ +222)</h4>
+<p>初始化 (+183 ~ +193):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov    0x20(%rsp),%rbx         # rbx = node_array[0]（第一個 node）</span><br><span class="line">lea    0x28(%rsp),%rax         # rax = &amp;node_array[1]（第二個指標位址）</span><br><span class="line">lea    0x50(%rsp),%rsi         # rsi = 陣列結尾位址（停止條件）</span><br></pre></td></tr></table></figure>
+<p>為什麼結尾是 <code>0x50</code>？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">起點：0x20（32）</span><br><span class="line">6 個指標 × 8 bytes = 48 (0x30)</span><br><span class="line">結尾：0x20 + 0x30 = 0x50（80）</span><br><span class="line"></span><br><span class="line">16 進位加法（不是 10 進位）：</span><br><span class="line">0x20 → 0x28 → 0x30 → 0x38 → 0x40 → 0x48 → 0x50</span><br><span class="line">（每次 +8，因為指標是 8 bytes）</span><br></pre></td></tr></table></figure>
+<p>串連迴圈 (+198 ~ +220):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mov    %rbx,%rcx               # rcx = 當前 node</span><br><span class="line">mov    (%rax),%rdx             # rdx = 下一個 node（從陣列讀指標）</span><br><span class="line">mov    %rdx,0x8(%rcx)          # current-&gt;next = next（設定 next pointer）</span><br><span class="line">add    $0x8,%rax               # rax += 8（移到陣列下一個指標）</span><br><span class="line">cmp    %rsi,%rax               # 到結尾了嗎？</span><br><span class="line">je     0x4011d2                # 是，結束</span><br><span class="line">mov    %rdx,%rcx               # rcx = next（準備下次迴圈）</span><br><span class="line">jmp    0x4011bd                # 繼續</span><br></pre></td></tr></table></figure>
+<p>收尾 (+222):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">movq   $0x0,0x8(%rdx)          # 最後一個 node-&gt;next = NULL</span><br></pre></td></tr></table></figure>
+<p>關鍵指令解析：</p>
+<ul>
+<li><code>mov (%rax),%rdx</code>：間接定址，讀取 <code>%rax</code> 指向的記憶體內容
+<ul>
+<li>等同於 C 語言的 <code>*rax</code></li>
+</ul>
+</li>
+<li><code>mov %rdx,0x8(%rcx)</code>：設定 next pointer
+<ul>
+<li>等同於 <code>current-&gt;next = next</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="第六段：檢查遞減順序-230-257">第六段：檢查遞減順序 (+230 ~ +257)</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mov    $0x5,%ebp               # ebp = 5（迴圈 5 次，檢查 5 對相鄰節點）</span><br><span class="line"></span><br><span class="line"># Loop:</span><br><span class="line">mov    0x8(%rbx),%rax          # rax = 下一個 node（rbx-&gt;next）</span><br><span class="line">mov    (%rax),%eax             # eax = 下一個 node 的 value</span><br><span class="line">cmp    %eax,(%rbx)             # 當前 value &gt;= 下一個 value?</span><br><span class="line">jge    0x4011ee                # 是，通過</span><br><span class="line">call   explode_bomb            # 否，爆炸（必須遞減！）</span><br><span class="line"></span><br><span class="line">mov    0x8(%rbx),%rbx          # rbx = rbx-&gt;next（移到下一個 node）</span><br><span class="line">sub    $0x1,%ebp               # 計數器--</span><br><span class="line">jne    0x4011df                # 繼續迴圈</span><br></pre></td></tr></table></figure>
+<h3 id="🦀-解題步驟-2">🦀 解題步驟</h3>
+<ol>
+<li>查看 Linked List 的值</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(gdb) x/3xg 0x6032d0    # node1: value 和 next</span><br><span class="line">(gdb) x/3xg 0x6032e0    # node2</span><br><span class="line">(gdb) x/3xg 0x6032f0    # node3</span><br><span class="line">(gdb) x/3xg 0x603300    # node4</span><br><span class="line">(gdb) x/3xg 0x603310    # node5</span><br><span class="line">(gdb) x/3xg 0x603320    # node6</span><br></pre></td></tr></table></figure>
+<p>範例輸出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">node1: value = 332 (0x14c), next = 0x6032e0</span><br><span class="line">node2: value = 168 (0xa8),  next = 0x6032f0</span><br><span class="line">node3: value = 924 (0x39c), next = 0x603300</span><br><span class="line">node4: value = 691 (0x2b3), next = 0x603310</span><br><span class="line">node5: value = 477 (0x1dd), next = 0x603320</span><br><span class="line">node6: value = 443 (0x1bb), next = 0x000000</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>找出遞減順序</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">值從大到小：924 &gt; 691 &gt; 477 &gt; 443 &gt; 332 &gt; 168</span><br><span class="line">對應 node：  3     4     5     6     1     2</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>反推輸入（考慮 7-x 轉換）</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">要得到 node3，輸入 7-3 = 4</span><br><span class="line">要得到 node4，輸入 7-4 = 3</span><br><span class="line">要得到 node5，輸入 7-5 = 2</span><br><span class="line">要得到 node6，輸入 7-6 = 1</span><br><span class="line">要得到 node1，輸入 7-1 = 6</span><br><span class="line">要得到 node2，輸入 7-2 = 5</span><br><span class="line"></span><br><span class="line">答案：4 3 2 1 6 5</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>驗證</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) break *0x4011ab    # 重排前</span><br><span class="line">(gdb) break *0x4011df    # 檢查遞減迴圈</span><br><span class="line">(gdb) x/6xg 0x20($rsp)   # 檢查指標陣列順序</span><br><span class="line">(gdb) x/xw $rbx          # 檢查當前 node 的 value</span><br></pre></td></tr></table></figure>
+<h3 id="🦀-重要概念整理">🦀 重要概念整理</h3>
+<h4 id="1-陣列-vs-Linked-List-的辨識">1. 陣列 vs Linked List 的辨識</h4>
+<p>陣列特徵：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov %rdx, 0x20(%rsp,%rsi,2)    # base + index × scale</span><br><span class="line">add $0x4, %rsi                 # 固定間隔遞增</span><br></pre></td></tr></table></figure>
+<ul>
+<li>連續定址：<code>base + offset</code></li>
+<li>規律存取</li>
+<li>通常在 stack 上</li>
+</ul>
+<p>Linked List 特徵：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov 0x8(%rdx),%rdx             # 透過 next pointer</span><br></pre></td></tr></table></figure>
+<ul>
+<li>透過 offset <code>0x8</code> 跳轉（next pointer）</li>
+<li>不規律位址</li>
+<li>通常在靜態記憶體（固定位址如 <code>0x6032d0</code>）</li>
+</ul>
+<h4 id="2-間接定址-Dereference">2. 間接定址 (Dereference)</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov (%rax),%eax</span><br></pre></td></tr></table></figure>
+<ul>
+<li>讀取 <code>%rax</code> <strong>指向的記憶體內容</strong></li>
+<li>等同於 C 語言的 <code>*rax</code></li>
+</ul>
+<p>範例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">假設 %rax = 0x6032d0</span><br><span class="line">記憶體 0x6032d0 存的值是 332</span><br><span class="line"></span><br><span class="line">mov (%rax),%eax  → %eax = 332</span><br></pre></td></tr></table></figure>
+<h4 id="3-16-進位計算">3. 16 進位計算</h4>
+<p>組語中所有 <code>0x</code> 開頭的數字都是 16 進位：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0x20 + 8 = 0x28  （不是 28）</span><br><span class="line">0x28 + 8 = 0x30  （不是 36）</span><br><span class="line">0x30 + 8 = 0x38</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>GDB 小技巧：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) p/x 0x28 + 8</span><br><span class="line">$1 = 0x30</span><br></pre></td></tr></table></figure>
+<h4 id="4-Stack-Canary（可忽略）">4. Stack Canary（可忽略）</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mov    %fs:0x28,%rax           # 讀 canary</span><br><span class="line">mov    %rax,0x18(%rsp)         # 存到 stack</span><br><span class="line">...</span><br><span class="line">xor    %fs:0x28,%rax           # 檢查</span><br><span class="line">je     正常返回</span><br><span class="line">call   __stack_chk_fail        # canary 被改 → 爆炸</span><br></pre></td></tr></table></figure>
+<ul>
+<li>防止 buffer overflow</li>
+<li>解題時可忽略</li>
+</ul>
+<h3 id="🦀-GDB-除錯技巧">🦀 GDB 除錯技巧</h3>
+<ol>
+<li>設定多個 breakpoint 跳過已知段落</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) break *0x401153    # 轉換 7-x 前</span><br><span class="line">(gdb) break *0x4011ab    # 重排 linked list 前</span><br><span class="line">(gdb) break *0x4011df    # 檢查遞減前</span><br><span class="line">(gdb) continue           # 跳到下個 breakpoint</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>查看記憶體內容</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(gdb) x/6wd $rsp         # 看輸入陣列（6 個 word，decimal）</span><br><span class="line">(gdb) x/6xg 0x20($rsp)   # 看指標陣列（6 個 8-byte，hex）</span><br><span class="line">(gdb) x/3xg 0x6032d0     # 看 node 結構</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>儲存 breakpoints</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) save breakpoints phase6.bp</span><br><span class="line">(gdb) source phase6.bp   # 下次載入</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>設定 convenience variable</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) set $node1 = 0x6032d0</span><br><span class="line">(gdb) x/3xg $node1</span><br></pre></td></tr></table></figure>
+<h3 id="🦀-新學到的指令-2">🦀 新學到的指令</h3>
+<ol>
+<li>
+<p><code>movzbl src, dst</code></p>
+<ul>
+<li>Move zero-extend byte to long</li>
+<li>讀 1 byte，放進 32-bit 暫存器，高位補 0</li>
+</ul>
+</li>
+<li>
+<p><code>movslq src, dst</code></p>
+<ul>
+<li>Move sign-extend long to quad</li>
+<li>帶符號擴展：32-bit → 64-bit</li>
+</ul>
+</li>
+<li>
+<p><code>lea addr, dst</code></p>
+<ul>
+<li>Load effective address</li>
+<li>計算位址但不讀取記憶體</li>
+<li>常用於指標運算</li>
+</ul>
+</li>
+<li>
+<p>定址模式：<code>offset(%base, %index, scale)</code></p>
+<ul>
+<li>計算：<code>base + offset + index × scale</code></li>
+<li>範例：
+<ul>
+<li><code>0x20(%rsp,%rsi,2)</code> = <code>rsp + 0x20 + rsi × 2</code></li>
+<li><code>(%rsp,%rax,4)</code> = <code>rsp + rax × 4</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="🦀-小結">🦀 小結</h3>
+<p>Phase 6 的難點：</p>
+<ol>
+<li>程式碼很長（~110 行）</li>
+<li>多層迴圈嵌套</li>
+<li>需要理解 linked list 資料結構</li>
+<li>涉及指標操作和間接定址</li>
+<li>需要逆向推理（從結果反推輸入）</li>
+</ol>
+<p>解題關鍵：</p>
+<ol>
+<li>分段理解：不要一次看完，標記每段功能</li>
+<li>追蹤暫存器：了解每個暫存器的用途</li>
+<li>善用 GDB：實際執行比光看程式碼更清楚</li>
+<li>畫圖輔助：畫出 linked list 結構和轉換過程</li>
+<li>耐心除錯：慢慢追蹤，一步步驗證</li>
+</ol>
+<h2 id="🐳-Reference">🐳 Reference</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://csapp.cs.cmu.edu/3e/labs.html">https://csapp.cs.cmu.edu/3e/labs.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://web.stanford.edu/class/cs107/resources/x86-64-reference.pdf">https://web.stanford.edu/class/cs107/resources/x86-64-reference.pdf</a></li>
+</ul>
+<hr>
+<div class="success">
+<p>💡 本筆記經與 Claude (Anthropic) 討論整理而成，包含組語指令解析、GDB 操作技巧與除錯思路。</p>
+</div>
+</div></article></div></main><footer><div class="paginator"><a class="next" href="/from-zero-to-bug-hunter-my-lkmp-journey/">NEXT</a></div><div class="copyright"><p>© 2021 - 2025 <a href="https://simonecheng.github.io">Simone Cheng</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/achjqz/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script type="text/javascript" id="maid-script" src="https://unpkg.com/mermaid@10.3.1/dist/mermaid.min.js?v=undefined"></script><script>if (window.mermaid) {
+  var options = JSON.parse(document.getElementById('maid-script').getAttribute('mermaidoptioins'));
+  mermaid.initialize(options);
+}
+</script><script>const tocTitleElement = document.querySelector('.toc-title');
+const tocContentElement = document.querySelector('.toc-content');
+if (tocTitleElement) {
+  tocTitleElement.addEventListener('click', (e) => {
+    const isActive = tocContentElement.classList.contains('active') || tocTitleElement.classList.contains('active');
+    if (isActive) {
+      tocContentElement.classList.remove('active');
+      tocTitleElement.classList.remove('active');
+    } else {
+      tocContentElement.classList.add('active');
+      tocTitleElement.classList.add('active');
+    }
+  });
+}</script></body></html>

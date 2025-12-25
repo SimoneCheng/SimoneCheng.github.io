@@ -56,25 +56,7 @@
   </url>
   
   <url>
-    <loc>https://simonecheng.github.io/JS-weird-parts-2/</loc>
-    
-    <lastmod>2025-12-25</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://simonecheng.github.io/JS-weird-parts-3/</loc>
-    
-    <lastmod>2025-12-25</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://simonecheng.github.io/binary-tree-traversal/</loc>
+    <loc>https://simonecheng.github.io/bomb-lab-notes/</loc>
     
     <lastmod>2025-12-25</lastmod>
     
@@ -154,6 +136,33 @@
     <priority>0.6</priority>
   </url>
   
+  <url>
+    <loc>https://simonecheng.github.io/JS-weird-parts-3/</loc>
+    
+    <lastmod>2025-12-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://simonecheng.github.io/JS-weird-parts-2/</loc>
+    
+    <lastmod>2025-12-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://simonecheng.github.io/binary-tree-traversal/</loc>
+    
+    <lastmod>2025-12-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
   <url>
     <loc>https://simonecheng.github.io/</loc>
@@ -179,6 +188,20 @@
   
   <url>
     <loc>https://simonecheng.github.io/tags/Data-Structure/</loc>
+    <lastmod>2025-12-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://simonecheng.github.io/tags/CSAPP/</loc>
+    <lastmod>2025-12-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://simonecheng.github.io/tags/System-Programming/</loc>
     <lastmod>2025-12-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -213,7 +236,7 @@
   </url>
   
   <url>
-    <loc>https://simonecheng.github.io/tags/funcitonal-programming/</loc>
+    <loc>https://simonecheng.github.io/tags/Funcitonal-Programming/</loc>
     <lastmod>2025-12-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
