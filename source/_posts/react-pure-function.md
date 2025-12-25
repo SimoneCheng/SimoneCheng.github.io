@@ -4,7 +4,7 @@ toc: true
 date: 2022-01-19 17:36:23
 tag:
 - React
-- funcitonal programming
+- Funcitonal Programming
 ---
 
 在 functional programming 當中，有一個重要的概念稱為 pure function，而這個概念在 React 的官方文件當中被提起，那麼 pure function 在 React 當中到底扮演了什麼樣的角色呢？這是本文試圖理解並回答的問題。
